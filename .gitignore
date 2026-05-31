@@ -1,39 +1,6 @@
-# JStL Spreadsheet™ Project
+# JStL Spreadsheet™ - Git Ignore
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-*.temp
-
-# Backup files
-*.bak
-*.backup
-
-# Local JStL saved files (user data)
-*.jstl
-!demo_calculator.xlsx
-!comoditi_demo.xlsx
-!my_data.xlsx
-
-# Python (if any)
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -45,12 +12,47 @@ __pycache__/
 dist/
 build/
 
-# Node (if any)
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Excel temp files
+# Excel temporary files (legacy)
 ~$*.xlsx
 ~$*.xls
 *.xlk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# JStL temporary files
+*.tmp
+*.bak
+*.backup
+*.jstl
+!demo_calculator.xlsx
+!comoditi_demo.xlsx
+!my_data.xlsx
+
+# Old demo files (keep for reference)
+create_demo.py
+demo_calculator.py
+gemstone_system.py
+master_calculator_final.py
+
+# Service worker cache
+sw_cache/
+
+# Local user data (never commit)
+user_data/
+*.json
