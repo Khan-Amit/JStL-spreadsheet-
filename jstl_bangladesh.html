@@ -29,14 +29,13 @@
         .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
         .save-bar{display:flex;gap:10px;margin-bottom:20px}
         .save-bar button{width:auto;margin:0;padding:10px 20px}
-        hr{border-color:#1e4a6e}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>🇧🇩 JStL Spreadsheet™ - Bangladesh</h1>
-        <p>Tax | Land | Demography | Profit | One complete system</p>
+        <p>VAT 15% | Income Tax 0-25% | Land Units (Bigha, Katha, Decimal) | Demography</p>
     </div>
 
     <div class="content">
@@ -108,15 +107,12 @@
 </div>
 
 <script>
-    // ==================== LAND CONVERSION DATA ====================
+    // Land conversion (to sq ft base)
     const toSqft = {
         bigha: 14400, katha: 720, decimal: 435.6, acre: 43560, hectare: 107639, sqft: 1
     };
-    const fromSqft = {
-        bigha: 1/14400, katha: 1/720, decimal: 1/435.6, acre: 1/43560, hectare: 1/107639, sqft: 1
-    };
 
-    // ==================== DEMOGRAPHY DATA ====================
+    // Demography
     const demography = {
         population: 171186372,
         year: 2024,
@@ -128,7 +124,15 @@
         urbanPercentage: 39.4
     };
 
-    // ==================== PROFIT CALCULATION ====================
+    // Tax slabs
+    const taxSlabs = [
+        { min: 0, max: 250000, rate: 0 },
+        { min: 250001, max: 400000, rate: 10 },
+        { min: 400001, max: 500000, rate: 15 },
+        { min: 500001, max: 750000, rate: 20 },
+        { min: 750001, max: Infinity, rate: 25 }
+    ];
+
     function updateProfit() {
         let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
         let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
@@ -142,26 +146,18 @@
         document.getElementById('profitResult').innerHTML = `
             <table class="result-table">
                 <tr><td>📦 Gross Profit:</td><td>${gross.toFixed(2)} BDT</td></tr>
-                <tr><td>🧾 VAT (${vatRate}%):</td><td>${vat.toFixed(2)} BDT</td></tr>
-                <tr><td>🏷️ Sales Tax (${salesTaxRate}%):</td><td>${salesTax.toFixed(2)} BDT</td></tr>
-                <tr><td>📉 Net Profit:</td><td>${net.toFixed(2)} BDT</td></tr>
-                <tr><td>📊 Profit Margin:</td><td>${margin.toFixed(2)}%</td></tr>
+                <tr>。<td>🧾 VAT (${vatRate}%):</td><td>${vat.toFixed(2)} BDT</td></tr>
+                <tr>。<td>🏷️ Sales Tax (${salesTaxRate}%):</td><td>${salesTax.toFixed(2)} BDT</td></tr>
+                <tr>。<td>📉 Net Profit:</td><td>${net.toFixed(2)} BDT</td></tr>
+                <tr>。<td>📊 Profit Margin:</td><td>${margin.toFixed(2)}%</td></tr>
             </table>
         `;
     }
 
-    // ==================== TAX CALCULATION ====================
     function updateTax() {
         let income = parseFloat(document.getElementById('annualIncome').value) || 0;
         let tax = 0;
-        let slabs = [
-            { min: 0, max: 250000, rate: 0 },
-            { min: 250001, max: 400000, rate: 10 },
-            { min: 400001, max: 500000, rate: 15 },
-            { min: 500001, max: 750000, rate: 20 },
-            { min: 750001, max: Infinity, rate: 25 }
-        ];
-        for(let slab of slabs) {
+        for(let slab of taxSlabs) {
             if(income > slab.min) {
                 let taxable = Math.min(income, slab.max) - slab.min;
                 if(taxable > 0) tax += taxable * slab.rate / 100;
@@ -169,40 +165,38 @@
         }
         document.getElementById('taxResult').innerHTML = `
             <table class="result-table">
-                <tr><td>💰 Annual Income:</td><td>${income.toFixed(2)} BDT</td></tr>
-                <tr><td>📊 Tax Payable:</td><td>${tax.toFixed(2)} BDT</td></tr>
-                <tr><td>💵 After Tax Income:</td><td>${(income - tax).toFixed(2)} BDT</td></tr>
-                <tr><td>📈 Effective Tax Rate:</td><td>${income !== 0 ? ((tax/income)*100).toFixed(2) : 0}%</td></tr>
+                <tr>。<td>💰 Annual Income:</td><td>${income.toFixed(2)} BDT</td></tr>
+                <tr>。<td>📊 Tax Payable:</td><td>${tax.toFixed(2)} BDT</td></tr>
+                <tr>。<td>💵 After Tax Income:</td><td>${(income - tax).toFixed(2)} BDT</td></tr>
+                <tr>。<td>📈 Effective Rate:</td><td>${income !== 0 ? ((tax/income)*100).toFixed(2) : 0}%</td></tr>
             </table>
         `;
     }
 
-    // ==================== LAND CONVERSION ====================
     function updateLand() {
         let value = parseFloat(document.getElementById('landValue').value) || 0;
         let from = document.getElementById('fromUnit').value;
         let to = document.getElementById('toUnit').value;
         let sqft = value * toSqft[from];
-        let result = sqft * fromSqft[to];
+        let result = sqft / toSqft[to];
         document.getElementById('landResult').innerHTML = `
             <table class="result-table">
-                <tr><td>📐 ${value} ${from}:</td><td>= ${result.toFixed(6)} ${to}</td></tr>
-                <tr><td>📏 Square Feet:</td><td>= ${sqft.toFixed(2)} sq ft</td></tr>
+                <tr>。<td>📐 ${value} ${from}:</td><td>= ${result.toFixed(6)} ${to}</td></tr>
+                <tr>。<td>📏 Square Feet:</td><td>= ${sqft.toFixed(2)} sq ft</td></tr>
             </table>
         `;
     }
 
-    // ==================== DEMOGRAPHY & PROJECTION ====================
     function updateDemography() {
         document.getElementById('demographyResult').innerHTML = `
             <table class="result-table">
-                <tr><td>👥 Population (${demography.year}):</td><td>${demography.population.toLocaleString()}</td></tr>
-                <tr><td>👶 Birth Rate:</td><td>${demography.birthRate} per 1,000</td></tr>
-                <tr><td>⚰️ Death Rate:</td><td>${demography.deathRate} per 1,000</td></tr>
-                <tr><td>📈 Growth Rate:</td><td>${demography.growthRate}%</td></tr>
-                <tr><td>♂️ Male Ratio:</td><td>${demography.maleRatio}%</td></tr>
-                <tr><td>♀️ Female Ratio:</td><td>${demography.femaleRatio}%</td></tr>
-                <tr><td>🏙️ Urban Population:</td><td>${demography.urbanPercentage}%</td></tr>
+                <tr>。<td>👥 Population (${demography.year}):</td><td>${demography.population.toLocaleString()}</td></tr>
+                <tr>。<td>👶 Birth Rate:</td><td>${demography.birthRate} per 1,000</td></tr>
+                <tr>。<td>⚰️ Death Rate:</td><td>${demography.deathRate} per 1,000</td></tr>
+                <tr>。<td>📈 Growth Rate:</td><td>${demography.growthRate}%</td></tr>
+                <tr>。<td>♂️ Male Ratio:</td><td>${demography.maleRatio}%</td></tr>
+                <tr>。<td>♀️ Female Ratio:</td><td>${demography.femaleRatio}%</td></tr>
+                <tr>。<td>🏙️ Urban Population:</td><td>${demography.urbanPercentage}%</td></tr>
             </table>
         `;
     }
@@ -219,18 +213,12 @@
         document.getElementById('projectionResult').innerHTML = results.join('<br>');
     }
 
-    // ==================== TEXT GRID DOWNLOAD ====================
     function padRight(str, len) {
         let s = String(str);
         return s + ' '.repeat(Math.max(0, len - s.length));
     }
 
     function generateTextGrid() {
-        let buy = document.getElementById('buyPrice').value;
-        let sell = document.getElementById('sellPrice').value;
-        let income = document.getElementById('annualIncome').value;
-        let landVal = document.getElementById('landValue').value;
-        
         let lines = [];
         lines.push('+' + '-'.repeat(78) + '+');
         lines.push('|' + padRight(' JStL Spreadsheet™ - Bangladesh', 78) + '|');
@@ -238,24 +226,7 @@
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
         lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Buy Price (BDT)', 30) + '|' + padRight(' ' + buy, 14) + '|');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Sell Price (BDT)', 30) + '|' + padRight(' ' + sell, 14) + '|');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Annual Income (BDT)', 30) + '|' + padRight(' ' + income, 14) + '|');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Land Value', 30) + '|' + padRight(' ' + landVal, 14) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' RESULTS', 32) + '|' + padRight('', 30) + '|' + padRight('', 14) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        
-        let profitDiv = document.getElementById('profitResult').innerText.replace(/[^0-9.\- BDT%]/g, ' ').replace(/\s+/g, ' ').trim();
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Net Profit', 30) + '|' + padRight(' ' + (profitDiv.split(' ')[0] || '0'), 14) + '|');
-        
-        let taxDiv = document.getElementById('taxResult').innerText;
-        let taxMatch = taxDiv.match(/Tax Payable: ([\d.]+)/);
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Tax Payable', 30) + '|' + padRight(' ' + (taxMatch ? taxMatch[1] : '0'), 14) + '|');
-        
-        let popMatch = document.getElementById('demographyResult').innerText.match(/Population.*?([\d,]+)/);
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Population', 30) + '|' + padRight(' ' + (popMatch ? popMatch[1] : '171,186,372'), 14) + '|');
-        
+        lines.push('|' + padRight('', 32) + '|' + padRight(' Income (BDT)', 30) + '|' + padRight(' ' + document.getElementById('annualIncome').value, 14) + '|');
         lines.push('+' + '-'.repeat(78) + '+');
         lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
         lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
@@ -279,11 +250,7 @@
 
     function downloadAsHTML() {
         let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - Bangladesh</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™ - Bangladesh</h1><h3>Generated: ${new Date().toLocaleString()}</h3><table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
-        html += `<tr><td>INPUT</td><td>Buy Price</td><td>${document.getElementById('buyPrice').value} BDT</td></tr>`;
-        html += `<tr><td>INPUT</td><td>Sell Price</td><td>${document.getElementById('sellPrice').value} BDT</td></tr>`;
         html += `<tr><td>INPUT</td><td>Annual Income</td><td>${document.getElementById('annualIncome').value} BDT</td></tr>`;
-        html += `<tr><td>RESULT</td><td>Net Profit</td><td>${document.getElementById('profitResult').innerText.match(/[\d.]+/)?.[0] || '0'} BDT</td></tr>`;
-        html += `<tr><td>RESULT</td><td>Tax Payable</td><td>${document.getElementById('taxResult').innerText.match(/Tax Payable: ([\d.]+)/)?.[1] || '0'} BDT</td></tr>`;
         html += `<tr><td>RESULT</td><td>Population</td><td>${demography.population.toLocaleString()}</td></tr>`;
         html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
         let blob = new Blob([html], {type: "text/html"});
@@ -298,7 +265,6 @@
         alert('✅ Saved as HTML grid');
     }
 
-    // ==================== EVENT LISTENERS ====================
     document.getElementById('calcProfit').addEventListener('click', updateProfit);
     document.getElementById('calcTax').addEventListener('click', updateTax);
     document.getElementById('calcLand').addEventListener('click', updateLand);
@@ -306,7 +272,6 @@
     document.getElementById('downloadTxtBtn').addEventListener('click', downloadAsTextGrid);
     document.getElementById('downloadHtmlBtn').addEventListener('click', downloadAsHTML);
     
-    // Real-time updates
     document.getElementById('buyPrice').addEventListener('input', updateProfit);
     document.getElementById('sellPrice').addEventListener('input', updateProfit);
     document.getElementById('vatRate').addEventListener('input', updateProfit);
@@ -316,7 +281,6 @@
     document.getElementById('fromUnit').addEventListener('change', updateLand);
     document.getElementById('toUnit').addEventListener('change', updateLand);
 
-    // Initial load
     updateProfit();
     updateTax();
     updateLand();
