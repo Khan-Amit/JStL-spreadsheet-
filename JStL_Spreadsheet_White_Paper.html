@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL Spreadsheet™ White Paper</title>
+    <style>
+        *{box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:40px 20px}
+        .paper{max-width:1000px;margin:auto;background:#0d2b3e;border-radius:16px;padding:40px;box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+        h1{color:#7abfef;border-bottom:2px solid #1e5a7a;padding-bottom:10px}
+        h2{color:#7abfef;margin-top:30px}
+        h3{color:#9fd3ff}
+        p{color:#b8e0ff;line-height:1.6}
+        .highlight{background:#0a2a3a;padding:20px;border-radius:12px;margin:20px 0;border-left:4px solid #7abfef}
+        .footer{margin-top:40px;padding-top:20px;border-top:1px solid #1e4a6e;text-align:center;color:#6a9ec0;font-size:12px}
+        table{width:100%;border-collapse:collapse;margin:20px 0}
+        th,td{border:1px solid #2a5a7a;padding:12px;text-align:left;color:#b8e0ff}
+        th{background:#071a2b;color:#7abfef}
+        code{background:#071a2b;padding:2px 6px;border-radius:4px;font-family:monospace}
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📄 JStL Spreadsheet™ White Paper</h1>
+    <p><strong>Version 1.0 | May 2026 | Author: Amit Khanna</strong></p>
+
+    <h2>1. Executive Summary</h2>
+    <p>JStL Spreadsheet™ is an installable, offline-capable spreadsheet application that operates independently of Microsoft Excel, Google Sheets, or any third-party software. It uses proprietary calculation logic, saves data as formatted text files (`.jstl`), and gives users complete ownership of their information.</p>
+
+    <div class="highlight">
+        <strong>🎯 Mission:</strong> Provide a lightweight, private, portable spreadsheet system that works anywhere — no cloud dependency, no licensing fees, no data harvesting.
+    </div>
+
+    <h2>2. Problem Statement</h2>
+    <p>Existing spreadsheet solutions have critical flaws:</p>
+    <ul style="color:#b8e0ff">
+        <li><strong>Microsoft Excel:</strong> Expensive licenses, proprietary format, vendor lock-in</li>
+        <li><strong>Google Sheets:</strong> Requires internet, data stored on third-party servers, privacy concerns</li>
+        <li><strong>Open source alternatives:</strong> Complex installation, steep learning curve, inconsistent quality</li>
+        <li><strong>Lock-in formats:</strong> Images, PDFs, and proprietary binaries cannot be edited or reused</li>
+    </ul>
+
+    <h2>3. The JStL Solution</h2>
+    <p>JStL Spreadsheet™ solves these problems with:</p>
+    <ul style="color:#b8e0ff">
+        <li><strong>Zero dependencies</strong> — runs in any browser, no installation required</li>
+        <li><strong>Offline-first</strong> — works without internet after first visit</li>
+        <li><strong>Text-based format</strong> — `.jstl` files are plain text with grid formatting, human-readable and machine-readable</li>
+        <li><strong>Installable as PWA</strong> — behaves like a native app on any device</li>
+        <li><strong>Perpetual license</strong> — pay once, own forever</li>
+    </ul>
+
+    <h2>4. Technical Architecture</h2>
+    <table>
+        <tr><th>Component</th><th>Technology</th><th>Purpose</th></tr>
+        <tr><td>Frontend</td><td>HTML5, CSS3, JavaScript (Vanilla)</td><td>No frameworks — lightweight and fast</td></tr>
+        <tr><td>PWA</td><td>Manifest.json + Service Worker</td><td>Installable, offline-capable</td></tr>
+        <tr><td>Calculation Engine</td><td>Native JavaScript</td><td>Excel-like formulas, country-specific tax logic</td></tr>
+        <tr><td>Data Storage</td><td>LocalStorage (temp) + .jstl files (permanent)</td><td>User owns all data</td></tr>
+        <tr><td>Hosting</td><td>GitHub Pages</td><td>Free, reliable, version-controlled</td></tr>
+    </table>
+
+    <h2>5. Security & Privacy</h2>
+    <div class="highlight">
+        <p>✅ No data sent to any server — all calculations happen locally<br>
+        ✅ No tracking, no analytics, no cookies<br>
+        ✅ No third-party APIs or external requests (except optional install)<br>
+        ✅ Users own their `.jstl` files completely<br>
+        ✅ Open-source transparency — code fully visible</p>
+    </div>
+
+    <h2>6. Use Cases</h2>
+    <table>
+        <tr><th>Industry</th><th>Application</th></tr>
+        <tr><td>Small Business</td><td>Profit tracking, tax estimation, inventory</td></tr>
+        <tr><td>Education</td><td>Demography trends, statistics, math problems</td></tr>
+        <tr><td>Freelancers</td><td>Income/expense tracking, invoice calculation</td></tr>
+        <tr><td>Personal Finance</td><td>Budgeting, savings goals, tax planning</td></tr>
+        <tr><td>Researchers</td><td>Data collection, trend analysis, offline work</td></tr>
+    </table>
+
+    <h2>7. Comparison with Existing Solutions</h2>
+    <table>
+        <tr><th>Feature</th><th>JStL</th><th>Excel</th><th>Google Sheets</th></tr>
+        <tr><td>Cost</td><td>$199 lifetime</td><td>$70+/year</td><td>"Free" with data collection</td></tr>
+        <tr><td>Offline</td><td>✅ Full</td><td>✅ Full</td><td>⚠️ Limited</td></tr>
+        <tr><td>Data Ownership</td><td>✅ Complete</td><td>✅ Complete</td><td>❌ Third-party servers</td></tr>
+        <tr><td>Installable</td><td>✅ PWA</td><td>✅ Desktop</td><td>❌</td></tr>
+        <tr><td>Text-based format</td><td>✅ .jstl</td><td>❌ .xlsx (binary)</td><td>❌</td></tr>
+        <tr><td>Country-specific tax</td><td>✅ Built-in</td><td>⚠️ Manual</td><td>⚠️ Manual</td></tr>
+    </table>
+
+    <h2>8. Roadmap</h2>
+    <ul style="color:#b8e0ff">
+        <li><strong>Q3 2026:</strong> Additional countries (Germany, France, Australia, Japan)</li>
+        <li><strong>Q4 2026:</strong> Multi-sheet support within one .jstl file</li>
+        <li><strong>Q1 2027:</strong> Chart export to .jstl (embedded text graphs)</li>
+        <li><strong>Q2 2027:</strong> Collaboration mode (peer-to-peer, no central server)</li>
+    </ul>
+
+    <h2>9. License Summary</h2>
+    <div class="highlight">
+        <p><strong>JStL Spreadsheet™ Perpetual License</strong><br>
+        ✅ Use on any device, personal or business<br>
+        ✅ Modify for internal use<br>
+        ✅ Share results freely<br>
+        ✅ Lifetime updates<br>
+        ✅ 12 months priority support<br>
+        ✅ 7-day money-back guarantee<br>
+        ❌ No resale of core software<br>
+        ❌ No removal of copyright notices</p>
+    </div>
+
+    <h2>10. Contact & Purchase</h2>
+    <p>📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com<br>
+    🔗 GitHub: <code>https://github.com/khan-amit/make-it-</code><br>
+    💳 Price: $199 USD (Early Bird — limited copies)</p>
+
+    <div class="footer">
+        JStL Spreadsheet™ — Your data, your control, your spreadsheet.<br>
+        © 2026 Amit Khanna. All rights reserved.
+    </div>
+</div>
+</body>
+</html>
