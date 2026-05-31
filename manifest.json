@@ -1,0 +1,21 @@
+{
+  "name": "JStL Spreadsheet",
+  "short_name": "JStL",
+  "description": "Your own spreadsheet system. No Excel. No Google.",
+  "start_url": "/make-it-/index.html",
+  "display": "standalone",
+  "background_color": "#0a1a2f",
+  "theme_color": "#0d2b3e",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
