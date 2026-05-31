@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL - Bangladesh</title>
+    <style>
+        *{box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
+        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
+        .header{background:#071a2b;padding:20px;text-align:center}
+        .header h1{color:#7abfef;margin:0}
+        .content{padding:20px}
+        .card{background:#0a2a3a;padding:20px;border-radius:12px;margin-bottom:20px}
+        .card h3{color:#7abfef;margin-top:0}
+        .input-group{margin-bottom:15px}
+        .input-group label{display:block;color:#b8e0ff;margin-bottom:5px}
+        .input-group input, .input-group select{width:100%;background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px}
+        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;width:100%;margin-top:10px}
+        button:hover{background:#2a6f94}
+        .result{background:#0f2e44;padding:15px;border-radius:8px;margin-top:15px;color:#9fd3ff;font-family:monospace}
+        .grid-2{display:flex;flex-wrap:wrap;gap:20px}
+        .grid-2 > div{flex:1;min-width:250px}
+        .footer{padding:15px;text-align:center;color:#6a9ec0;font-size:12px}
+        hr{border-color:#1e4a6e}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🇧🇩 JStL Spreadsheet™ - Bangladesh</h1>
+        <p>Tax | Land | Demography | Profit</p>
+    </div>
+    <div class="content">
+        <div class="grid-2">
+            <!-- Profit Calculator -->
+            <div class="card">
+                <h3>💰 Profit Calculator</h3>
+                <div class="input-group"><label>Buy Price (BDT)</label><input type="number" id="buyPrice" value="500"></div>
+                <div class="input-group"><label>Sell Price (BDT)</label><input type="number" id="sellPrice" value="750"></div>
+                <div class="input-group"><label>VAT Rate (%)</label><input type="number" id="vatRate" value="15"></div>
+                <div class="input-group"><label>Sales Tax Rate (%)</label><input type="number" id="salesTaxRate" value="5"></div>
+                <button id="calcProfit">Calculate Profit</button>
+                <div id="profitResult" class="result">Gross Profit: -<br>VAT: -<br>Sales Tax: -<br>Net Profit: -<br>Margin: -</div>
+            </div>
+
+            <!-- Tax Calculator -->
+            <div class="card">
+                <h3>🧾 Income Tax Calculator</h3>
+                <div class="input-group"><label>Annual Income (BDT)</label><input type="number" id="annualIncome" value="500000"></div>
+                <button id="calcTax">Calculate Tax</button>
+                <div id="taxResult" class="result">Taxable: -<br>Tax Payable: -<br>After Tax: -</div>
+            </div>
+
+            <!-- Land Converter -->
+            <div class="card">
+                <h3>🏞️ Land Unit Converter</h3>
+                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1"></div>
+                <div class="input-group"><label>From Unit</label>
+                    <select id="fromUnit">
+                        <option value="bigha">Bigha</option><option value="katha">Katha</option>
+                        <option value="decimal">Decimal</option><option value="acre">Acre</option>
+                        <option value="hectare">Hectare</option><option value="sqft">Square Foot</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>To Unit</label>
+                    <select id="toUnit">
+                        <option value="sqft">Square Foot</option><option value="acre">Acre</option>
+                        <option value="hectare">Hectare</option><option value="bigha">Bigha</option>
+                        <option value="katha">Katha</option><option value="decimal">Decimal</option>
+                    </select>
+                </div>
+                <button id="calcLand">Convert</button>
+                <div id="landResult" class="result">Result: -</div>
+            </div>
+
+            <!-- Demography -->
+            <div class="card">
+                <h3>👥 Demography</h3>
+                <div id="demographyResult" class="result">Loading Bangladesh data...</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">JStL Spreadsheet™ | Data: NBR, BBS, World Bank | Estimation only</div>
+</div>
+
+<script>
+    // Land conversion factors (to sqft base)
+    const toSqft = {
+        bigha: 14400, katha: 720, decimal: 435.6, acre: 43560, hectare: 107639, sqft: 1
+    };
+    const fromSqft = {
+        bigha: 1/14400, katha: 1/720, decimal: 1/435.6, acre: 1/43560, hectare: 1/107639, sqft: 1
+    };
+
+    // Profit calculation
+    document.getElementById('calcProfit').onclick = () => {
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let vatRate = parseFloat(document.getElementById('vatRate').value) || 0;
+        let salesTaxRate = parseFloat(document.getElementById('salesTaxRate').value) || 0;
+        let gross = sell - buy;
+        let vat = sell * vatRate / 100;
+        let salesTax = sell * salesTaxRate / 100;
+        let net = gross - vat - salesTax;
+        let margin = sell ? (net / sell) * 100 : 0;
+        document.getElementById('profitResult').innerHTML = `Gross Profit: ${gross.toFixed(2)} BDT<br>VAT: ${vat.toFixed(2)} BDT<br>Sales Tax: ${salesTax.toFixed(2)} BDT<br>Net Profit: ${net.toFixed(2)} BDT<br>Margin: ${margin.toFixed(2)}%`;
+    };
+
+    // Tax calculation (Bangladesh slabs)
+    document.getElementById('calcTax').onclick = () => {
+        let income = parseFloat(document.getElementById('annualIncome').value) || 0;
+        let tax = 0;
+        if(income > 250000) tax += (Math.min(income, 400000) - 250000) * 0.10;
+        if(income > 400000) tax += (Math.min(income, 500000) - 400000) * 0.15;
+        if(income > 500000) tax += (Math.min(income, 750000) - 500000) * 0.20;
+        if(income > 750000) tax += (income - 750000) * 0.25;
+        document.getElementById('taxResult').innerHTML = `Taxable Income: ${income.toFixed(2)} BDT<br>Tax Payable: ${tax.toFixed(2)} BDT<br>After Tax: ${(income - tax).toFixed(2)} BDT`;
+    };
+
+    // Land conversion
+    document.getElementById('calcLand').onclick = () => {
+        let value = parseFloat(document.getElementById('landValue').value) || 0;
+        let from = document.getElementById('fromUnit').value;
+        let to = document.getElementById('toUnit').value;
+        let sqft = value * toSqft[from];
+        let result = sqft * fromSqft[to];
+        document.getElementById('landResult').innerHTML = `${value} ${from} = ${result.toFixed(4)} ${to}`;
+    };
+
+    // Demography (static from database)
+    document.getElementById('demographyResult').innerHTML = `
+        📊 Bangladesh Demography 2024<br>
+        Population: 17,11,86,372<br>
+        Birth Rate: 17.8 per 1000<br>
+        Death Rate: 5.5 per 1000<br>
+        Growth Rate: 1.01%<br>
+        Male: 49.6% | Female: 50.4%<br>
+        Urban: 39.4%<br>
+        <small>Source: World Bank, UN Data</small>
+    `;
+
+    // Trigger initial calculations
+    document.getElementById('calcProfit').click();
+    document.getElementById('calcTax').click();
+    document.getElementById('calcLand').click();
+</script>
+</body>
+</html>
