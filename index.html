@@ -3,46 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>JStL Spreadsheet™</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0d2b3e">
+    <title>JStL Spreadsheet™ - Master Index</title>
     <style>
         *{box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
-        .container{max-width:1300px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
+        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
         .header{background:#071a2b;padding:30px;text-align:center;border-bottom:1px solid #1e4a6e}
         .header h1{margin:0;color:#7abfef;font-size:28px}
         .header p{margin:10px 0 0;color:#6a9ec0}
-        .install-banner{background:#0a2a3a;margin:20px;padding:15px;border-radius:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-        .install-banner button{background:#2a6f94;width:auto;margin:0}
         .content{padding:20px}
-        .country-bar{background:#0a2a3a;padding:20px;border-radius:12px;margin-bottom:20px;display:flex;gap:15px;flex-wrap:wrap;align-items:center}
-        .country-bar select{background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px 20px;border-radius:8px;font-size:16px}
-        .two-columns{display:flex;flex-wrap:wrap;gap:20px}
-        .fields-panel{flex:1;background:#0a2a3a;padding:20px;border-radius:12px}
-        .results-panel{flex:1;background:#0a2a3a;padding:20px;border-radius:12px}
-        .field-group{margin-bottom:15px}
-        .field-group label{display:block;color:#b8e0ff;margin-bottom:5px;font-weight:bold}
-        .field-group input{width:100%;background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;font-size:14px}
-        .result-item{background:#0f2e44;padding:12px;margin-bottom:10px;border-radius:8px;color:#9fd3ff;font-family:monospace}
-        .result-item strong{color:#7abfef}
-        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px;margin-top:10px;width:100%}
+        .country-grid{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px}
+        .country-card{flex:1;min-width:200px;background:#0a2a3a;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
+        .country-card:hover{background:#1a4a6a;transform:translateY(-3px)}
+        .country-card h2{margin:0 0 10px;font-size:32px}
+        .country-card h3{margin:0;color:#7abfef}
+        .country-card p{margin:10px 0 0;color:#b8e0ff;font-size:12px}
+        .install-banner{background:#0a2a3a;margin:20px;padding:15px;border-radius:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+        .install-banner button{background:#2a6f94;width:auto;margin:0;padding:10px 20px}
+        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px}
         button:hover{background:#2a6f94}
-        .demo-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-        .demo-buttons button{width:auto;margin:0}
+        .price-section{background:#0a2a3a;margin:20px;padding:20px;border-radius:12px;text-align:center}
+        .price-badge{display:inline-block;background:#1e5a7a;padding:5px 15px;border-radius:20px;margin:5px}
         .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
-        h3{color:#7abfef;margin-top:0}
-        .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin-top:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
-        .save-options{display:flex;gap:10px;margin-top:10px}
-        .save-options button{width:50%}
-        .price-badge{background:#1e5a7a;padding:5px 15px;border-radius:20px;display:inline-block;font-size:14px;margin-left:10px}
+        .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
+        <p>Installable App | No Excel | No Google | Country-Specific Editions</p>
     </div>
 
     <div class="install-banner" id="installBanner" style="display:none">
@@ -51,38 +41,35 @@
     </div>
 
     <div class="content">
-        <div class="demo-buttons">
-            <button id="profitDemoBtn">💰 Profit Demo</button>
-            <button id="taxDemoBtn">🧾 Tax Demo</button>
-            <button id="demographyDemoBtn">👥 Demography Demo</button>
+        <div class="country-grid">
+            <div class="country-card" onclick="location.href='JStL_Bangladesh.html'">
+                <h2>🇧🇩</h2>
+                <h3>Bangladesh</h3>
+                <p>VAT 15% | Tax 0-25% | Bigha/Katha</p>
+            </div>
+            <div class="country-card" onclick="location.href='JStL_Canada.html'">
+                <h2>🇨🇦</h2>
+                <h3>Canada</h3>
+                <p>GST/PST | Federal+Provincial | Acre/Hectare</p>
+            </div>
+            <div class="country-card" onclick="location.href='JStL_India.html'">
+                <h2>🇮🇳</h2>
+                <h3>India</h3>
+                <p>GST 5-28% | Old/New Regime | Bigha/Gaj</p>
+            </div>
+            <div class="country-card" onclick="location.href='JStL_Thailand.html'">
+                <h2>🇹🇭</h2>
+                <h3>Thailand</h3>
+                <p>VAT 7% | Tax 0-35% | Rai/Ngan/Wah</p>
+            </div>
         </div>
 
-        <div class="country-bar">
-            <label style="color:#b8e0ff;font-weight:bold">🌍 Select Country Scenario:</label>
-            <select id="countrySelect">
-                <option value="bangladesh">🇧🇩 Bangladesh</option>
-                <option value="canada">🇨🇦 Canada</option>
-                <option value="uk">🇬🇧 United Kingdom</option>
-                <option value="usa">🇺🇸 United States</option>
-                <option value="india">🇮🇳 India</option>
-            </select>
-            <button id="fillDefaultBtn" style="width:auto">📋 Load Default Values</button>
-            <span class="price-badge">🔥 Early Bird: $36 | Year 1: $96 | $199 later</span>
-        </div>
-
-        <div class="two-columns">
-            <div class="fields-panel">
-                <h3>📝 Input Fields</h3>
-                <div id="dynamicFields"></div>
-            </div>
-            <div class="results-panel">
-                <h3>📊 Calculated Results</h3>
-                <div id="resultsDisplay"></div>
-                <div class="save-options">
-                    <button id="downloadTxtBtn">📄 Save as .jstl (Text Grid)</button>
-                    <button id="downloadHtmlBtn">🌐 Save as HTML Grid</button>
-                </div>
-            </div>
+        <div class="price-section">
+            <h3 style="color:#7abfef">💰 Pricing</h3>
+            <span class="price-badge">🔥 Early Bird: $36 (36 copies)</span>
+            <span class="price-badge">📆 Year 1: $96</span>
+            <span class="price-badge">💎 Year 2+: $199</span>
+            <p style="color:#b8e0ff;margin-top:15px">One license = All countries + Lifetime updates</p>
         </div>
 
         <div class="license-box">
@@ -95,256 +82,11 @@
         </div>
     </div>
     <div class="footer">
-        JStL Spreadsheet™ | Installable App | Clean text grid | No external dependencies
+        JStL Spreadsheet™ | Bangladesh | Canada | India | Thailand | More coming soon
     </div>
 </div>
 
 <script>
-    const countries = {
-        bangladesh: { name: "Bangladesh", currency: "BDT",
-            fields: [
-                { label: "Annual Income", id: "income", default: 500000 },
-                { label: "VAT Rate (%)", id: "vatRate", default: 15 },
-                { label: "Sales Tax Rate (%)", id: "salesTax", default: 5 },
-                { label: "Buy Price", id: "buyPrice", default: 500 },
-                { label: "Sell Price", id: "sellPrice", default: 750 },
-                { label: "Births per Year", id: "births", default: 100 },
-                { label: "Deaths per Year", id: "deaths", default: 120 }
-            ],
-            calculate: (vals) => {
-                let gross = vals.sellPrice - vals.buyPrice;
-                let vat = vals.sellPrice * (vals.vatRate / 100);
-                let salesTax = vals.sellPrice * (vals.salesTax / 100);
-                let netProfit = gross - vat - salesTax;
-                let margin = vals.sellPrice ? (netProfit / vals.sellPrice) * 100 : 0;
-                let tax = 0;
-                if(vals.income > 250000) tax += (Math.min(vals.income, 400000) - 250000) * 0.10;
-                if(vals.income > 400000) tax += (vals.income - 400000) * 0.25;
-                let popChange = vals.births - vals.deaths;
-                return { "Gross Profit": `${gross.toFixed(2)} ${vals.currency}`, "VAT Amount": `${vat.toFixed(2)} ${vals.currency}`, "Sales Tax": `${salesTax.toFixed(2)} ${vals.currency}`, "Net Profit": `${netProfit.toFixed(2)} ${vals.currency}`, "Profit Margin (%)": margin.toFixed(2) + "%", "Income Tax Payable": `${tax.toFixed(2)} ${vals.currency}`, "After Tax Income": `${(vals.income - tax).toFixed(2)} ${vals.currency}`, "Population Change": `${popChange > 0 ? '+' : ''}${popChange}` };
-            }
-        },
-        canada: { name: "Canada", currency: "CAD",
-            fields: [
-                { label: "Annual Income", id: "income", default: 60000 },
-                { label: "GST Rate (%)", id: "gstRate", default: 5 },
-                { label: "PST Rate (%)", id: "pstRate", default: 8 },
-                { label: "Buy Price", id: "buyPrice", default: 100 },
-                { label: "Sell Price", id: "sellPrice", default: 180 },
-                { label: "Births per Year", id: "births", default: 350 },
-                { label: "Deaths per Year", id: "deaths", default: 300 }
-            ],
-            calculate: (vals) => {
-                let gross = vals.sellPrice - vals.buyPrice;
-                let gst = vals.sellPrice * (vals.gstRate / 100);
-                let pst = vals.sellPrice * (vals.pstRate / 100);
-                let netProfit = gross - gst - pst;
-                let margin = vals.sellPrice ? (netProfit / vals.sellPrice) * 100 : 0;
-                let tax = 0;
-                if(vals.income > 53359) tax += (Math.min(vals.income, 106717) - 53359) * 0.205;
-                if(vals.income > 106717) tax += (Math.min(vals.income, 165430) - 106717) * 0.26;
-                if(vals.income > 165430) tax += (vals.income - 165430) * 0.29;
-                let popChange = vals.births - vals.deaths;
-                return { "Gross Profit": `${gross.toFixed(2)} ${vals.currency}`, "GST Amount": `${gst.toFixed(2)} ${vals.currency}`, "PST Amount": `${pst.toFixed(2)} ${vals.currency}`, "Net Profit": `${netProfit.toFixed(2)} ${vals.currency}`, "Profit Margin (%)": margin.toFixed(2) + "%", "Federal Tax Payable": `${tax.toFixed(2)} ${vals.currency}`, "After Tax Income": `${(vals.income - tax).toFixed(2)} ${vals.currency}`, "Population Change": `${popChange > 0 ? '+' : ''}${popChange}` };
-            }
-        },
-        uk: { name: "United Kingdom", currency: "GBP",
-            fields: [
-                { label: "Annual Income", id: "income", default: 40000 },
-                { label: "VAT Rate (%)", id: "vatRate", default: 20 },
-                { label: "Buy Price", id: "buyPrice", default: 50 },
-                { label: "Sell Price", id: "sellPrice", default: 100 },
-                { label: "Births per Year", id: "births", default: 700 },
-                { label: "Deaths per Year", id: "deaths", default: 600 }
-            ],
-            calculate: (vals) => {
-                let gross = vals.sellPrice - vals.buyPrice;
-                let vat = vals.sellPrice * (vals.vatRate / 100);
-                let netProfit = gross - vat;
-                let margin = vals.sellPrice ? (netProfit / vals.sellPrice) * 100 : 0;
-                let tax = 0;
-                if(vals.income > 12570) tax += (Math.min(vals.income, 50270) - 12570) * 0.20;
-                if(vals.income > 50270) tax += (vals.income - 50270) * 0.40;
-                let popChange = vals.births - vals.deaths;
-                return { "Gross Profit": `${gross.toFixed(2)} ${vals.currency}`, "VAT Amount": `${vat.toFixed(2)} ${vals.currency}`, "Net Profit": `${netProfit.toFixed(2)} ${vals.currency}`, "Profit Margin (%)": margin.toFixed(2) + "%", "Income Tax Payable": `${tax.toFixed(2)} ${vals.currency}`, "After Tax Income": `${(vals.income - tax).toFixed(2)} ${vals.currency}`, "Population Change": `${popChange > 0 ? '+' : ''}${popChange}` };
-            }
-        },
-        usa: { name: "United States", currency: "USD",
-            fields: [
-                { label: "Annual Income", id: "income", default: 60000 },
-                { label: "Sales Tax Rate (%)", id: "salesTax", default: 7 },
-                { label: "Buy Price", id: "buyPrice", default: 100 },
-                { label: "Sell Price", id: "sellPrice", default: 200 },
-                { label: "Births per Year", id: "births", default: 3500 },
-                { label: "Deaths per Year", id: "deaths", default: 2800 }
-            ],
-            calculate: (vals) => {
-                let gross = vals.sellPrice - vals.buyPrice;
-                let salesTax = vals.sellPrice * (vals.salesTax / 100);
-                let netProfit = gross - salesTax;
-                let margin = vals.sellPrice ? (netProfit / vals.sellPrice) * 100 : 0;
-                let tax = 0;
-                if(vals.income > 11600) tax += (Math.min(vals.income, 47150) - 11600) * 0.12;
-                if(vals.income > 47150) tax += (Math.min(vals.income, 100525) - 47150) * 0.22;
-                if(vals.income > 100525) tax += (vals.income - 100525) * 0.24;
-                let popChange = vals.births - vals.deaths;
-                return { "Gross Profit": `${gross.toFixed(2)} ${vals.currency}`, "Sales Tax Amount": `${salesTax.toFixed(2)} ${vals.currency}`, "Net Profit": `${netProfit.toFixed(2)} ${vals.currency}`, "Profit Margin (%)": margin.toFixed(2) + "%", "Federal Tax Payable": `${tax.toFixed(2)} ${vals.currency}`, "After Tax Income": `${(vals.income - tax).toFixed(2)} ${vals.currency}`, "Population Change": `${popChange > 0 ? '+' : ''}${popChange}` };
-            }
-        },
-        india: { name: "India", currency: "INR",
-            fields: [
-                { label: "Annual Income", id: "income", default: 800000 },
-                { label: "GST Rate (%)", id: "gstRate", default: 18 },
-                { label: "Buy Price", id: "buyPrice", default: 5000 },
-                { label: "Sell Price", id: "sellPrice", default: 8000 },
-                { label: "Births per Year", id: "births", default: 25000 },
-                { label: "Deaths per Year", id: "deaths", default: 20000 }
-            ],
-            calculate: (vals) => {
-                let gross = vals.sellPrice - vals.buyPrice;
-                let gst = vals.sellPrice * (vals.gstRate / 100);
-                let netProfit = gross - gst;
-                let margin = vals.sellPrice ? (netProfit / vals.sellPrice) * 100 : 0;
-                let tax = 0;
-                if(vals.income > 250000) tax += (Math.min(vals.income, 500000) - 250000) * 0.05;
-                if(vals.income > 500000) tax += (Math.min(vals.income, 1000000) - 500000) * 0.20;
-                if(vals.income > 1000000) tax += (vals.income - 1000000) * 0.30;
-                let popChange = vals.births - vals.deaths;
-                return { "Gross Profit": `${gross.toFixed(2)} ${vals.currency}`, "GST Amount": `${gst.toFixed(2)} ${vals.currency}`, "Net Profit": `${netProfit.toFixed(2)} ${vals.currency}`, "Profit Margin (%)": margin.toFixed(2) + "%", "Income Tax Payable": `${tax.toFixed(2)} ${vals.currency}`, "After Tax Income": `${(vals.income - tax).toFixed(2)} ${vals.currency}`, "Population Change": `${popChange > 0 ? '+' : ''}${popChange}` };
-            }
-        }
-    };
-
-    let currentValues = {};
-
-    function padRight(str, len) {
-        let s = String(str);
-        return s + ' '.repeat(Math.max(0, len - s.length));
-    }
-
-    function generateCleanTextGrid() {
-        let data = window.currentCountryData;
-        if(!data) return '';
-        
-        let lines = [];
-        let lineWidth = 80;
-        let dateStr = new Date().toLocaleString();
-        
-        lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™', 40) + padRight(data.country + ' | ' + data.currency, 38) + '|');
-        lines.push('|' + padRight(' Generated: ' + dateStr, 79) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' CATEGORY', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight('', 30) + '|' + padRight('', 14) + '|');
-        
-        for(let [key, val] of Object.entries(data.values)) {
-            if(key !== 'currency') {
-                lines.push('|' + padRight('', 32) + '|' + padRight(' ' + key, 30) + '|' + padRight(' ' + String(val), 14) + '|');
-            }
-        }
-        
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' RESULTS', 32) + '|' + padRight('', 30) + '|' + padRight('', 14) + '|');
-        
-        for(let [key, val] of Object.entries(data.results)) {
-            let shortVal = String(val).length > 14 ? String(val).substring(0, 11) + '...' : String(val);
-            lines.push('|' + padRight('', 32) + '|' + padRight(' ' + key, 30) + '|' + padRight(' ' + shortVal, 14) + '|');
-        }
-        
-        lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
-        lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
-        lines.push('+' + '-'.repeat(78) + '+');
-        
-        return lines.join('\n');
-    }
-
-    function buildFields() {
-        let country = document.getElementById('countrySelect').value;
-        let config = countries[country];
-        let container = document.getElementById('dynamicFields');
-        container.innerHTML = '';
-        currentValues = { currency: config.currency };
-        config.fields.forEach(field => {
-            let div = document.createElement('div');
-            div.className = 'field-group';
-            div.innerHTML = `<label>${field.label}</label><input type="number" id="${field.id}" value="${field.default}" step="any">`;
-            container.appendChild(div);
-            currentValues[field.id] = field.default;
-            div.querySelector('input').addEventListener('input', () => { currentValues[field.id] = parseFloat(div.querySelector('input').value) || 0; updateResults(); });
-        });
-        updateResults();
-    }
-
-    function updateResults() {
-        let country = document.getElementById('countrySelect').value;
-        let config = countries[country];
-        let vals = { ...currentValues, currency: config.currency };
-        config.fields.forEach(field => { let input = document.getElementById(field.id); if(input) vals[field.id] = parseFloat(input.value) || 0; });
-        let results = config.calculate(vals);
-        let resultDiv = document.getElementById('resultsDisplay');
-        resultDiv.innerHTML = '';
-        for(let [key, value] of Object.entries(results)) {
-            let item = document.createElement('div');
-            item.className = 'result-item';
-            item.innerHTML = `<strong>${key}:</strong> ${value}`;
-            resultDiv.appendChild(item);
-        }
-        window.currentCountryData = { country: config.name, currency: config.currency, values: vals, results: results };
-    }
-
-    function fillDefaults() {
-        let country = document.getElementById('countrySelect').value;
-        let config = countries[country];
-        config.fields.forEach(field => { let input = document.getElementById(field.id); if(input) input.value = field.default; });
-        buildFields();
-    }
-
-    function downloadAsTextGrid() {
-        let data = window.currentCountryData;
-        if(!data) { alert('No data'); return; }
-        let content = generateCleanTextGrid();
-        let blob = new Blob([content], {type: "text/plain"});
-        let link = document.createElement('a');
-        let url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = `JStL_${data.country}_${Date.now()}.jstl`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        alert('✅ Saved as clean text grid (.jstl)');
-    }
-
-    function downloadAsHTML() {
-        let data = window.currentCountryData;
-        if(!data) return;
-        let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - ${data.country}</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™</h1><h3>${data.country} | ${data.currency}</h3><tr><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
-        for(let [k,v] of Object.entries(data.values)) if(k!=='currency') html += `<tr><td style="color:#7abfef">INPUT</td><td>${k}</td><td>${v}</td></tr>`;
-        for(let [k,v] of Object.entries(data.results)) html += `<td><td style="color:#7abfef">RESULT</td><td>${k}</td><td>${v}</td></tr>`;
-        html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
-        let blob = new Blob([html], {type: "text/html"});
-        let link = document.createElement('a');
-        let url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = `JStL_${data.country}_${Date.now()}.html`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        alert('✅ Saved as HTML grid');
-    }
-
-    // Event listeners
-    document.getElementById('profitDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'bangladesh'; buildFields(); setTimeout(() => { let buy = document.getElementById('buyPrice'); if(buy) buy.value = 500; let sell = document.getElementById('sellPrice'); if(sell) sell.value = 750; updateResults(); }, 100); };
-    document.getElementById('taxDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'canada'; buildFields(); setTimeout(() => { let inc = document.getElementById('income'); if(inc) inc.value = 80000; updateResults(); }, 100); };
-    document.getElementById('demographyDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'india'; buildFields(); setTimeout(() => { let b = document.getElementById('births'); let d = document.getElementById('deaths'); if(b) b.value = 25000; if(d) d.value = 20000; updateResults(); }, 100); };
-    document.getElementById('countrySelect').onchange = () => buildFields();
-    document.getElementById('fillDefaultBtn').onclick = fillDefaults;
-    document.getElementById('downloadTxtBtn').onclick = downloadAsTextGrid;
-    document.getElementById('downloadHtmlBtn').onclick = downloadAsHTML;
-
     // PWA Install
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -353,10 +95,13 @@
         document.getElementById('installBanner').style.display = 'flex';
     });
     document.getElementById('installBtn').onclick = () => {
-        if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { document.getElementById('installBanner').style.display = 'none'; }); }
+        if(deferredPrompt) { 
+            deferredPrompt.prompt(); 
+            deferredPrompt.userChoice.then(() => { 
+                document.getElementById('installBanner').style.display = 'none'; 
+            }); 
+        }
     };
-
-    buildFields();
 </script>
 </body>
 </html>
