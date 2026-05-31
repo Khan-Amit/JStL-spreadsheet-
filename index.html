@@ -35,13 +35,14 @@
         .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin-top:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
         .save-options{display:flex;gap:10px;margin-top:10px}
         .save-options button{width:50%}
+        .price-badge{background:#1e5a7a;padding:5px 15px;border-radius:20px;display:inline-block;font-size:14px;margin-left:10px}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | Grid-based text spreadsheets | No Excel</p>
+        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
     </div>
 
     <div class="install-banner" id="installBanner" style="display:none">
@@ -66,6 +67,7 @@
                 <option value="india">🇮🇳 India</option>
             </select>
             <button id="fillDefaultBtn" style="width:auto">📋 Load Default Values</button>
+            <span class="price-badge">🔥 Early Bird: $36 | Year 1: $96 | $199 later</span>
         </div>
 
         <div class="two-columns">
@@ -93,7 +95,7 @@
         </div>
     </div>
     <div class="footer">
-        JStL Spreadsheet™ | Installable App | Grid-based text format
+        JStL Spreadsheet™ | Installable App | Clean text grid | No external dependencies
     </div>
 </div>
 
@@ -215,6 +217,49 @@
 
     let currentValues = {};
 
+    function padRight(str, len) {
+        let s = String(str);
+        return s + ' '.repeat(Math.max(0, len - s.length));
+    }
+
+    function generateCleanTextGrid() {
+        let data = window.currentCountryData;
+        if(!data) return '';
+        
+        let lines = [];
+        let lineWidth = 80;
+        let dateStr = new Date().toLocaleString();
+        
+        lines.push('+' + '-'.repeat(78) + '+');
+        lines.push('|' + padRight(' JStL Spreadsheet™', 40) + padRight(data.country + ' | ' + data.currency, 38) + '|');
+        lines.push('|' + padRight(' Generated: ' + dateStr, 79) + '|');
+        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+        lines.push('|' + padRight(' CATEGORY', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
+        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+        lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight('', 30) + '|' + padRight('', 14) + '|');
+        
+        for(let [key, val] of Object.entries(data.values)) {
+            if(key !== 'currency') {
+                lines.push('|' + padRight('', 32) + '|' + padRight(' ' + key, 30) + '|' + padRight(' ' + String(val), 14) + '|');
+            }
+        }
+        
+        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+        lines.push('|' + padRight(' RESULTS', 32) + '|' + padRight('', 30) + '|' + padRight('', 14) + '|');
+        
+        for(let [key, val] of Object.entries(data.results)) {
+            let shortVal = String(val).length > 14 ? String(val).substring(0, 11) + '...' : String(val);
+            lines.push('|' + padRight('', 32) + '|' + padRight(' ' + key, 30) + '|' + padRight(' ' + shortVal, 14) + '|');
+        }
+        
+        lines.push('+' + '-'.repeat(78) + '+');
+        lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
+        lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
+        lines.push('+' + '-'.repeat(78) + '+');
+        
+        return lines.join('\n');
+    }
+
     function buildFields() {
         let country = document.getElementById('countrySelect').value;
         let config = countries[country];
@@ -249,49 +294,17 @@
         window.currentCountryData = { country: config.name, currency: config.currency, values: vals, results: results };
     }
 
-    function formatNumber(n) {
-        return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function fillDefaults() {
+        let country = document.getElementById('countrySelect').value;
+        let config = countries[country];
+        config.fields.forEach(field => { let input = document.getElementById(field.id); if(input) input.value = field.default; });
+        buildFields();
     }
 
-    function generateFormattedTextGrid() {
-        let data = window.currentCountryData;
-        if(!data) return '';
-        let date = new Date().toLocaleString();
-        let width = 70;
-        let line = '━'.repeat(width);
-        let lines = [];
-        lines.push(line);
-        lines.push(`JStL Spreadsheet™                          Date: ${date}`);
-        lines.push(`Country: ${data.country}                        Currency: ${data.currency}`);
-        lines.push(line);
-        lines.push('');
-        lines.push('📥 INPUTS');
-        lines.push(line);
-        for(let [key, val] of Object.entries(data.values)) {
-            if(key !== 'currency') {
-                let displayVal = key.includes('Rate') ? parseFloat(val).toFixed(2) : formatNumber(parseFloat(val));
-                if(!key.includes('Rate') && !key.includes('Birth') && !key.includes('Death')) displayVal = `${displayVal} ${data.currency}`;
-                lines.push(`${key.padEnd(25)} | ${displayVal}`);
-            }
-        }
-        lines.push(line);
-        lines.push('');
-        lines.push('📤 RESULTS');
-        lines.push(line);
-        for(let [key, val] of Object.entries(data.results)) {
-            lines.push(`${key.padEnd(25)} | ${val}`);
-        }
-        lines.push(line);
-        lines.push('');
-        lines.push('JStL Spreadsheet™ | Perpetual License | Full Guarantee');
-        lines.push('amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com');
-        return lines.join('\n');
-    }
-
-    function downloadAsText() {
+    function downloadAsTextGrid() {
         let data = window.currentCountryData;
         if(!data) { alert('No data'); return; }
-        let content = generateFormattedTextGrid();
+        let content = generateCleanTextGrid();
         let blob = new Blob([content], {type: "text/plain"});
         let link = document.createElement('a');
         let url = URL.createObjectURL(blob);
@@ -301,15 +314,15 @@
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        alert('✅ Saved as grid text file (.jstl)');
+        alert('✅ Saved as clean text grid (.jstl)');
     }
 
     function downloadAsHTML() {
         let data = window.currentCountryData;
         if(!data) return;
-        let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - ${data.country}</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™</h1><h3>${data.country} | ${data.currency}</h3><table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
-        for(let [k,v] of Object.entries(data.values)) if(k!=='currency') html += `<tr><td style="background:#0a2a3a">INPUT</td><td>${k}</td><td>${v}</td></tr>`;
-        for(let [k,v] of Object.entries(data.results)) html += `<tr><td style="background:#0a2a3a">RESULT</td><td>${k}</td><td>${v}</td></tr>`;
+        let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - ${data.country}</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™</h1><h3>${data.country} | ${data.currency}</h3><tr><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
+        for(let [k,v] of Object.entries(data.values)) if(k!=='currency') html += `<tr><td style="color:#7abfef">INPUT</td><td>${k}</td><td>${v}</td></tr>`;
+        for(let [k,v] of Object.entries(data.results)) html += `<td><td style="color:#7abfef">RESULT</td><td>${k}</td><td>${v}</td></tr>`;
         html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
         let blob = new Blob([html], {type: "text/html"});
         let link = document.createElement('a');
@@ -323,21 +336,16 @@
         alert('✅ Saved as HTML grid');
     }
 
-    function fillDefaults() {
-        let country = document.getElementById('countrySelect').value;
-        let config = countries[country];
-        config.fields.forEach(field => { let input = document.getElementById(field.id); if(input) input.value = field.default; });
-        buildFields();
-    }
-
+    // Event listeners
     document.getElementById('profitDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'bangladesh'; buildFields(); setTimeout(() => { let buy = document.getElementById('buyPrice'); if(buy) buy.value = 500; let sell = document.getElementById('sellPrice'); if(sell) sell.value = 750; updateResults(); }, 100); };
     document.getElementById('taxDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'canada'; buildFields(); setTimeout(() => { let inc = document.getElementById('income'); if(inc) inc.value = 80000; updateResults(); }, 100); };
     document.getElementById('demographyDemoBtn').onclick = () => { document.getElementById('countrySelect').value = 'india'; buildFields(); setTimeout(() => { let b = document.getElementById('births'); let d = document.getElementById('deaths'); if(b) b.value = 25000; if(d) d.value = 20000; updateResults(); }, 100); };
     document.getElementById('countrySelect').onchange = () => buildFields();
     document.getElementById('fillDefaultBtn').onclick = fillDefaults;
-    document.getElementById('downloadTxtBtn').onclick = downloadAsText;
+    document.getElementById('downloadTxtBtn').onclick = downloadAsTextGrid;
     document.getElementById('downloadHtmlBtn').onclick = downloadAsHTML;
 
+    // PWA Install
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
