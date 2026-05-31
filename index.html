@@ -41,7 +41,7 @@
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google | Text-based spreadsheets</p>
+        <p>Installable App | Grid-based text spreadsheets | No Excel</p>
     </div>
 
     <div class="install-banner" id="installBanner" style="display:none">
@@ -77,7 +77,7 @@
                 <h3>📊 Calculated Results</h3>
                 <div id="resultsDisplay"></div>
                 <div class="save-options">
-                    <button id="downloadTxtBtn">📄 Save as .jstl (Text)</button>
+                    <button id="downloadTxtBtn">📄 Save as .jstl (Text Grid)</button>
                     <button id="downloadHtmlBtn">🌐 Save as HTML Grid</button>
                 </div>
             </div>
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div class="footer">
-        JStL Spreadsheet™ | Installable App | Opens as formatted text | No external dependencies
+        JStL Spreadsheet™ | Installable App | Grid-based text format
     </div>
 </div>
 
@@ -249,27 +249,40 @@
         window.currentCountryData = { country: config.name, currency: config.currency, values: vals, results: results };
     }
 
-    function generateFormattedText() {
+    function formatNumber(n) {
+        return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function generateFormattedTextGrid() {
         let data = window.currentCountryData;
         if(!data) return '';
+        let date = new Date().toLocaleString();
+        let width = 70;
+        let line = '━'.repeat(width);
         let lines = [];
-        lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        lines.push('JStL Spreadsheet™ Report');
-        lines.push(`Country: ${data.country} | Currency: ${data.currency}`);
-        lines.push(`Generated: ${new Date().toLocaleString()}`);
-        lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        lines.push(line);
+        lines.push(`JStL Spreadsheet™                          Date: ${date}`);
+        lines.push(`Country: ${data.country}                        Currency: ${data.currency}`);
+        lines.push(line);
         lines.push('');
-        lines.push('📥 INPUTS:');
+        lines.push('📥 INPUTS');
+        lines.push(line);
         for(let [key, val] of Object.entries(data.values)) {
-            if(key !== 'currency') lines.push(`  ${key}: ${val}`);
+            if(key !== 'currency') {
+                let displayVal = key.includes('Rate') ? parseFloat(val).toFixed(2) : formatNumber(parseFloat(val));
+                if(!key.includes('Rate') && !key.includes('Birth') && !key.includes('Death')) displayVal = `${displayVal} ${data.currency}`;
+                lines.push(`${key.padEnd(25)} | ${displayVal}`);
+            }
         }
+        lines.push(line);
         lines.push('');
-        lines.push('📤 RESULTS:');
+        lines.push('📤 RESULTS');
+        lines.push(line);
         for(let [key, val] of Object.entries(data.results)) {
-            lines.push(`  ${key}: ${val}`);
+            lines.push(`${key.padEnd(25)} | ${val}`);
         }
+        lines.push(line);
         lines.push('');
-        lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         lines.push('JStL Spreadsheet™ | Perpetual License | Full Guarantee');
         lines.push('amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com');
         return lines.join('\n');
@@ -278,7 +291,7 @@
     function downloadAsText() {
         let data = window.currentCountryData;
         if(!data) { alert('No data'); return; }
-        let content = generateFormattedText();
+        let content = generateFormattedTextGrid();
         let blob = new Blob([content], {type: "text/plain"});
         let link = document.createElement('a');
         let url = URL.createObjectURL(blob);
@@ -288,15 +301,15 @@
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        alert('✅ Saved as formatted text file (.jstl)');
+        alert('✅ Saved as grid text file (.jstl)');
     }
 
     function downloadAsHTML() {
         let data = window.currentCountryData;
         if(!data) return;
         let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - ${data.country}</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™</h1><h3>${data.country} | ${data.currency}</h3><table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
-        for(let [k,v] of Object.entries(data.values)) if(k!=='currency') html += `<tr><td>INPUT</td><td>${k}</td><td>${v}</td></tr>`;
-        for(let [k,v] of Object.entries(data.results)) html += `<tr><td>RESULT</td><td>${k}</td><td>${v}</td></tr>`;
+        for(let [k,v] of Object.entries(data.values)) if(k!=='currency') html += `<tr><td style="background:#0a2a3a">INPUT</td><td>${k}</td><td>${v}</td></tr>`;
+        for(let [k,v] of Object.entries(data.results)) html += `<tr><td style="background:#0a2a3a">RESULT</td><td>${k}</td><td>${v}</td></tr>`;
         html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
         let blob = new Blob([html], {type: "text/html"});
         let link = document.createElement('a');
@@ -325,7 +338,6 @@
     document.getElementById('downloadTxtBtn').onclick = downloadAsText;
     document.getElementById('downloadHtmlBtn').onclick = downloadAsHTML;
 
-    // PWA Install
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
