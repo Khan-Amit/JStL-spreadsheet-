@@ -1,0 +1,40 @@
+{
+  "country": "Bangladesh",
+  "currency": "BDT",
+  "code": "BD",
+  "tax": {
+    "income": [
+      { "min": 0, "max": 250000, "rate": 0 },
+      { "min": 250001, "max": 400000, "rate": 10 },
+      { "min": 400001, "max": 500000, "rate": 15 },
+      { "min": 500001, "max": 750000, "rate": 20 },
+      { "min": 750001, "max": null, "rate": 25 }
+    ],
+    "vat": 15,
+    "sales_tax": 5,
+    "source": "NBR Bangladesh, FY 2025-26"
+  },
+  "land": {
+    "units": [
+      { "name": "Bigha", "to_sqft": 14400, "to_acre": 0.3306, "to_hectare": 0.1338 },
+      { "name": "Katha", "to_sqft": 720, "to_acre": 0.0165, "to_hectare": 0.0067 },
+      { "name": "Decimal", "to_sqft": 435.6, "to_acre": 0.01, "to_hectare": 0.00405 },
+      { "name": "Acre", "to_sqft": 43560, "to_hectare": 0.4047 },
+      { "name": "Hectare", "to_sqft": 107639, "to_acre": 2.471 },
+      { "name": "Square Foot", "to_sqft": 1 }
+    ],
+    "source": "Bangladesh Bureau of Statistics"
+  },
+  "demography": {
+    "population": 171186372,
+    "year": 2024,
+    "birth_rate_per_1000": 17.8,
+    "death_rate_per_1000": 5.5,
+    "growth_rate": 1.01,
+    "male_ratio": 49.6,
+    "female_ratio": 50.4,
+    "urban_percentage": 39.4,
+    "source": "World Bank, UN Data 2024"
+  },
+  "calculators": ["profit", "tax", "land", "demography"]
+}
