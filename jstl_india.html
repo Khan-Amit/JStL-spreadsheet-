@@ -21,75 +21,232 @@
         button{background:#1e5a7a;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:16px;width:100%;margin-top:10px}
         button:hover{background:#2a6f94}
         .result{background:#0f2e44;padding:15px;border-radius:8px;margin-top:15px;color:#9fd3ff;font-family:monospace;font-size:13px;line-height:1.6}
-        .result-table{width:100%;border-collapse:collapse}
-        .result-table td{padding:5px 0}
-        .result-table td:last-child{text-align:right}
         .badge{display:inline-block;background:#1e5a7a;padding:3px 8px;border-radius:12px;font-size:11px;margin-left:8px}
         .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
         .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
         .save-bar{display:flex;gap:10px;margin-bottom:20px}
         .save-bar button{width:auto;margin:0;padding:10px 20px}
-        .regime-select{background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;width:100%;margin-bottom:10px}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>🇮🇳 JStL Spreadsheet™ - India</h1>
-        <p>Income Tax (Old/New) | GST | Land Units (Bigha/Gaj/Acre) | Demography</p>
+        <p>Income Tax (Old/New) | GST | Land Units</p>
     </div>
 
     <div class="content">
         <div class="save-bar">
-            <button id="downloadTxtBtn">📄 Save as .jstl (Text Grid)</button>
+            <button id="downloadTxtBtn">📄 Save as .jstl</button>
             <button id="downloadHtmlBtn">🌐 Save as HTML Grid</button>
         </div>
 
         <div class="grid-2">
             <div class="card">
-                <h3>💰 Profit Calculator <span class="badge">GST</span></h3>
-                <div class="input-group"><label>Buy Price (INR)</label><input type="number" id="buyPrice" value="5000" step="any"></div>
-                <div class="input-group"><label>Sell Price (INR)</label><input type="number" id="sellPrice" value="8000" step="any"></div>
-                <div class="input-group"><label>GST Rate (%)</label><select id="gstRate"><option value="0">0% (Exempt)</option><option value="5">5%</option><option value="18" selected>18% (Standard)</option><option value="40">40% (Luxury/Tobacco)</option></select></div>
+                <h3>💰 Profit Calculator</h3>
+                <div class="input-group"><label>Buy Price (INR)</label><input type="number" id="buyPrice" value="5000"></div>
+                <div class="input-group"><label>Sell Price (INR)</label><input type="number" id="sellPrice" value="8000"></div>
+                <div class="input-group"><label>GST Rate</label><select id="gstRate"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
                 <button id="calcProfit">⟳ Calculate</button>
-                <div id="profitResult" class="result">Loading...</div>
+                <div id="profitResult" class="result">Click Calculate</div>
             </div>
 
             <div class="card">
-                <h3>🧾 Income Tax Calculator <span class="badge">AY 2025-26</span></h3>
-                <div class="input-group"><label>Annual Income (INR)</label><input type="number" id="annualIncome" value="1000000" step="any"></div>
-                <div class="input-group"><label>Tax Regime</label><select id="regime" class="regime-select"><option value="new">New Regime (Default)</option><option value="old">Old Regime (with deductions)</option></select></div>
-                <div class="input-group" id="deductionGroup" style="display:none"><label>Total Deductions (80C, 80D, etc.)</label><input type="number" id="deductions" value="150000" step="any"></div>
-                <div class="input-group"><label>Standard Deduction</label><input type="number" id="standardDeduction" value="50000" step="any"></div>
+                <h3>🧾 Income Tax Calculator</h3>
+                <div class="input-group"><label>Annual Income (INR)</label><input type="number" id="annualIncome" value="1000000"></div>
+                <div class="input-group"><label>Tax Regime</label><select id="regime"><option value="new">New Regime</option><option value="old">Old Regime</option></select></div>
+                <div class="input-group" id="deductionGroup"><label>Deductions (80C, etc.)</label><input type="number" id="deductions" value="150000"></div>
                 <button id="calcTax">⟳ Calculate</button>
-                <div id="taxResult" class="result">Loading...</div>
+                <div id="taxResult" class="result">Click Calculate</div>
             </div>
 
             <div class="card">
-                <h3>🏞️ Land Unit Converter</h3>
-                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1" step="any"></div>
-                <div class="input-group"><label>From Unit</label><select id="fromUnit"><option value="bigha">Bigha (North)</option><option value="biswa">Biswa</option><option value="gaj">Gaj (Square Yard)</option><option value="kanal">Kanal</option><option value="katha">Katha</option><option value="decimal">Decimal</option><option value="acre">Acre</option><option value="hectare">Hectare</option><option value="sqft">Square Foot</option><option value="sqm">Square Meter</option></select></div>
-                <div class="input-group"><label>To Unit</label><select id="toUnit"><option value="sqft">Square Foot</option><option value="sqm">Square Meter</option><option value="acre">Acre</option><option value="hectare">Hectare</option><option value="bigha">Bigha</option><option value="biswa">Biswa</option><option value="gaj">Gaj</option><option value="kanal">Kanal</option><option value="katha">Katha</option><option value="decimal">Decimal</option></select></div>
+                <h3>🏞️ Land Converter</h3>
+                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1"></div>
+                <div class="input-group"><label>From</label><select id="fromUnit"><option value="bigha">Bigha</option><option value="gaj">Gaj</option><option value="acre">Acre</option><option value="sqft">Sq Ft</option></select></div>
+                <div class="input-group"><label>To</label><select id="toUnit"><option value="sqft">Sq Ft</option><option value="acre">Acre</option><option value="bigha">Bigha</option></select></div>
                 <button id="calcLand">⟳ Convert</button>
-                <div id="landResult" class="result">Loading...</div>
+                <div id="landResult" class="result">Click Convert</div>
             </div>
 
             <div class="card">
-                <h3>👥 Demography <span class="badge">2024 Data</span></h3>
-                <div id="demographyResult" class="result">Loading India data...</div>
-                <div class="input-group" style="margin-top:15px"><label>Projection Years</label><input type="number" id="projectionYears" value="5" min="1" max="20"></div>
-                <button id="calcProjection">⟳ Project Population</button>
-                <div id="projectionResult" class="result">Click to project</div>
+                <h3>👥 Demography</h3>
+                <div id="demographyResult" class="result">Loading...</div>
+                <div class="input-group"><label>Projection Years</label><input type="number" id="projYears" value="5"></div>
+                <button id="calcProj">⟳ Project</button>
+                <div id="projResult" class="result">Click to project</div>
             </div>
         </div>
-        <div class="disclaimer">⚡ JStL Spreadsheet™ provides calculations for estimation purposes only. Consult a qualified professional for official decisions.<br>📊 Data sources: Income Tax Department India, GST Council, Ministry of Statistics.</div>
+        <div class="disclaimer">⚠️ Estimation only. Consult a CA for official taxes.</div>
     </div>
-    <div class="footer">JStL Spreadsheet™ - India Edition | Perpetual License | Installable App | Your data stays yours</div>
+    <div class="footer">JStL Spreadsheet™ - India | Perpetual License</div>
 </div>
+
 <script>
-    const toSqft = {bigha:27225,biswa:1361.25,gaj:9,kanal:5445,katha:1361.25,decimal:435.6,acre:43560,hectare:107639,sqft:1,sqm:10.7639};
-    const demography = {population:1441710000,year:2024,birthRate:16.1,deathRate:6.6,growthRate:0.99,maleRatio:51.5,femaleRatio:48.5,urbanPercentage:36.4};
-    const newRegimeSlabs = [{min:0,max:300000,rate:0},{min:300000,max:700000,rate:5},{min:700000,max:1000000,rate:10},{min:1000000,max:1200000,rate:12},{min:1200000,max:1500000,rate:15},{min:1500000,max:Infinity,rate:30}];
-    const oldRegimeSlabs = [{min:0,max:250000,rate:0},{min:250000,max:500000,rate:5},{min:500000,max:1000000,rate:20},{min:1000000,max:Infinity,rate:30}];
-    const REBATE_LIMIT=500000,REBATE_AMOUNT=25000,HEALTH_EDU_CESS=0.04;
-    function updateProfit(){let buy=parseFloat(document.getElementById('buyPrice').value)||0,sell=parseFloat(document.getElementById('sellPrice').value)||0,gstRate=parseFloat(document.getElementById('gstRate').value)||0,gross=sell-buy,gst=sell*gstRate/100,net=gross-gst,margin=sell!==0?(net/sell)*100:0;document.getElementById('profitResult').innerHTML=`<table class="result-table"><tr><td>📦 Gross Profit: ${gross.toFixed(2)} INR</td></tr><tr><td>🧾 GST (${gstRate}%): ${gst.toFixed(2)} INR</td></tr><tr><td>📉 Net Profit: ${net.toFixed(2)} INR</td></tr><tr><td>📊
+    // New Regime slabs (FY 2024-25)
+    const newRegime = [
+        { min: 0, max: 300000, rate: 0 },
+        { min: 300000, max: 700000, rate: 5 },
+        { min: 700000, max: 1000000, rate: 10 },
+        { min: 1000000, max: 1200000, rate: 12 },
+        { min: 1200000, max: 1500000, rate: 15 },
+        { min: 1500000, max: Infinity, rate: 30 }
+    ];
+
+    // Old Regime slabs
+    const oldRegime = [
+        { min: 0, max: 250000, rate: 0 },
+        { min: 250000, max: 500000, rate: 5 },
+        { min: 500000, max: 1000000, rate: 20 },
+        { min: 1000000, max: Infinity, rate: 30 }
+    ];
+
+    const CESS = 0.04;
+    const REBATE_LIMIT = 500000;
+    const REBATE_AMOUNT = 25000;
+
+    // Demography
+    const demo = { population: 1441710000, year: 2024, growthRate: 0.99 };
+
+    // Land conversion (to sq ft)
+    const land = { bigha: 27225, gaj: 9, acre: 43560, sqft: 1 };
+
+    // Profit
+    function calcProfit() {
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let gst = parseFloat(document.getElementById('gstRate').value) || 0;
+        let gross = sell - buy;
+        let gstAmt = sell * gst / 100;
+        let net = gross - gstAmt;
+        let margin = sell ? (net / sell) * 100 : 0;
+        document.getElementById('profitResult').innerHTML = `
+            Gross Profit: ₹${gross.toFixed(2)}<br>
+            GST (${gst}%): ₹${gstAmt.toFixed(2)}<br>
+            Net Profit: ₹${net.toFixed(2)}<br>
+            Margin: ${margin.toFixed(2)}%
+        `;
+    }
+
+    // Tax calculation helper
+    function calcTaxBracket(income, brackets) {
+        let tax = 0;
+        for (let b of brackets) {
+            if (income > b.min) {
+                let taxable = Math.min(income, b.max) - b.min;
+                if (taxable > 0) tax += taxable * b.rate / 100;
+            }
+        }
+        return tax;
+    }
+
+    function calcTax() {
+        let income = parseFloat(document.getElementById('annualIncome').value) || 0;
+        let regime = document.getElementById('regime').value;
+        let deductions = parseFloat(document.getElementById('deductions').value) || 0;
+        
+        let taxable = income;
+        let brackets;
+        
+        if (regime === 'old') {
+            taxable = Math.max(0, income - deductions);
+            brackets = oldRegime;
+        } else {
+            brackets = newRegime;
+        }
+        
+        let tax = calcTaxBracket(taxable, brackets);
+        
+        // Rebate under 87A
+        if (taxable <= REBATE_LIMIT) {
+            tax = Math.max(0, tax - REBATE_AMOUNT);
+        }
+        
+        let cess = tax * CESS;
+        let total = tax + cess;
+        let after = income - total;
+        let rate = income ? (total / income * 100) : 0;
+        
+        document.getElementById('taxResult').innerHTML = `
+            Taxable Income: ₹${taxable.toFixed(2)}<br>
+            Income Tax: ₹${tax.toFixed(2)}<br>
+            Health & Education Cess (4%): ₹${cess.toFixed(2)}<br>
+            <strong>Total Tax: ₹${total.toFixed(2)}</strong><br>
+            After Tax Income: ₹${after.toFixed(2)}<br>
+            Effective Rate: ${rate.toFixed(2)}%
+        `;
+    }
+
+    // Land conversion
+    function calcLand() {
+        let val = parseFloat(document.getElementById('landValue').value) || 0;
+        let from = document.getElementById('fromUnit').value;
+        let to = document.getElementById('toUnit').value;
+        let sqft = val * land[from];
+        let result = sqft / land[to];
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqft.toFixed(2)} sq ft`;
+    }
+
+    // Demography
+    function showDemo() {
+        document.getElementById('demographyResult').innerHTML = `
+            Population (${demo.year}): ${demo.population.toLocaleString()}<br>
+            Growth Rate: ${demo.growthRate}%
+        `;
+    }
+    function calcProj() {
+        let years = parseInt(document.getElementById('projYears').value) || 5;
+        let pop = demo.population;
+        let rate = demo.growthRate / 100;
+        let results = [];
+        for (let i = 1; i <= years; i++) {
+            pop = pop * (1 + rate);
+            results.push(`Year ${demo.year + i}: ${Math.round(pop).toLocaleString()}`);
+        }
+        document.getElementById('projResult').innerHTML = results.join('<br>');
+    }
+
+    // Downloads
+    function downloadTxt() {
+        let content = `JStL India Report\nGenerated: ${new Date()}\nIncome: ₹${document.getElementById('annualIncome').value}\nLicense: Perpetual`;
+        let blob = new Blob([content], {type: "text/plain"});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `JStL_India_${Date.now()}.jstl`;
+        link.click();
+        alert('Saved');
+    }
+    function downloadHtml() {
+        let html = `<!DOCTYPE html><html><head><title>JStL India</title><style>body{background:#0a1a2f;color:white}</style></head><body><h1>JStL India Report</h1><p>Income: ₹${document.getElementById('annualIncome').value}</p></body></html>`;
+        let blob = new Blob([html], {type: "text/html"});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `JStL_India_${Date.now()}.html`;
+        link.click();
+        alert('Saved');
+    }
+
+    // Events
+    document.getElementById('calcProfit').onclick = calcProfit;
+    document.getElementById('calcTax').onclick = calcTax;
+    document.getElementById('calcLand').onclick = calcLand;
+    document.getElementById('calcProj').onclick = calcProj;
+    document.getElementById('downloadTxtBtn').onclick = downloadTxt;
+    document.getElementById('downloadHtmlBtn').onclick = downloadHtml;
+    document.getElementById('buyPrice').oninput = calcProfit;
+    document.getElementById('sellPrice').oninput = calcProfit;
+    document.getElementById('gstRate').onchange = calcProfit;
+    document.getElementById('annualIncome').oninput = calcTax;
+    document.getElementById('regime').onchange = calcTax;
+    document.getElementById('deductions').oninput = calcTax;
+    document.getElementById('landValue').oninput = calcLand;
+    document.getElementById('fromUnit').onchange = calcLand;
+    document.getElementById('toUnit').onchange = calcLand;
+
+    calcProfit();
+    calcTax();
+    calcLand();
+    showDemo();
+</script>
+</body>
+</html>
