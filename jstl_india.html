@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>JStL Spreadsheet™ - India</title>
+    <style>
+        *{box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
+        .container{max-width:1400px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
+        .header{background:#071a2b;padding:25px;text-align:center;border-bottom:1px solid #1e4a6e}
+        .header h1{margin:0;color:#7abfef;font-size:28px}
+        .header p{margin:10px 0 0;color:#6a9ec0}
+        .content{padding:20px}
+        .grid-2{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:20px}
+        .card{flex:1;min-width:280px;background:#0a2a3a;padding:20px;border-radius:12px}
+        .card h3{color:#7abfef;margin-top:0;margin-bottom:15px}
+        .input-group{margin-bottom:15px}
+        .input-group label{display:block;color:#b8e0ff;margin-bottom:5px;font-weight:bold}
+        .input-group input,.input-group select{width:100%;background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;font-size:14px}
+        button{background:#1e5a7a;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:16px;width:100%;margin-top:10px}
+        button:hover{background:#2a6f94}
+        .result{background:#0f2e44;padding:15px;border-radius:8px;margin-top:15px;color:#9fd3ff;font-family:monospace;font-size:13px;line-height:1.6}
+        .result-table{width:100%;border-collapse:collapse}
+        .result-table td{padding:5px 0}
+        .result-table td:last-child{text-align:right}
+        .badge{display:inline-block;background:#1e5a7a;padding:3px 8px;border-radius:12px;font-size:11px;margin-left:8px}
+        .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
+        .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
+        .save-bar{display:flex;gap:10px;margin-bottom:20px}
+        .save-bar button{width:auto;margin:0;padding:10px 20px}
+        .regime-select{background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;width:100%;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🇮🇳 JStL Spreadsheet™ - India</h1>
+        <p>Income Tax (Old/New) | GST | Land Units (Bigha/Gaj/Acre) | Demography</p>
+    </div>
+
+    <div class="content">
+        <div class="save-bar">
+            <button id="downloadTxtBtn">📄 Save as .jstl (Text Grid)</button>
+            <button id="downloadHtmlBtn">🌐 Save as HTML Grid</button>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>💰 Profit Calculator <span class="badge">GST</span></h3>
+                <div class="input-group"><label>Buy Price (INR)</label><input type="number" id="buyPrice" value="5000" step="any"></div>
+                <div class="input-group"><label>Sell Price (INR)</label><input type="number" id="sellPrice" value="8000" step="any"></div>
+                <div class="input-group"><label>GST Rate (%)</label><select id="gstRate"><option value="0">0% (Exempt)</option><option value="5">5%</option><option value="18" selected>18% (Standard)</option><option value="40">40% (Luxury/Tobacco)</option></select></div>
+                <button id="calcProfit">⟳ Calculate</button>
+                <div id="profitResult" class="result">Loading...</div>
+            </div>
+
+            <div class="card">
+                <h3>🧾 Income Tax Calculator <span class="badge">AY 2025-26</span></h3>
+                <div class="input-group"><label>Annual Income (INR)</label><input type="number" id="annualIncome" value="1000000" step="any"></div>
+                <div class="input-group"><label>Tax Regime</label><select id="regime" class="regime-select"><option value="new">New Regime (Default)</option><option value="old">Old Regime (with deductions)</option></select></div>
+                <div class="input-group" id="deductionGroup" style="display:none"><label>Total Deductions (80C, 80D, etc.)</label><input type="number" id="deductions" value="150000" step="any"></div>
+                <div class="input-group"><label>Standard Deduction</label><input type="number" id="standardDeduction" value="50000" step="any"></div>
+                <button id="calcTax">⟳ Calculate</button>
+                <div id="taxResult" class="result">Loading...</div>
+            </div>
+
+            <div class="card">
+                <h3>🏞️ Land Unit Converter</h3>
+                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1" step="any"></div>
+                <div class="input-group"><label>From Unit</label><select id="fromUnit"><option value="bigha">Bigha (North)</option><option value="biswa">Biswa</option><option value="gaj">Gaj (Square Yard)</option><option value="kanal">Kanal</option><option value="katha">Katha</option><option value="decimal">Decimal</option><option value="acre">Acre</option><option value="hectare">Hectare</option><option value="sqft">Square Foot</option><option value="sqm">Square Meter</option></select></div>
+                <div class="input-group"><label>To Unit</label><select id="toUnit"><option value="sqft">Square Foot</option><option value="sqm">Square Meter</option><option value="acre">Acre</option><option value="hectare">Hectare</option><option value="bigha">Bigha</option><option value="biswa">Biswa</option><option value="gaj">Gaj</option><option value="kanal">Kanal</option><option value="katha">Katha</option><option value="decimal">Decimal</option></select></div>
+                <button id="calcLand">⟳ Convert</button>
+                <div id="landResult" class="result">Loading...</div>
+            </div>
+
+            <div class="card">
+                <h3>👥 Demography <span class="badge">2024 Data</span></h3>
+                <div id="demographyResult" class="result">Loading India data...</div>
+                <div class="input-group" style="margin-top:15px"><label>Projection Years</label><input type="number" id="projectionYears" value="5" min="1" max="20"></div>
+                <button id="calcProjection">⟳ Project Population</button>
+                <div id="projectionResult" class="result">Click to project</div>
+            </div>
+        </div>
+        <div class="disclaimer">⚡ JStL Spreadsheet™ provides calculations for estimation purposes only. Consult a qualified professional for official decisions.<br>📊 Data sources: Income Tax Department India, GST Council, Ministry of Statistics.</div>
+    </div>
+    <div class="footer">JStL Spreadsheet™ - India Edition | Perpetual License | Installable App | Your data stays yours</div>
+</div>
+<script>
+    const toSqft = {bigha:27225,biswa:1361.25,gaj:9,kanal:5445,katha:1361.25,decimal:435.6,acre:43560,hectare:107639,sqft:1,sqm:10.7639};
+    const demography = {population:1441710000,year:2024,birthRate:16.1,deathRate:6.6,growthRate:0.99,maleRatio:51.5,femaleRatio:48.5,urbanPercentage:36.4};
+    const newRegimeSlabs = [{min:0,max:300000,rate:0},{min:300000,max:700000,rate:5},{min:700000,max:1000000,rate:10},{min:1000000,max:1200000,rate:12},{min:1200000,max:1500000,rate:15},{min:1500000,max:Infinity,rate:30}];
+    const oldRegimeSlabs = [{min:0,max:250000,rate:0},{min:250000,max:500000,rate:5},{min:500000,max:1000000,rate:20},{min:1000000,max:Infinity,rate:30}];
+    const REBATE_LIMIT=500000,REBATE_AMOUNT=25000,HEALTH_EDU_CESS=0.04;
+    function updateProfit(){let buy=parseFloat(document.getElementById('buyPrice').value)||0,sell=parseFloat(document.getElementById('sellPrice').value)||0,gstRate=parseFloat(document.getElementById('gstRate').value)||0,gross=sell-buy,gst=sell*gstRate/100,net=gross-gst,margin=sell!==0?(net/sell)*100:0;document.getElementById('profitResult').innerHTML=`<table class="result-table"><tr><td>📦 Gross Profit: ${gross.toFixed(2)} INR</td></tr><tr><td>🧾 GST (${gstRate}%): ${gst.toFixed(2)} INR</td></tr><tr><td>📉 Net Profit: ${net.toFixed(2)} INR</td></tr><tr><td>📊
