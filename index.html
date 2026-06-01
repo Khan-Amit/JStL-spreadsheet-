@@ -3,42 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JStL Spreadsheet™ | Master Excel Calculator</title>
+    <title>JStL Spreadsheet™ | Professional Suite</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 30px;
             overflow: hidden;
             box-shadow: 0 25px 60px rgba(0,0,0,0.4);
         }
-        
         .header {
             background: linear-gradient(135deg, #1B5E20, #0D3B0F);
             color: white;
             padding: 40px;
             text-align: center;
         }
-        
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
         .badge {
             display: inline-block;
             background: #FFD700;
@@ -48,7 +36,6 @@
             font-weight: bold;
             margin-top: 15px;
         }
-        
         .info-bar {
             background: #1a1a2e;
             padding: 15px 40px;
@@ -57,34 +44,16 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        
-        .info-item {
-            color: #ddd;
-            font-size: 0.9em;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        
+        .info-item { color: #ddd; font-size: 0.9em; }
+        .info-label { font-weight: bold; color: #4CAF50; }
         .price-banner {
             background: linear-gradient(135deg, #FF6B35, #F7931E);
             padding: 20px;
             text-align: center;
             color: white;
         }
-        
-        .price-banner .price {
-            font-size: 3em;
-            font-weight: bold;
-        }
-        
-        .price-banner .original {
-            text-decoration: line-through;
-            opacity: 0.8;
-        }
-        
+        .price-banner .price { font-size: 3em; font-weight: bold; }
+        .price-banner .original { text-decoration: line-through; opacity: 0.8; }
         .countdown {
             background: #000000aa;
             display: inline-block;
@@ -92,11 +61,7 @@
             border-radius: 30px;
             margin-top: 10px;
         }
-        
-        .content {
-            padding: 40px;
-        }
-        
+        .content { padding: 40px; }
         .section-title {
             font-size: 1.8em;
             color: #1B5E20;
@@ -104,7 +69,6 @@
             border-left: 5px solid #FF6B35;
             padding-left: 20px;
         }
-        
         .btn {
             display: inline-block;
             padding: 15px 30px;
@@ -113,66 +77,59 @@
             margin: 10px;
             cursor: pointer;
             border: none;
-            text-decoration: none;
         }
+        .btn-download { background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; }
+        .btn-buy { background: linear-gradient(135deg, #1B5E20, #2E7D32); color: white; }
+        .btn-info { background: #1565C0; color: white; }
+        .button-group { text-align: center; margin: 20px 0; }
         
-        .btn-download {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
-        }
-        
-        .btn-buy {
-            background: linear-gradient(135deg, #1B5E20, #2E7D32);
-            color: white;
-        }
-        
-        .btn-info {
-            background: #1565C0;
-            color: white;
-        }
-        
-        .button-group {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .calculator-grid {
+        /* Two column layout */
+        .two-column {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin: 30px 0;
         }
-        
-        .calculator-card {
-            background: #f9f9f9;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #eee;
-            transition: 0.3s;
+        .card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
         }
-        
-        .calculator-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-color: #4CAF50;
+        .card h3 {
+            color: #1B5E20;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
         }
-        
-        .calculator-icon {
-            font-size: 2.5em;
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
         }
-        
+        .data-label { font-weight: bold; color: #555; }
+        .data-value { color: #1B5E20; font-weight: 600; }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+        .result-value {
+            font-size: 1.2em;
+            color: #1B5E20;
+            font-weight: bold;
+        }
         .footer {
             background: #1a1a2e;
             color: #aaa;
             padding: 30px;
             text-align: center;
         }
-        
-        .footer a {
-            color: #4CAF50;
-        }
-        
+        .footer a { color: #4CAF50; }
         .popup {
             display: none;
             position: fixed;
@@ -185,7 +142,6 @@
             justify-content: center;
             align-items: center;
         }
-        
         .popup-content {
             background: white;
             max-width: 400px;
@@ -193,19 +149,14 @@
             border-radius: 20px;
             margin: 20px;
         }
-        
         .close {
             float: right;
             font-size: 1.5em;
             cursor: pointer;
         }
-        
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.5em; }
-            .price-banner .price { font-size: 2em; }
-            .content { padding: 20px; }
+            .two-column { grid-template-columns: 1fr; }
             .btn { display: block; margin: 10px auto; width: 90%; }
-            .info-bar { flex-direction: column; gap: 8px; }
         }
     </style>
 </head>
@@ -214,8 +165,8 @@
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Master Excel Calculator System</p>
-        <div class="badge">🐍 Python · 📊 Excel · 🤖 Auto-Calc · 🎯 10+ Tools</div>
+        <p>Professional Calculator Suite</p>
+        <div class="badge">Sq Ft · Demography · Population · Projections</div>
     </div>
     
     <div class="info-bar">
@@ -240,28 +191,113 @@
             <button class="btn btn-info" onclick="showInstructions()">📋 Instructions</button>
         </div>
         
-        <h2 class="section-title">🎯 Available Calculators</h2>
-        <div class="calculator-grid">
-            <div class="calculator-card"><div class="calculator-icon">💰</div><h3>Stock Inventory</h3><p>Track value, cost & profit</p></div>
-            <div class="calculator-card"><div class="calculator-icon">👥</div><h3>Demography</h3><p>Population by age/gender</p></div>
-            <div class="calculator-card"><div class="calculator-icon">📈</div><h3>Statistics</h3><p>Mean, median, sum</p></div>
-            <div class="calculator-card"><div class="calculator-icon">💳</div><h3>Finance</h3><p>Income, expense, balance</p></div>
-            <div class="calculator-card"><div class="calculator-icon">🔢</div><h3>Math Solver</h3><p>Add, subtract, multiply</p></div>
-            <div class="calculator-card"><div class="calculator-icon">📐</div><h3>Geometry</h3><p>Area & volume</p></div>
-            <div class="calculator-card"><div class="calculator-icon">🎯</div><h3>Percentage</h3><p>Discount, tax, margin</p></div>
-            <div class="calculator-card"><div class="calculator-icon">📉</div><h3>Trend Analysis</h3><p>Sales growth & trends</p></div>
-            <div class="calculator-card"><div class="calculator-icon">⚖️</div><h3>Unit Converter</h3><p>Convert between units</p></div>
-            <div class="calculator-card"><div class="calculator-icon">🏠</div><h3>INDEX Dashboard</h3><p>Central navigation</p></div>
+        <!-- TWO COLUMN LAYOUT - SQ FT & DEMOGRAPHY -->
+        <div class="two-column">
+            
+            <!-- LEFT: SQ FT CONVERTER -->
+            <div class="card">
+                <h3>📐 Sq Ft Converter</h3>
+                <div class="data-row">
+                    <span class="data-label">1 Bigha =</span>
+                    <span class="data-value">27225.00 sq ft</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">1 Acre =</span>
+                    <span class="data-value">43560.00 sq ft</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">1 Katha =</span>
+                    <span class="data-value">720.00 sq ft</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">1 Decimal =</span>
+                    <span class="data-value">435.56 sq ft</span>
+                </div>
+                <input type="number" id="sqftInput" class="input-field" placeholder="Enter Sq Ft" oninput="convertSqFt()">
+                <div class="data-row">
+                    <span class="data-label">Bigha:</span>
+                    <span class="data-value" id="bighaResult">0.00</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Acre:</span>
+                    <span class="data-value" id="acreResult">0.00</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Katha:</span>
+                    <span class="data-value" id="kathaResult">0.00</span>
+                </div>
+            </div>
+            
+            <!-- RIGHT: DEMOGRAPHY -->
+            <div class="card">
+                <h3>👥 Demography 2024 Data</h3>
+                <div class="data-row">
+                    <span class="data-label">🌍 Country</span>
+                    <select id="countrySelect" class="input-field" onchange="loadCountryData()">
+                        <option value="india">🇮🇳 India</option>
+                        <option value="bangladesh" selected>🇧🇩 Bangladesh</option>
+                        <option value="usa">🇺🇸 USA</option>
+                        <option value="uk">🇬🇧 United Kingdom</option>
+                        <option value="pakistan">🇵🇰 Pakistan</option>
+                        <option value="nepal">🇳🇵 Nepal</option>
+                    </select>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">👨‍👩‍👧‍👦 Population</span>
+                    <span class="data-value" id="population">171,186,000</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">🍼 Birth Rate (/1k)</span>
+                    <input type="number" id="birthRate" value="17.8" class="input-field" style="width:100px" oninput="calculateDemography()">
+                </div>
+                <div class="data-row">
+                    <span class="data-label">⚰️ Death Rate (/1k)</span>
+                    <input type="number" id="deathRate" value="5.5" class="input-field" style="width:100px" oninput="calculateDemography()">
+                </div>
+                <div class="data-row">
+                    <span class="data-label">📈 Growth Rate</span>
+                    <span class="data-value" id="growthRate">1.23%</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">👨 Male %</span>
+                    <input type="number" id="malePercent" value="49.8" class="input-field" style="width:100px" oninput="calculateDemography()">
+                </div>
+                <div class="data-row">
+                    <span class="data-label">👩 Female %</span>
+                    <span class="data-value" id="femalePercent">50.2%</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">🏙️ Urban %</span>
+                    <input type="number" id="urbanPercent" value="39.0" class="input-field" style="width:100px" oninput="calculateDemography()">
+                </div>
+            </div>
         </div>
         
-        <h2 class="section-title">💳 Payment Methods</h2>
-        <div class="calculator-grid">
-            <div class="calculator-card">💳 Credit/Debit Card</div>
-            <div class="calculator-card">🏦 Western Union</div>
-            <div class="calculator-card">🪙 Crypto (BTC/USDT/ETH)</div>
-            <div class="calculator-card">🏛️ Bank Transfer</div>
+        <!-- PROJECTION SECTION -->
+        <div class="card" style="margin-top: 20px;">
+            <h3>🔮 Population Projection</h3>
+            <div class="data-row">
+                <span class="data-label">📅 Projection Years</span>
+                <input type="number" id="projectYears" value="5" class="input-field" style="width:100px" oninput="calculateProjection()">
+                <button class="btn btn-info" onclick="calculateProjection()" style="padding:8px 20px;">Project Population</button>
+            </div>
+            <div class="data-row">
+                <span class="data-label">🔮 Projected Population</span>
+                <span class="data-value result-value" id="projectedPop">183,000,000</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">📉 Population Change</span>
+                <span class="data-value" id="popChange">+11,814,000</span>
+            </div>
         </div>
         
+        <!-- DISCLAIMER -->
+        <div style="text-align: center; padding: 20px; background: #f0fdf4; border-radius: 15px; margin-top: 30px;">
+            <span>📊 Estimation only. Consult CA for official taxes.</span><br>
+            <span>📊 Data: Income Tax Dept, Census India, World Bank</span>
+        </div>
+        
+        <!-- GUARANTEE -->
         <div style="text-align: center; padding: 20px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
             <span>🏆 7-Day Money-Back Guarantee</span>
         </div>
@@ -280,31 +316,76 @@
         <h2 style="color: #1B5E20;">📋 How to Buy</h2>
         <hr style="margin: 15px 0;">
         <p><strong>💳 Payment Methods:</strong></p>
-        <ul style="margin: 10px 0 20px 20px;">
-            <li>✅ Credit/Debit Card</li>
-            <li>✅ Western Union</li>
-            <li>✅ Cryptocurrency (BTC/USDT/ETH)</li>
-            <li>✅ Bank Transfer</li>
-        </ul>
+        <ul><li>✅ Credit/Debit Card</li><li>✅ Western Union</li><li>✅ Crypto (BTC/USDT/ETH)</li><li>✅ Bank Transfer</li></ul>
         <p><strong>📞 Contact:</strong><br>seliim.ahmed@gmail.com</p>
-        <p><strong>✅ After Payment:</strong></p>
-        <ul style="margin: 10px 0 20px 20px;">
-            <li>✓ Digital Certificate</li>
-            <li>✓ Perpetual License Key</li>
-            <li>✓ 12-Month Warranty</li>
-            <li>✓ Software Download</li>
-        </ul>
         <button class="btn btn-buy" onclick="closePopup()" style="width:100%">Close</button>
     </div>
 </div>
 
 <script>
+    const countryData = {
+        india: { population: 1441710000, birthRate: 16.1, deathRate: 6.6, malePercent: 51.5, urbanPercent: 36.4 },
+        bangladesh: { population: 171186000, birthRate: 17.8, deathRate: 5.5, malePercent: 49.8, urbanPercent: 39.0 },
+        usa: { population: 335893000, birthRate: 11.0, deathRate: 9.0, malePercent: 49.5, urbanPercent: 83.0 },
+        uk: { population: 67326000, birthRate: 11.1, deathRate: 9.2, malePercent: 49.4, urbanPercent: 84.0 },
+        pakistan: { population: 235825000, birthRate: 27.0, deathRate: 7.0, malePercent: 51.5, urbanPercent: 37.0 },
+        nepal: { population: 30547000, birthRate: 18.7, deathRate: 6.4, malePercent: 48.9, urbanPercent: 21.0 }
+    };
+    
+    function loadCountryData() {
+        let country = document.getElementById('countrySelect').value;
+        let data = countryData[country];
+        if (data) {
+            document.getElementById('population').innerHTML = data.population.toLocaleString();
+            document.getElementById('birthRate').value = data.birthRate;
+            document.getElementById('deathRate').value = data.deathRate;
+            document.getElementById('malePercent').value = data.malePercent;
+            document.getElementById('urbanPercent').value = data.urbanPercent;
+            calculateDemography();
+            calculateProjection();
+        }
+    }
+    
+    function calculateDemography() {
+        let birthRate = parseFloat(document.getElementById('birthRate').value) || 0;
+        let deathRate = parseFloat(document.getElementById('deathRate').value) || 0;
+        let malePercent = parseFloat(document.getElementById('malePercent').value) || 0;
+        
+        let growthRate = (birthRate - deathRate) / 10;
+        let femalePercent = 100 - malePercent;
+        
+        document.getElementById('growthRate').innerHTML = growthRate.toFixed(2) + '%';
+        document.getElementById('femalePercent').innerHTML = femalePercent.toFixed(1) + '%';
+        calculateProjection();
+    }
+    
+    function calculateProjection() {
+        let population = parseFloat(document.getElementById('population').innerHTML.replace(/,/g, '')) || 0;
+        let birthRate = parseFloat(document.getElementById('birthRate').value) || 0;
+        let deathRate = parseFloat(document.getElementById('deathRate').value) || 0;
+        let years = parseFloat(document.getElementById('projectYears').value) || 0;
+        
+        let growthRate = (birthRate - deathRate) / 10;
+        let projectedPop = population * Math.pow(1 + (growthRate/100), years);
+        let popChange = projectedPop - population;
+        
+        document.getElementById('projectedPop').innerHTML = Math.round(projectedPop).toLocaleString();
+        document.getElementById('popChange').innerHTML = (popChange > 0 ? '+' : '') + Math.round(popChange).toLocaleString();
+    }
+    
+    function convertSqFt() {
+        let sqft = parseFloat(document.getElementById('sqftInput').value) || 0;
+        document.getElementById('bighaResult').innerHTML = (sqft / 27225).toFixed(4);
+        document.getElementById('acreResult').innerHTML = (sqft / 43560).toFixed(4);
+        document.getElementById('kathaResult').innerHTML = (sqft / 720).toFixed(2);
+    }
+    
     function downloadSoftware() {
         alert("📥 JStL Spreadsheet\n\nFull version will be sent via email after purchase.\n\nEmail: seliim.ahmed@gmail.com");
     }
     
     function contactForPayment() {
-        alert("📞 TO PURCHASE:\n\nEmail: seliim.ahmed@gmail.com\n\nProvide:\n1. Your full name\n2. Country\n3. Payment method\n\nYou will receive:\n✅ License Key\n✅ Digital Certificate\n✅ Download Link");
+        alert("📞 TO PURCHASE:\n\nEmail: seliim.ahmed@gmail.com");
     }
     
     function showInstructions() {
@@ -315,11 +396,8 @@
         document.getElementById('popup').style.display = 'none';
     }
     
-    window.onclick = function(event) {
-        let popup = document.getElementById('popup');
-        if (event.target == popup) {
-            popup.style.display = 'none';
-        }
+    window.onload = function() {
+        loadCountryData();
     }
 </script>
 
