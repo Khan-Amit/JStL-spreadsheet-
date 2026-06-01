@@ -2,530 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>JStL Spreadsheet™ | Demography & Finance Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL Spreadsheet™</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a2e;
             padding: 20px;
         }
-        
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 30px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
         }
-        
         .header {
-            background: linear-gradient(135deg, #1B5E20, #0D3B0F);
+            background: #1B5E20;
             color: white;
             padding: 30px;
             text-align: center;
         }
-        
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 0.9em;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: #FFD700;
-            color: #1B5E20;
-            padding: 5px 15px;
-            border-radius: 40px;
-            font-weight: bold;
-            margin-top: 10px;
-            font-size: 0.8em;
-        }
-        
-        .price-banner {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            padding: 15px;
-            text-align: center;
-            color: white;
-        }
-        
-        .price-banner .price {
-            font-size: 2em;
-            font-weight: bold;
-        }
-        
-        .content {
-            padding: 25px;
-        }
-        
-        /* Country Selector */
-        .country-section {
-            background: #f0fdf4;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
+        .header h1 { font-size: 2em; }
         .country-buttons {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
+            padding: 20px;
             flex-wrap: wrap;
-            margin-top: 15px;
         }
-        
         .country-btn {
             background: #1B5E20;
             color: white;
+            padding: 10px 25px;
             border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .country-btn:hover, .country-btn.active {
-            background: #FF6B35;
-            transform: scale(1.05);
-        }
-        
-        /* Two Column Grid */
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-        
-        .card {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .card h3 {
-            color: #1B5E20;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4CAF50;
-            font-size: 1.2em;
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .info-value {
-            color: #1B5E20;
-            font-weight: 600;
-        }
-        
-        .input-field {
-            margin-bottom: 15px;
-        }
-        
-        .input-field label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        
-        .input-field input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-        }
-        
-        .result {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .result-value {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #1B5E20;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
             border-radius: 50px;
-            font-weight: bold;
-            margin: 8px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        .country-btn:hover { background: #FF6B35; }
+        .content { padding: 20px; }
+        .card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background: #FF6B35;
+            color: white;
+            padding: 15px 30px;
             border: none;
-        }
-        
-        .btn-buy {
-            background: linear-gradient(135deg, #1B5E20, #2E7D32);
-            color: white;
-        }
-        
-        .btn-instruction {
-            background: #1565C0;
-            color: white;
-        }
-        
-        .button-group {
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: block;
+            width: 100%;
             text-align: center;
-            margin: 20px 0;
+            margin-top: 20px;
         }
-        
         .footer {
             background: #1a1a2e;
             color: #aaa;
             padding: 20px;
             text-align: center;
-            font-size: 0.8em;
         }
-        
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .popup-content {
-            background: white;
-            max-width: 400px;
-            padding: 25px;
-            border-radius: 20px;
-            margin: 20px;
-        }
-        
-        .close {
-            float: right;
-            font-size: 1.5em;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            .two-column { grid-template-columns: 1fr; }
-            .btn { display: block; margin: 10px auto; width: 90%; }
+        @media (max-width: 600px) {
+            .country-buttons { flex-direction: column; }
+            .country-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
-        <div class="badge">🇧🇩 🇨🇦 🇮🇳 🇹🇭 · Click Country to Load Data</div>
+        <p>Installable App | No Excel | No Google</p>
     </div>
     
-    <div class="price-banner">
-        <span>🔥 EARLY BIRD OFFER 🔥</span>
-        <div class="price">$199 USD</div>
-        <span class="original">Regular: $369</span>
-        <div>💎 36 of 50 copies remaining</div>
+    <div class="country-buttons">
+        <button class="country-btn" onclick="showData('bangladesh')">🇧🇩 Bangladesh</button>
+        <button class="country-btn" onclick="showData('canada')">🇨🇦 Canada</button>
+        <button class="country-btn" onclick="showData('india')">🇮🇳 India</button>
+        <button class="country-btn" onclick="showData('thailand')">🇹🇭 Thailand</button>
     </div>
     
     <div class="content">
-        
-        <div class="button-group">
-            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy JStL License - $199</button>
-            <button class="btn btn-instruction" onclick="showInstructions()">📋 Instructions</button>
-        </div>
-        
-        <!-- Country Selection -->
-        <div class="country-section">
-            <h3 style="color: #1B5E20;">🌍 Select Country Scenario</h3>
-            <div class="country-buttons">
-                <button class="country-btn" onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
-                <button class="country-btn" onclick="selectCountry('canada')">🇨🇦 Canada</button>
-                <button class="country-btn" onclick="selectCountry('india')">🇮🇳 India</button>
-                <button class="country-btn" onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
-            </div>
-            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Default Values: Bangladesh | Click country to load data</p>
-        </div>
-        
-        <!-- Two Column Layout -->
-        <div class="two-column">
-            
-            <!-- Demography Card -->
-            <div class="card">
-                <h3>👥 Demography (2024 Data)</h3>
-                <div class="info-row"><span class="info-label">Population:</span><span class="info-value" id="population">171,186,000</span></div>
-                <div class="info-row"><span class="info-label">Birth Rate:</span><span class="info-value" id="birthRate">17.8 /1k</span></div>
-                <div class="info-row"><span class="info-label">Death Rate:</span><span class="info-value" id="deathRate">5.5 /1k</span></div>
-                <div class="info-row"><span class="info-label">Growth Rate:</span><span class="info-value" id="growthRate">1.23%</span></div>
-                <div class="info-row"><span class="info-label">Male %:</span><span class="info-value" id="malePercent">49.8%</span></div>
-                <div class="info-row"><span class="info-label">Female %:</span><span class="info-value" id="femalePercent">50.2%</span></div>
-                <div class="info-row"><span class="info-label">Urban %:</span><span class="info-value" id="urbanPercent">39.0%</span></div>
-            </div>
-            
-            <!-- Finance Card -->
-            <div class="card">
-                <h3>💰 Finance Data</h3>
-                <div class="info-row"><span class="info-label">Currency:</span><span class="info-value" id="currency">BDT</span></div>
-                <div class="info-row"><span class="info-label">VAT Rate:</span><span class="info-value" id="vatRate">15%</span></div>
-                <div class="info-row"><span class="info-label">Tax Rate:</span><span class="info-value" id="taxRate">5%</span></div>
-                <div class="info-row"><span class="info-label">Income Tax:</span><span class="info-value" id="incomeTax">8%</span></div>
-            </div>
-        </div>
-        
-        <!-- Profit Demo Card -->
-        <div class="card" style="margin-bottom: 20px;">
-            <h3>💰 Profit Demo</h3>
-            <div class="input-field">
-                <label>Buy Price</label>
-                <input type="number" id="buyPrice" value="500" oninput="calculateProfit()">
-            </div>
-            <div class="input-field">
-                <label>Sell Price</label>
-                <input type="number" id="sellPrice" value="750" oninput="calculateProfit()">
-            </div>
-            <div class="input-field">
-                <label>Quantity</label>
-                <input type="number" id="quantity" value="100" oninput="calculateProfit()">
-            </div>
-            <div class="result">
-                📈 Profit per unit: <span class="result-value" id="unitProfit">250.00</span> <span id="profitCurrency">BDT</span><br>
-                💰 Total Profit: <span class="result-value" id="totalProfit">25,000.00</span> <span id="totalProfitCurrency">BDT</span>
-            </div>
-        </div>
-        
-        <!-- Tax Demo Card -->
-        <div class="card" style="margin-bottom: 20px;">
-            <h3>📊 Tax Demo</h3>
-            <div class="input-field">
-                <label>Annual Income</label>
-                <input type="number" id="income" value="500000" oninput="calculateTax()">
-            </div>
-            <div class="result">
-                🧾 VAT Amount: <span class="result-value" id="vatAmount">75,000.00</span> <span id="taxCurrency">BDT</span><br>
-                🏦 Income Tax: <span class="result-value" id="incomeTaxAmount">40,000.00</span> <span id="incomeTaxCurrency">BDT</span><br>
-                ✅ After Tax: <span class="result-value" id="afterTax">385,000.00</span> <span id="afterTaxCurrency">BDT</span>
-            </div>
-        </div>
-        
-        <!-- Demography Projection -->
         <div class="card">
-            <h3>📈 Population Projection</h3>
-            <div class="input-field">
-                <label>Projection Years</label>
-                <input type="number" id="projectYears" value="5" oninput="calculateProjection()">
-            </div>
-            <div class="result">
-                🔮 Projected Population: <span class="result-value" id="projectedPop">181,976,131</span>
-            </div>
+            <h3>📊 Demography Data</h3>
+            <p><strong>Population:</strong> <span id="pop">171,186,000</span></p>
+            <p><strong>Birth Rate:</strong> <span id="birth">17.8</span> /1k</p>
+            <p><strong>Death Rate:</strong> <span id="death">5.5</span> /1k</p>
+            <p><strong>Growth Rate:</strong> <span id="growth">1.23</span>%</p>
         </div>
         
-        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
-            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
+        <div class="card">
+            <h3>💰 Finance Data</h3>
+            <p><strong>Currency:</strong> <span id="currency">BDT</span></p>
+            <p><strong>VAT Rate:</strong> <span id="vat">15</span>%</p>
+            <p><strong>Income Tax:</strong> <span id="tax">8</span>%</p>
         </div>
+        
+        <button class="download-btn" onclick="downloadSoftware()">📥 Download JStL Spreadsheet</button>
     </div>
     
     <div class="footer">
-        <p>JStL Spreadsheet™ | Installable App | No Excel | No Google</p>
-        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
-    </div>
-</div>
-
-<div id="popup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h2 style="color: #1B5E20;">📋 How to Buy</h2>
-        <hr>
-        <p><strong>💳 Payment:</strong> Credit Card, Western Union, Crypto, Bank Transfer</p>
-        <p><strong>📞 Contact:</strong> seliim.ahmed@gmail.com</p>
-        <p><strong>✅ After Payment:</strong> Digital Certificate, License Key, Warranty, Software</p>
-        <button class="btn btn-buy" onclick="closePopup()" style="width:100%">Close</button>
+        <p>JStL Spreadsheet™ | seliim.ahmed@gmail.com | $199</p>
     </div>
 </div>
 
 <script>
-    const countryData = {
-        bangladesh: {
-            population: "171,186,000",
-            birthRate: "17.8 /1k",
-            deathRate: "5.5 /1k",
-            growthRate: "1.23%",
-            malePercent: "49.8%",
-            femalePercent: "50.2%",
-            urbanPercent: "39.0%",
-            currency: "BDT",
-            vatRate: 15,
-            incomeTaxPercent: 8,
-            populationNum: 171186000,
-            birthRateNum: 17.8,
-            deathRateNum: 5.5
-        },
-        canada: {
-            population: "38,929,000",
-            birthRate: "9.8 /1k",
-            deathRate: "8.3 /1k",
-            growthRate: "0.15%",
-            malePercent: "49.6%",
-            femalePercent: "50.4%",
-            urbanPercent: "81.5%",
-            currency: "CAD",
-            vatRate: 13,
-            incomeTaxPercent: 15,
-            populationNum: 38929000,
-            birthRateNum: 9.8,
-            deathRateNum: 8.3
-        },
-        india: {
-            population: "1,441,710,000",
-            birthRate: "16.1 /1k",
-            deathRate: "6.6 /1k",
-            growthRate: "0.95%",
-            malePercent: "51.5%",
-            femalePercent: "48.5%",
-            urbanPercent: "36.4%",
-            currency: "INR",
-            vatRate: 18,
-            incomeTaxPercent: 10,
-            populationNum: 1441710000,
-            birthRateNum: 16.1,
-            deathRateNum: 6.6
-        },
-        thailand: {
-            population: "71,801,000",
-            birthRate: "10.0 /1k",
-            deathRate: "8.0 /1k",
-            growthRate: "0.20%",
-            malePercent: "48.6%",
-            femalePercent: "51.4%",
-            urbanPercent: "52.0%",
-            currency: "THB",
-            vatRate: 7,
-            incomeTaxPercent: 10,
-            populationNum: 71801000,
-            birthRateNum: 10.0,
-            deathRateNum: 8.0
-        }
+    const data = {
+        bangladesh: { pop: "171,186,000", birth: "17.8", death: "5.5", growth: "1.23", currency: "BDT", vat: "15", tax: "8" },
+        canada: { pop: "38,929,000", birth: "9.8", death: "8.3", growth: "0.15", currency: "CAD", vat: "13", tax: "15" },
+        india: { pop: "1,441,710,000", birth: "16.1", death: "6.6", growth: "0.95", currency: "INR", vat: "18", tax: "10" },
+        thailand: { pop: "71,801,000", birth: "10.0", death: "8.0", growth: "0.20", currency: "THB", vat: "7", tax: "10" }
     };
     
-    let currentCountry = 'bangladesh';
-    
-    function selectCountry(country) {
-        currentCountry = country;
-        let data = countryData[country];
-        
-        document.getElementById('population').innerHTML = data.population;
-        document.getElementById('birthRate').innerHTML = data.birthRate;
-        document.getElementById('deathRate').innerHTML = data.deathRate;
-        document.getElementById('growthRate').innerHTML = data.growthRate;
-        document.getElementById('malePercent').innerHTML = data.malePercent;
-        document.getElementById('femalePercent').innerHTML = data.femalePercent;
-        document.getElementById('urbanPercent').innerHTML = data.urbanPercent;
-        document.getElementById('currency').innerHTML = data.currency;
-        document.getElementById('vatRate').innerHTML = data.vatRate + '%';
-        document.getElementById('incomeTax').innerHTML = data.incomeTaxPercent + '%';
-        
-        document.getElementById('profitCurrency').innerHTML = data.currency;
-        document.getElementById('totalProfitCurrency').innerHTML = data.currency;
-        document.getElementById('taxCurrency').innerHTML = data.currency;
-        document.getElementById('incomeTaxCurrency').innerHTML = data.currency;
-        document.getElementById('afterTaxCurrency').innerHTML = data.currency;
-        
-        calculateProfit();
-        calculateTax();
-        calculateProjection();
-        
-        let btns = document.querySelectorAll('.country-btn');
-        btns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.innerText.toLowerCase().includes(country)) {
-                btn.classList.add('active');
-            }
-        });
+    function showData(country) {
+        let d = data[country];
+        document.getElementById('pop').innerHTML = d.pop;
+        document.getElementById('birth').innerHTML = d.birth;
+        document.getElementById('death').innerHTML = d.death;
+        document.getElementById('growth').innerHTML = d.growth;
+        document.getElementById('currency').innerHTML = d.currency;
+        document.getElementById('vat').innerHTML = d.vat;
+        document.getElementById('tax').innerHTML = d.tax;
     }
     
-    function calculateProfit() {
-        let buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
-        let sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
-        let quantity = parseFloat(document.getElementById('quantity').value) || 0;
-        let data = countryData[currentCountry];
-        
-        let unitProfit = sellPrice - buyPrice;
-        let totalProfit = unitProfit * quantity;
-        
-        document.getElementById('unitProfit').innerHTML = unitProfit.toFixed(2);
-        document.getElementById('totalProfit').innerHTML = totalProfit.toLocaleString();
-    }
-    
-    function calculateTax() {
-        let income = parseFloat(document.getElementById('income').value) || 0;
-        let data = countryData[currentCountry];
-        
-        let vatAmount = income * (data.vatRate / 100);
-        let incomeTaxAmount = income * (data.incomeTaxPercent / 100);
-        let afterTax = income - vatAmount - incomeTaxAmount;
-        
-        document.getElementById('vatAmount').innerHTML = vatAmount.toFixed(2);
-        document.getElementById('incomeTaxAmount').innerHTML = incomeTaxAmount.toFixed(2);
-        document.getElementById('afterTax').innerHTML = afterTax.toFixed(2);
-    }
-    
-    function calculateProjection() {
-        let data = countryData[currentCountry];
-        let years = parseFloat(document.getElementById('projectYears').value) || 0;
-        
-        let growthRate = (data.birthRateNum - data.deathRateNum) / 10;
-        let projected = data.populationNum * Math.pow(1 + (growthRate/100), years);
-        
-        document.getElementById('projectedPop').innerHTML = Math.round(projected).toLocaleString();
-    }
-    
-    function showInstructions() {
-        document.getElementById('popup').style.display = 'flex';
-    }
-    
-    function closePopup() {
-        document.getElementById('popup').style.display = 'none';
-    }
-    
-    function contactForPayment() {
-        alert("📞 TO PURCHASE JStL LICENSE:\n\nEmail: seliim.ahmed@gmail.com\n\nPrice: $199 USD");
-    }
-    
-    window.onload = function() {
-        selectCountry('bangladesh');
+    function downloadSoftware() {
+        alert("📥 JStL Spreadsheet\n\nEmail seliim.ahmed@gmail.com after payment to receive download link.\n\nPrice: $199 USD");
     }
 </script>
-
 </body>
 </html>
