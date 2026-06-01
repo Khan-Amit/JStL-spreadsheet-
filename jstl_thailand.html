@@ -53,4 +53,181 @@
 
             <div class="card">
                 <h3>🧾 Income Tax Calculator</h3>
-                <div class="input-group"><label>Annual Income (THB)</label><input
+                <div class="input-group"><label>Annual Income (THB)</label><input type="number" id="annualIncome" value="500000"></div>
+                <div class="input-group"><label>Allowances (Personal)</label><input type="number" id="allowances" value="60000"></div>
+                <div class="input-group"><label>Residency</label><select id="residency"><option value="resident">Resident</option><option value="nonresident">Non-Resident (15% Flat)</option></select></div>
+                <button id="calcTax">⟳ Calculate</button>
+                <div id="taxResult" class="result">Click Calculate</div>
+            </div>
+
+            <div class="card">
+                <h3>🏞️ Land Converter</h3>
+                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1"></div>
+                <div class="input-group"><label>From</label><select id="fromUnit"><option value="rai">Rai</option><option value="ngan">Ngan</option><option value="wah">Talang Wah</option><option value="sqm">Sq Meter</option></select></div>
+                <div class="input-group"><label>To</label><select id="toUnit"><option value="sqm">Sq Meter</option><option value="sqft">Sq Ft</option><option value="rai">Rai</option></select></div>
+                <button id="calcLand">⟳ Convert</button>
+                <div id="landResult" class="result">Click Convert</div>
+            </div>
+
+            <div class="card">
+                <h3>👥 Demography</h3>
+                <div id="demographyResult" class="result">Loading...</div>
+                <div class="input-group"><label>Projection Years</label><input type="number" id="projYears" value="5"></div>
+                <button id="calcProj">⟳ Project</button>
+                <div id="projResult" class="result">Click to project</div>
+            </div>
+        </div>
+        <div class="disclaimer">⚠️ Estimation only. Consult Revenue Department for official taxes.</div>
+    </div>
+    <div class="footer">JStL Spreadsheet™ - Thailand | Perpetual License</div>
+</div>
+
+<script>
+    // Thai tax brackets (progressive)
+    const thaiBrackets = [
+        { min: 0, max: 150000, rate: 0 },
+        { min: 150000, max: 300000, rate: 5 },
+        { min: 300000, max: 500000, rate: 10 },
+        { min: 500000, max: 750000, rate: 15 },
+        { min: 750000, max: 1000000, rate: 20 },
+        { min: 1000000, max: 2000000, rate: 25 },
+        { min: 2000000, max: 5000000, rate: 30 },
+        { min: 5000000, max: Infinity, rate: 35 }
+    ];
+
+    // Demography
+    const demo = { population: 71800000, year: 2024, growthRate: -0.13 };
+
+    // Land conversion (to sqm)
+    const land = { rai: 1600, ngan: 400, wah: 4, sqm: 1 };
+
+    // Profit
+    function calcProfit() {
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let vat = parseFloat(document.getElementById('vatRate').value) || 0;
+        let gross = sell - buy;
+        let vatAmt = sell * vat / 100;
+        let net = gross - vatAmt;
+        let margin = sell ? (net / sell) * 100 : 0;
+        document.getElementById('profitResult').innerHTML = `
+            Gross Profit: ฿${gross.toFixed(2)}<br>
+            VAT (${vat}%): ฿${vatAmt.toFixed(2)}<br>
+            Net Profit: ฿${net.toFixed(2)}<br>
+            Margin: ${margin.toFixed(2)}%
+        `;
+    }
+
+    // Tax calculation
+    function calcThaiTax(income) {
+        let tax = 0;
+        for (let b of thaiBrackets) {
+            if (income > b.min) {
+                let taxable = Math.min(income, b.max) - b.min;
+                if (taxable > 0) tax += taxable * b.rate / 100;
+            }
+        }
+        return tax;
+    }
+
+    function calcTax() {
+        let income = parseFloat(document.getElementById('annualIncome').value) || 0;
+        let allowances = parseFloat(document.getElementById('allowances').value) || 0;
+        let residency = document.getElementById('residency').value;
+        
+        let tax = 0;
+        let effective = 0;
+        
+        if (residency === 'nonresident') {
+            tax = income * 15 / 100;
+            effective = 15;
+        } else {
+            let taxable = Math.max(0, income - allowances);
+            tax = calcThaiTax(taxable);
+            effective = income ? (tax / income * 100) : 0;
+        }
+        
+        let after = income - tax;
+        
+        document.getElementById('taxResult').innerHTML = `
+            Taxable Income: ฿${Math.max(0, income - allowances).toFixed(2)}<br>
+            Income Tax: ฿${tax.toFixed(2)}<br>
+            <strong>Total Tax: ฿${tax.toFixed(2)}</strong><br>
+            After Tax Income: ฿${after.toFixed(2)}<br>
+            Effective Rate: ${effective.toFixed(2)}%
+        `;
+    }
+
+    // Land conversion
+    function calcLand() {
+        let val = parseFloat(document.getElementById('landValue').value) || 0;
+        let from = document.getElementById('fromUnit').value;
+        let to = document.getElementById('toUnit').value;
+        let sqm = val * land[from];
+        let result = sqm / land[to];
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqm.toFixed(2)} m² | ${(sqm * 10.7639).toFixed(2)} sq ft`;
+    }
+
+    // Demography
+    function showDemo() {
+        document.getElementById('demographyResult').innerHTML = `
+            Population (${demo.year}): ${demo.population.toLocaleString()}<br>
+            Growth Rate: ${demo.growthRate}%
+        `;
+    }
+    function calcProj() {
+        let years = parseInt(document.getElementById('projYears').value) || 5;
+        let pop = demo.population;
+        let rate = demo.growthRate / 100;
+        let results = [];
+        for (let i = 1; i <= years; i++) {
+            pop = pop * (1 + rate);
+            results.push(`Year ${demo.year + i}: ${Math.round(pop).toLocaleString()}`);
+        }
+        document.getElementById('projResult').innerHTML = results.join('<br>');
+    }
+
+    // Downloads
+    function downloadTxt() {
+        let content = `JStL Thailand Report\nGenerated: ${new Date()}\nIncome: ฿${document.getElementById('annualIncome').value}\nLicense: Perpetual`;
+        let blob = new Blob([content], {type: "text/plain"});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `JStL_Thailand_${Date.now()}.jstl`;
+        link.click();
+        alert('Saved');
+    }
+    function downloadHtml() {
+        let html = `<!DOCTYPE html><html><head><title>JStL Thailand</title><style>body{background:#0a1a2f;color:white}</style></head><body><h1>JStL Thailand Report</h1><p>Income: ฿${document.getElementById('annualIncome').value}</p></body></html>`;
+        let blob = new Blob([html], {type: "text/html"});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `JStL_Thailand_${Date.now()}.html`;
+        link.click();
+        alert('Saved');
+    }
+
+    // Events
+    document.getElementById('calcProfit').onclick = calcProfit;
+    document.getElementById('calcTax').onclick = calcTax;
+    document.getElementById('calcLand').onclick = calcLand;
+    document.getElementById('calcProj').onclick = calcProj;
+    document.getElementById('downloadTxtBtn').onclick = downloadTxt;
+    document.getElementById('downloadHtmlBtn').onclick = downloadHtml;
+    document.getElementById('buyPrice').oninput = calcProfit;
+    document.getElementById('sellPrice').oninput = calcProfit;
+    document.getElementById('vatRate').oninput = calcProfit;
+    document.getElementById('annualIncome').oninput = calcTax;
+    document.getElementById('allowances').oninput = calcTax;
+    document.getElementById('residency').onchange = calcTax;
+    document.getElementById('landValue').oninput = calcLand;
+    document.getElementById('fromUnit').onchange = calcLand;
+    document.getElementById('toUnit').onchange = calcLand;
+
+    calcProfit();
+    calcTax();
+    calcLand();
+    showDemo();
+</script>
+</body>
+</html>
