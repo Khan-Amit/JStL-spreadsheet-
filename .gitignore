@@ -40,9 +40,9 @@ Thumbs.db
 *.bak
 *.backup
 *.jstl
-!demo_calculator.xlsx
-!comoditi_demo.xlsx
-!my_data.xlsx
+
+# No separate database files — all data embedded in HTML
+*_db.json
 
 # Old demo files (keep for reference)
 create_demo.py
