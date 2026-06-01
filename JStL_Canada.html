@@ -29,14 +29,13 @@
         .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
         .save-bar{display:flex;gap:10px;margin-bottom:20px}
         .save-bar button{width:auto;margin:0;padding:10px 20px}
-        .province-select{background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;width:100%}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>🇨🇦 JStL Spreadsheet™ - Canada</h1>
-        <p>Federal Tax | Provincial Tax | GST/HST | Land | Demography</p>
+        <p>CRA Tax Database | GST/HST | Federal + Provincial Tax</p>
     </div>
 
     <div class="content">
@@ -51,25 +50,43 @@
                 <h3>💰 Profit Calculator <span class="badge">GST + PST/HST</span></h3>
                 <div class="input-group"><label>Buy Price (CAD)</label><input type="number" id="buyPrice" value="100" step="any"></div>
                 <div class="input-group"><label>Sell Price (CAD)</label><input type="number" id="sellPrice" value="180" step="any"></div>
-                <div class="input-group"><label>GST Rate (%)</label><input type="number" id="gstRate" value="5" step="any"></div>
-                <div class="input-group"><label>PST/HST Rate (%)</label><input type="number" id="pstRate" value="8" step="any"></div>
+                <div class="input-group"><label>Province/Territory</label>
+                    <select id="province">
+                        <option value="AB">Alberta (5% GST)</option>
+                        <option value="BC">British Columbia (5% GST + 7% PST)</option>
+                        <option value="MB">Manitoba (5% GST + 7% PST)</option>
+                        <option value="NB">New Brunswick (15% HST)</option>
+                        <option value="NL">Newfoundland (15% HST)</option>
+                        <option value="NS">Nova Scotia (14% HST)</option>
+                        <option value="ON">Ontario (13% HST)</option>
+                        <option value="PE">PEI (15% HST)</option>
+                        <option value="QC">Quebec (5% GST + 9.975% QST)</option>
+                        <option value="SK">Saskatchewan (5% GST + 6% PST)</option>
+                        <option value="NT">Northwest Territories (5% GST)</option>
+                        <option value="NU">Nunavut (5% GST)</option>
+                        <option value="YT">Yukon (5% GST)</option>
+                    </select>
+                </div>
                 <button id="calcProfit">⟳ Calculate</button>
                 <div id="profitResult" class="result">Loading...</div>
             </div>
 
             <!-- Tax Calculator -->
             <div class="card">
-                <h3>🧾 Income Tax Calculator <span class="badge">Federal + Provincial</span></h3>
+                <h3>🧾 Income Tax Calculator <span class="badge">CRA 2025</span></h3>
                 <div class="input-group"><label>Annual Income (CAD)</label><input type="number" id="annualIncome" value="60000" step="any"></div>
-                <div class="input-group"><label>Province</label>
-                    <select id="province" class="province-select">
-                        <option value="ON">Ontario (ON)</option><option value="BC">British Columbia (BC)</option>
-                        <option value="AB">Alberta (AB)</option><option value="QC">Quebec (QC)</option>
-                        <option value="MB">Manitoba (MB)</option><option value="SK">Saskatchewan (SK)</option>
-                        <option value="NS">Nova Scotia (NS)</option><option value="NB">New Brunswick (NB)</option>
-                        <option value="PE">Prince Edward Island (PE)</option><option value="NL">Newfoundland (NL)</option>
+                <div class="input-group"><label>Province/Territory</label>
+                    <select id="taxProvince">
+                        <option value="AB">Alberta</option><option value="BC">British Columbia</option>
+                        <option value="MB">Manitoba</option><option value="NB">New Brunswick</option>
+                        <option value="NL">Newfoundland</option><option value="NS">Nova Scotia</option>
+                        <option value="ON">Ontario</option><option value="PE">PEI</option>
+                        <option value="QC">Quebec</option><option value="SK">Saskatchewan</option>
+                        <option value="NT">Northwest Territories</option>
+                        <option value="NU">Nunavut</option><option value="YT">Yukon</option>
                     </select>
                 </div>
+                <div class="input-group"><label>RRSP Contribution (CAD)</label><input type="number" id="rrspContribution" value="0" step="any"></div>
                 <button id="calcTax">⟳ Calculate</button>
                 <div id="taxResult" class="result">Loading...</div>
             </div>
@@ -82,14 +99,12 @@
                     <select id="fromUnit">
                         <option value="acre">Acre</option><option value="hectare">Hectare</option>
                         <option value="sqft">Square Foot</option><option value="sqm">Square Meter</option>
-                        <option value="sqkm">Square Kilometer</option>
                     </select>
                 </div>
                 <div class="input-group"><label>To Unit</label>
                     <select id="toUnit">
                         <option value="sqft">Square Foot</option><option value="acre">Acre</option>
                         <option value="hectare">Hectare</option><option value="sqm">Square Meter</option>
-                        <option value="sqkm">Square Kilometer</option>
                     </select>
                 </div>
                 <button id="calcLand">⟳ Convert</button>
@@ -98,7 +113,7 @@
 
             <!-- Demography -->
             <div class="card">
-                <h3>👥 Demography <span class="badge">2024 Data</span></h3>
+                <h3>👥 Demography <span class="badge">2025 Data</span></h3>
                 <div id="demographyResult" class="result">Loading Canada data...</div>
                 <div class="input-group" style="margin-top:15px"><label>Projection Years</label><input type="number" id="projectionYears" value="5" min="1" max="20"></div>
                 <button id="calcProjection">⟳ Project Population</button>
@@ -108,7 +123,7 @@
 
         <div class="disclaimer">
             ⚡ JStL Spreadsheet™ provides calculations for estimation purposes only. Consult a qualified professional for official decisions.<br>
-            📊 Data sources: CRA, Statistics Canada, World Bank, UN Data.
+            📊 Data sources: Canada Revenue Agency (CRA), Statistics Canada.
         </div>
     </div>
     <div class="footer">
@@ -117,58 +132,71 @@
 </div>
 
 <script>
-    // ==================== PROVINCIAL TAX RATES (2025) ====================
-    const provincialTax = {
-        ON: { name: "Ontario", rates: [[0, 51446, 5.05], [51446, 102894, 9.15], [102894, 150000, 11.16], [150000, 220000, 12.16], [220000, Infinity, 13.16]] },
-        BC: { name: "British Columbia", rates: [[0, 47037, 5.06], [47037, 94073, 7.7], [94073, 108000, 10.5], [108000, 135000, 12.29], [135000, Infinity, 14.7]] },
-        AB: { name: "Alberta", rates: [[0, 148000, 10], [148000, 177000, 12], [177000, 236000, 13], [236000, 315000, 14], [315000, Infinity, 15]] },
-        QC: { name: "Quebec", rates: [[0, 49275, 14], [49275, 98540, 19], [98540, 119910, 24], [119910, Infinity, 25.75]] },
-        MB: { name: "Manitoba", rates: [[0, 47936, 10.8], [47936, Infinity, 12.75]] },
-        SK: { name: "Saskatchewan", rates: [[0, 52300, 10.5], [52300, 149000, 12.5], [149000, Infinity, 14.5]] },
-        NS: { name: "Nova Scotia", rates: [[0, 29590, 8.79], [29590, 59180, 14.95], [59180, 93000, 16.67], [93000, 150000, 17.5], [150000, Infinity, 21]] },
-        NB: { name: "New Brunswick", rates: [[0, 49863, 9.4], [49863, 99725, 14], [99725, 185000, 16], [185000, Infinity, 19.5]] },
-        PE: { name: "Prince Edward Island", rates: [[0, 31984, 9.8], [31984, 63969, 13.8], [63969, Infinity, 16.7]] },
-        NL: { name: "Newfoundland", rates: [[0, 43398, 8.7], [43398, 86796, 14.5], [86796, 154000, 15.8], [154000, Infinity, 17.8]] }
+    // ==================== CRA TAX DATABASE ====================
+    const federalTaxSlabs = [
+        { min: 0, max: 57375, rate: 14.5 },
+        { min: 57375, max: 114750, rate: 20.5 },
+        { min: 114750, max: 177882, rate: 26.0 },
+        { min: 177882, max: 253414, rate: 29.0 },
+        { min: 253414, max: Infinity, rate: 33.0 }
+    ];
+
+    const provincialTaxRates = {
+        AB: [{ min: 0, max: 148000, rate: 10 }, { min: 148000, max: 177000, rate: 12 }, { min: 177000, max: 236000, rate: 13 }, { min: 236000, max: 315000, rate: 14 }, { min: 315000, max: Infinity, rate: 15 }],
+        BC: [{ min: 0, max: 47037, rate: 5.06 }, { min: 47037, max: 94073, rate: 7.7 }, { min: 94073, max: 108000, rate: 10.5 }, { min: 108000, max: 135000, rate: 12.29 }, { min: 135000, max: Infinity, rate: 14.7 }],
+        MB: [{ min: 0, max: 47936, rate: 10.8 }, { min: 47936, max: Infinity, rate: 12.75 }],
+        NB: [{ min: 0, max: 49863, rate: 9.4 }, { min: 49863, max: 99725, rate: 14 }, { min: 99725, max: 185000, rate: 16 }, { min: 185000, max: Infinity, rate: 19.5 }],
+        NL: [{ min: 0, max: 43398, rate: 8.7 }, { min: 43398, max: 86796, rate: 14.5 }, { min: 86796, max: 154000, rate: 15.8 }, { min: 154000, max: Infinity, rate: 17.8 }],
+        NS: [{ min: 0, max: 29590, rate: 8.79 }, { min: 29590, max: 59180, rate: 14.95 }, { min: 59180, max: 93000, rate: 16.67 }, { min: 93000, max: 150000, rate: 17.5 }, { min: 150000, max: Infinity, rate: 21 }],
+        ON: [{ min: 0, max: 51446, rate: 5.05 }, { min: 51446, max: 102894, rate: 9.15 }, { min: 102894, max: 150000, rate: 11.16 }, { min: 150000, max: 220000, rate: 12.16 }, { min: 220000, max: Infinity, rate: 13.16 }],
+        PE: [{ min: 0, max: 31984, rate: 9.8 }, { min: 31984, max: 63969, rate: 13.8 }, { min: 63969, max: Infinity, rate: 16.7 }],
+        QC: [{ min: 0, max: 49275, rate: 14 }, { min: 49275, max: 98540, rate: 19 }, { min: 98540, max: 119910, rate: 24 }, { min: 119910, max: Infinity, rate: 25.75 }],
+        SK: [{ min: 0, max: 52300, rate: 10.5 }, { min: 52300, max: 149000, rate: 12.5 }, { min: 149000, max: Infinity, rate: 14.5 }],
+        NT: [{ min: 0, max: 49212, rate: 5.9 }, { min: 49212, max: 98424, rate: 8.6 }, { min: 98424, max: 160000, rate: 12.2 }, { min: 160000, max: Infinity, rate: 14.05 }],
+        NU: [{ min: 0, max: 50597, rate: 4 }, { min: 50597, max: 101194, rate: 7 }, { min: 101194, max: 164521, rate: 9 }, { min: 164521, max: Infinity, rate: 11.5 }],
+        YT: [{ min: 0, max: 53665, rate: 6.4 }, { min: 53665, max: 107330, rate: 9 }, { min: 107330, max: 174606, rate: 10.9 }, { min: 174606, max: 220000, rate: 12.8 }, { min: 220000, max: Infinity, rate: 15 }]
     };
 
-    // ==================== FEDERAL TAX RATES (2025) ====================
-    const federalRates = [[0, 57375, 15], [57375, 114750, 20.5], [114750, 177882, 26], [177882, 253414, 29], [253414, Infinity, 33]];
+    const gstRates = { AB:5, BC:5, MB:5, NB:5, NL:5, NS:5, ON:5, PE:5, QC:5, SK:5, NT:5, NU:5, YT:5 };
+    const pstRates = { AB:0, BC:7, MB:7, NB:0, NL:0, NS:0, ON:0, PE:0, QC:9.975, SK:6, NT:0, NU:0, YT:0 };
+    const hstRates = { AB:0, BC:0, MB:0, NB:15, NL:15, NS:14, ON:13, PE:15, QC:0, SK:0, NT:0, NU:0, YT:0 };
 
-    // ==================== LAND CONVERSION ====================
-    const landUnits = {
-        sqft: 1, sqm: 10.7639, acre: 43560, hectare: 107639, sqkm: 10763900
-    };
-
-    // ==================== DEMOGRAPHY ====================
+    // Demography
     const demography = {
-        population: 40100000,
-        year: 2024,
-        birthRate: 9.8,
-        deathRate: 8.3,
-        growthRate: 1.2,
-        maleRatio: 49.4,
-        femaleRatio: 50.6,
-        urbanPercentage: 81.5
+        population: 41575585,
+        year: 2025,
+        growthRate: -0.2,
+        birthRate: 9.0,
+        deathRate: 8.7,
+        maleRatio: 49.5,
+        femaleRatio: 50.5,
+        urbanPercentage: 81.6
     };
+
+    // Land conversion
+    const landUnits = { acre: 43560, hectare: 107639, sqft: 1, sqm: 10.7639 };
 
     // ==================== PROFIT CALCULATION ====================
     function updateProfit() {
         let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
         let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
-        let gstRate = parseFloat(document.getElementById('gstRate').value) || 0;
-        let pstRate = parseFloat(document.getElementById('pstRate').value) || 0;
+        let province = document.getElementById('province').value;
+        let gst = gstRates[province];
+        let pst = pstRates[province];
+        let hst = hstRates[province];
+        let totalTaxRate = gst + pst + hst;
         let gross = sell - buy;
-        let gst = sell * gstRate / 100;
-        let pst = sell * pstRate / 100;
-        let net = gross - gst - pst;
+        let totalTax = sell * totalTaxRate / 100;
+        let net = gross - totalTax;
         let margin = sell !== 0 ? (net / sell) * 100 : 0;
         document.getElementById('profitResult').innerHTML = `
             <table class="result-table">
-                <tr><td>📦 Gross Profit:</td><td>${gross.toFixed(2)} CAD</td></tr>
-                <tr><td>🧾 GST (${gstRate}%):</td><td>${gst.toFixed(2)} CAD</td></tr>
-                <tr><td>🏷️ PST/HST (${pstRate}%):</td><td>${pst.toFixed(2)} CAD</td></tr>
-                <tr><td>📉 Net Profit:</td><td>${net.toFixed(2)} CAD</td></tr>
-                <tr><td>📊 Profit Margin:</td><td>${margin.toFixed(2)}%</td></tr>
+                <tr><td>📦 Gross Profit: ${gross.toFixed(2)} CAD</td></tr>
+                <tr><td>🧾 GST (${gst}%): ${(sell * gst / 100).toFixed(2)} CAD</td></tr>
+                ${pst > 0 ? `<tr><td>🏷️ PST (${pst}%): ${(sell * pst / 100).toFixed(2)} CAD</td></tr>` : ''}
+                ${hst > 0 ? `<tr><td>🧾 HST (${hst}%): ${(sell * hst / 100).toFixed(2)} CAD</td></tr>` : ''}
+                <tr><td>📉 Net Profit: ${net.toFixed(2)} CAD</td></tr>
+                <tr><td>📊 Profit Margin: ${margin.toFixed(2)}%</td></tr>
             </table>
         `;
     }
@@ -176,11 +204,10 @@
     // ==================== TAX CALCULATION ====================
     function calculateTax(income, brackets) {
         let tax = 0;
-        for(let i = 0; i < brackets.length; i++) {
-            let [min, max, rate] = brackets[i];
-            if(income > min) {
-                let taxable = Math.min(income, max) - min;
-                if(taxable > 0) tax += taxable * rate / 100;
+        for(let bracket of brackets) {
+            if(income > bracket.min) {
+                let taxable = Math.min(income, bracket.max) - bracket.min;
+                if(taxable > 0) tax += taxable * bracket.rate / 100;
             }
         }
         return tax;
@@ -188,21 +215,23 @@
 
     function updateTax() {
         let income = parseFloat(document.getElementById('annualIncome').value) || 0;
-        let provinceCode = document.getElementById('province').value;
-        let province = provincialTax[provinceCode];
-        
-        let federalTax = calculateTax(income, federalRates);
-        let provincialTaxAmt = calculateTax(income, province.rates);
-        let totalTax = federalTax + provincialTaxAmt;
-        
+        let rrsp = parseFloat(document.getElementById('rrspContribution').value) || 0;
+        let province = document.getElementById('taxProvince').value;
+        let taxableIncome = Math.max(0, income - rrsp);
+        let federalTax = calculateTax(taxableIncome, federalTaxSlabs);
+        let provincialTax = calculateTax(taxableIncome, provincialTaxRates[province]);
+        let totalTax = federalTax + provincialTax;
+        let effectiveRate = income !== 0 ? (totalTax / income) * 100 : 0;
         document.getElementById('taxResult').innerHTML = `
             <table class="result-table">
-                <tr><td>💰 Annual Income:</td><td>${income.toFixed(2)} CAD</td></tr>
-                <tr><td>🇨🇦 Federal Tax:</td><td>${federalTax.toFixed(2)} CAD (${((federalTax/income)*100).toFixed(1)}%)</td></tr>
-                <tr><td>🏛️ ${province.name} Tax:</td><td>${provincialTaxAmt.toFixed(2)} CAD</td></tr>
-                <tr><td>📊 Total Tax:</td><td>${totalTax.toFixed(2)} CAD</td></tr>
-                <tr><td>💵 After Tax Income:</td><td>${(income - totalTax).toFixed(2)} CAD</td></tr>
-                <tr><td>📈 Effective Rate:</td><td>${income !== 0 ? ((totalTax/income)*100).toFixed(1) : 0}%</td></tr>
+                <tr><td>💰 Gross Income: ${income.toFixed(2)} CAD</td></tr>
+                <tr><td>📉 RRSP Deduction: ${rrsp.toFixed(2)} CAD</td></tr>
+                <tr><td>📊 Taxable Income: ${taxableIncome.toFixed(2)} CAD</td></tr>
+                <tr><td>🇨🇦 Federal Tax: ${federalTax.toFixed(2)} CAD</td></tr>
+                <td>🏛️ Provincial Tax: ${provincialTax.toFixed(2)} CAD</td></tr>
+                <tr><td>📉 Total Tax: <strong>${totalTax.toFixed(2)} CAD</strong></td></tr>
+                <tr><td>💵 After Tax Income: ${(income - totalTax).toFixed(2)} CAD</td></tr>
+                <td>📈 Effective Rate: ${effectiveRate.toFixed(2)}%</td></tr>
             </table>
         `;
     }
@@ -214,25 +243,20 @@
         let to = document.getElementById('toUnit').value;
         let sqft = value * landUnits[from];
         let result = sqft / landUnits[to];
-        document.getElementById('landResult').innerHTML = `
-            <table class="result-table">
-                <tr><td>📐 ${value} ${from}:</td><td>= ${result.toFixed(6)} ${to}</td></tr>
-                <tr><td>📏 Square Feet:</td><td>= ${sqft.toFixed(2)} sq ft</td></tr>
-            </table>
-        `;
+        document.getElementById('landResult').innerHTML = `${value} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqft.toFixed(2)} sq ft`;
     }
 
     // ==================== DEMOGRAPHY ====================
     function updateDemography() {
         document.getElementById('demographyResult').innerHTML = `
             <table class="result-table">
-                <tr><td>👥 Population (${demography.year}):</td><td>${demography.population.toLocaleString()}</td></tr>
-                <tr><td>👶 Birth Rate:</td><td>${demography.birthRate} per 1,000</td></tr>
-                <tr><td>⚰️ Death Rate:</td><td>${demography.deathRate} per 1,000</td></tr>
-                <tr><td>📈 Growth Rate:</td><td>${demography.growthRate}%</td></tr>
-                <tr><td>♂️ Male Ratio:</td><td>${demography.maleRatio}%</td></tr>
-                <tr><td>♀️ Female Ratio:</td><td>${demography.femaleRatio}%</td></tr>
-                <tr><td>🏙️ Urban Population:</td><td>${demography.urbanPercentage}%</td></tr>
+                <tr><td>👥 Population (2025): ${demography.population.toLocaleString()}</td></tr>
+                <tr><td>👶 Birth Rate: ${demography.birthRate} per 1,000</td></tr>
+                <tr><td>⚰️ Death Rate: ${demography.deathRate} per 1,000</td></tr>
+                <tr><td>📈 Growth Rate: ${demography.growthRate}%</td></tr>
+                <tr><td>♂️ Male Ratio: ${demography.maleRatio}%</td></tr>
+                <tr><td>♀️ Female Ratio: ${demography.femaleRatio}%</td></tr>
+                <tr><td>🏙️ Urban Population: ${demography.urbanPercentage}%</td></tr>
             </table>
         `;
     }
@@ -250,28 +274,18 @@
     }
 
     // ==================== DOWNLOADS ====================
-    function padRight(str, len) {
-        let s = String(str);
-        return s + ' '.repeat(Math.max(0, len - s.length));
-    }
-
+    function padRight(str, len) { let s = String(str); return s + ' '.repeat(Math.max(0, len - s.length)); }
     function generateTextGrid() {
         let lines = [];
         lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™ - Canada', 78) + '|');
+        lines.push('|' + padRight(' JStL Spreadsheet™ - Canada (CRA Data)', 78) + '|');
         lines.push('|' + padRight(' Generated: ' + new Date().toLocaleString(), 78) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
-        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Income (CAD)', 30) + '|' + padRight(' ' + document.getElementById('annualIncome').value, 14) + '|');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Province', 30) + '|' + padRight(' ' + document.getElementById('province').options[document.getElementById('province').selectedIndex].text, 14) + '|');
         lines.push('+' + '-'.repeat(78) + '+');
         lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
         lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
         lines.push('+' + '-'.repeat(78) + '+');
         return lines.join('\n');
     }
-
     function downloadAsTextGrid() {
         let content = generateTextGrid();
         let blob = new Blob([content], {type: "text/plain"});
@@ -285,12 +299,9 @@
         URL.revokeObjectURL(url);
         alert('✅ Saved as text grid (.jstl)');
     }
-
     function downloadAsHTML() {
         let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - Canada</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™ - Canada</h1><h3>Generated: ${new Date().toLocaleString()}</h3><table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
         html += `<tr><td>INPUT</td><td>Annual Income</td><td>${document.getElementById('annualIncome').value} CAD</td></tr>`;
-        html += `</td><td>INPUT</td><td>Province</td><td>${document.getElementById('province').options[document.getElementById('province').selectedIndex].text}</td></tr>`;
-        html += `<tr><td>RESULT</td><td>Population</td><td>${demography.population.toLocaleString()}</td></tr>`;
         html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
         let blob = new Blob([html], {type: "text/html"});
         let link = document.createElement('a');
@@ -311,22 +322,16 @@
     document.getElementById('calcProjection').addEventListener('click', updateProjection);
     document.getElementById('downloadTxtBtn').addEventListener('click', downloadAsTextGrid);
     document.getElementById('downloadHtmlBtn').addEventListener('click', downloadAsHTML);
-    
     document.getElementById('buyPrice').addEventListener('input', updateProfit);
     document.getElementById('sellPrice').addEventListener('input', updateProfit);
-    document.getElementById('gstRate').addEventListener('input', updateProfit);
-    document.getElementById('pstRate').addEventListener('input', updateProfit);
+    document.getElementById('province').addEventListener('change', updateProfit);
     document.getElementById('annualIncome').addEventListener('input', updateTax);
-    document.getElementById('province').addEventListener('change', updateTax);
+    document.getElementById('taxProvince').addEventListener('change', updateTax);
+    document.getElementById('rrspContribution').addEventListener('input', updateTax);
     document.getElementById('landValue').addEventListener('input', updateLand);
     document.getElementById('fromUnit').addEventListener('change', updateLand);
     document.getElementById('toUnit').addEventListener('change', updateLand);
-
-    // Initial load
-    updateProfit();
-    updateTax();
-    updateLand();
-    updateDemography();
+    updateProfit(); updateTax(); updateLand(); updateDemography();
 </script>
 </body>
 </html>
