@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JStL Spreadsheet™ - Canada</title>
+    <title>JStL Canada</title>
     <style>
         *{box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
@@ -128,7 +128,7 @@
         let total = federal + provincial;
         let after = income - total;
         let rate = income ? (total/income)*100 : 0;
-        document.getElementById('taxResult').innerHTML = `📊 Taxable: $${taxable.toFixed(2)}<br>🇨🇦 Federal Tax: $${federal.toFixed(2)}<br>🏛️ Provincial Tax: $${provincial.toFixed(2)}<br><strong>💰 Total Tax: $${total.toFixed(2)}</strong><br>💵 After Tax: $${after.toFixed(2)}<br>📈 Effective Rate: ${rate.toFixed(2)}%`;
+        document.getElementById('taxResult').innerHTML = `📊 Taxable: $${taxable.toFixed(2)}\n🇨🇦 Federal Tax: $${federal.toFixed(2)}\n🏛️ Provincial Tax: $${provincial.toFixed(2)}\n💰 Total Tax: $${total.toFixed(2)}\n💵 After Tax: $${after.toFixed(2)}\n📈 Effective Rate: ${rate.toFixed(2)}%`;
     }
     
     function updateLand() {
@@ -137,11 +137,11 @@
         let to = document.getElementById('toUnit').value;
         let sqft = val * landUnits[from];
         let result = sqft / landUnits[to];
-        document.getElementById('landResult').innerHTML = `📐 ${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqft.toFixed(2)} sq ft`;
+        document.getElementById('landResult').innerHTML = `📐 ${val} ${from} = ${result.toFixed(6)} ${to}\n📏 ${sqft.toFixed(2)} sq ft`;
     }
     
     function updateDemography() {
-        document.getElementById('demographyResult').innerHTML = `👥 Population: ${demography.population.toLocaleString()}<br>👶 Birth Rate: ${demography.birthRate}/1k<br>⚰️ Death Rate: ${demography.deathRate}/1k<br>📈 Growth: ${demography.growthRate}%<br>♂️ Male: ${demography.maleRatio}% | ♀️ Female: ${demography.femaleRatio}%<br>🏙️ Urban: ${demography.urbanPercentage}%`;
+        document.getElementById('demographyResult').innerHTML = `👥 Population: ${demography.population.toLocaleString()}\n👶 Birth Rate: ${demography.birthRate}/1k\n⚰️ Death Rate: ${demography.deathRate}/1k\n📈 Growth: ${demography.growthRate}%\n♂️ Male: ${demography.maleRatio}% | ♀️ Female: ${demography.femaleRatio}%\n🏙️ Urban: ${demography.urbanPercentage}%`;
     }
     
     function updateProjection() {
@@ -151,27 +151,74 @@
         document.getElementById('projectionResult').innerHTML = res.join('<br>');
     }
     
-    // Grid download
-    function padRight(s,l) { let S=String(s); return S+' '.repeat(Math.max(0,l-S.length)); }
+    // ==================== FIXED DOWNLOAD FUNCTIONS ====================
     function generateTextGrid() {
+        let income = document.getElementById('annualIncome').value;
         let lines = [];
         lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™ - Canada (CRA Data)', 78) + '|');
-        lines.push('|' + padRight(' Generated: ' + new Date().toLocaleString(), 78) + '|');
+        let title = ' JStL Spreadsheet™ - Canada';
+        lines.push('|' + title + ' '.repeat(78 - title.length) + '|');
+        let dateStr = ' Generated: ' + new Date().toLocaleString();
+        lines.push('|' + dateStr + ' '.repeat(78 - dateStr.length) + '|');
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
+        lines.push('|' + ' CATEGORY'.padEnd(32) + '|' + ' ITEM'.padEnd(30) + '|' + ' VALUE'.padEnd(14) + '|');
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Income (CAD)', 30) + '|' + padRight(' ' + document.getElementById('annualIncome').value, 14) + '|');
+        lines.push('|' + ' INPUTS'.padEnd(32) + '|' + ' Annual Income'.padEnd(30) + '|' + (' ' + income).padEnd(14) + '|');
+        lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+        let taxText = document.getElementById('taxResult').innerText || '';
+        let taxLines = taxText.split('\n');
+        for(let i = 0; i < Math.min(taxLines.length, 3); i++) {
+            let line = taxLines[i].substring(0, 28);
+            lines.push('|' + ' RESULTS'.padEnd(32) + '|' + (' ' + line).padEnd(30) + '|' + ' '.padEnd(14) + '|');
+        }
         lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(` Population: ${demography.population.toLocaleString()} | M:${demography.maleRatio}% F:${demography.femaleRatio}%`, 78) + '|');
-        lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
-        lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
+        let license = ' JStL Spreadsheet™ — Perpetual License';
+        lines.push('|' + license + ' '.repeat(78 - license.length) + '|');
+        let email = ' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com';
+        lines.push('|' + email + ' '.repeat(78 - email.length) + '|');
         lines.push('+' + '-'.repeat(78) + '+');
         return lines.join('\n');
     }
-    function downloadTxt() { let blob=new Blob([generateTextGrid()],{type:"text/plain"}), link=document.createElement('a'); link.href=URL.createObjectURL(blob); link.download=`JStL_Canada_${Date.now()}.jstl`; link.click(); alert('✅ Saved'); }
-    function downloadHtml() { let html=`<!DOCTYPE html><html><head><title>JStL Canada</title><style>body{background:#0a1a2f;color:white}</style></head><body><h1>JStL Canada</h1><p>Income: $${document.getElementById('annualIncome').value}</p><p>Population: ${demography.population.toLocaleString()}</p><p>Male: ${demography.maleRatio}% | Female: ${demography.femaleRatio}%</p></body></html>`; let blob=new Blob([html],{type:"text/html"}); let link=document.createElement('a'); link.href=URL.createObjectURL(blob); link.download=`JStL_Canada_${Date.now()}.html`; link.click(); alert('✅ Saved'); }
+    
+    function downloadTxt() {
+        let content = generateTextGrid();
+        let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+        let link = document.createElement('a');
+        let url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = `JStL_Canada_${Date.now()}.jstl`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        alert('✅ Saved as text grid');
+    }
+    
+    function downloadHtml() {
+        let income = document.getElementById('annualIncome').value;
+        let html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>JStL Canada</title>
+<style>body{background:#0a1a2f;font-family:monospace;padding:20px}h1{color:#7abfef}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style>
+</head>
+<body><h1>JStL Spreadsheet™ - Canada</h1><h3>Generated: ${new Date().toLocaleString()}</h3>
+<table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>
+<tr><td>INPUT</td><td>Annual Income</td><td>$${income}</td></tr>
+<tr><td>RESULT</td><td>Tax Summary</td><td>${document.getElementById('taxResult').innerText.replace(/\n/g, ' ')}</td></tr>
+</tbody></table>
+<p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License | Male: ${demography.maleRatio}% | Female: ${demography.femaleRatio}%</p>
+</body></html>`;
+        let blob = new Blob([html], {type: "text/html;charset=utf-8"});
+        let link = document.createElement('a');
+        let url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = `JStL_Canada_${Date.now()}.html`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        alert('✅ Saved as HTML');
+    }
     
     // Events
     document.getElementById('calcProfit').onclick = updateProfit;
