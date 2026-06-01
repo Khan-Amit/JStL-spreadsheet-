@@ -5,117 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JStL - Thailand</title>
     <style>
-        body{font-family:Arial;background:#0a1a2f;color:white;padding:20px}
-        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;padding:20px}
-        .grid{display:flex;flex-wrap:wrap;gap:20px}
-        .card{flex:1;min-width:250px;background:#0a2a3a;padding:20px;border-radius:12px}
-        input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none}
-        button{background:#1e5a7a;color:white;padding:12px;border:none;border-radius:8px;cursor:pointer;width:100%}
-        button:hover{background:#2a6f94}
-        .result{background:#0f2e44;padding:10px;border-radius:8px;margin-top:10px;font-family:monospace}
-        h3{color:#7abfef}
+        body { font-family: 'Segoe UI', sans-serif; background: #0a1a2f; margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: auto; background: #0d2b3e; border-radius: 16px; padding: 20px; }
+        h1, h2, h3 { color: #7abfef; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .card { flex: 1; min-width: 280px; background: #0a2a3a; padding: 20px; border-radius: 12px; }
+        input, select { width: 100%; padding: 10px; background: #1a3f55; color: white; border: 1px solid #2a5a7a; border-radius: 8px; margin: 8px 0; }
+        button { background: #1e5a7a; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin: 10px 0; }
+        button:hover { background: #2a6f94; }
+        .result { background: #0f2e44; padding: 15px; border-radius: 8px; color: #9fd3ff; font-family: monospace; margin-top: 15px; }
+        .footer { text-align: center; color: #6a9ec0; margin-top: 20px; }
+        .badge { background: #1e5a7a; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 8px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🇹🇭 JStL Thailand</h1>
+    <h1>🇹🇭 JStL Spreadsheet™ - Thailand</h1>
     <div class="grid">
-        
-        <div class="card">
-            <h3>💰 Profit (VAT)</h3>
-            <input type="number" id="buy" placeholder="Buy Price" value="1000">
-            <input type="number" id="sell" placeholder="Sell Price" value="1500">
-            <input type="number" id="vat" placeholder="VAT %" value="7">
-            <button onclick="calcProfit()">Calculate</button>
-            <div id="profitResult" class="result">Result here</div>
+        <div class="card"><h3>💰 Profit <span class="badge">VAT 7%</span></h3>
+            <label>Buy Price (THB)</label><input type="number" id="buyPrice" value="1000">
+            <label>Sell Price (THB)</label><input type="number" id="sellPrice" value="1500">
+            <label>VAT Rate (%)</label><input type="number" id="vatRate" value="7">
+            <button id="profitBtn">Calculate</button>
+            <div id="profitResult" class="result">Click Calculate</div>
         </div>
-
-        <div class="card">
-            <h3>🧾 Income Tax</h3>
-            <input type="number" id="income" placeholder="Annual Income" value="500000">
-            <input type="number" id="allowances" placeholder="Allowances" value="60000">
-            <button onclick="calcTax()">Calculate</button>
-            <div id="taxResult" class="result">Result here</div>
+        <div class="card"><h3>🧾 Income Tax <span class="badge">Progressive 0-35%</span></h3>
+            <label>Annual Income (THB)</label><input type="number" id="income" value="500000">
+            <label>Allowances (Personal)</label><input type="number" id="allowances" value="60000">
+            <label>Residency</label><select id="residency"><option value="resident">Resident</option><option value="nonresident">Non-Resident (15% Flat)</option></select>
+            <button id="taxBtn">Calculate</button>
+            <div id="taxResult" class="result">Click Calculate</div>
         </div>
-
-        <div class="card">
-            <h3>🏞️ Land</h3>
-            <input type="number" id="landVal" placeholder="Value" value="1">
-            <select id="fromUnit">
-                <option value="rai">Rai</option>
-                <option value="ngan">Ngan</option>
-                <option value="wah">Talang Wah</option>
-            </select>
-            <span> to </span>
-            <select id="toUnit">
-                <option value="sqm">Square Meters</option>
-                <option value="sqft">Square Feet</option>
-            </select>
-            <button onclick="calcLand()">Convert</button>
-            <div id="landResult" class="result">Result here</div>
+        <div class="card"><h3>🏞️ Land Converter</h3>
+            <label>Value</label><input type="number" id="landVal" value="1">
+            <label>From</label><select id="fromUnit"><option value="rai">Rai</option><option value="ngan">Ngan</option><option value="wah">Talang Wah</option><option value="sqm">Sq Meter</option></select>
+            <label>To</label><select id="toUnit"><option value="sqm">Sq Meter</option><option value="sqft">Sq Ft</option><option value="rai">Rai</option></select>
+            <button id="landBtn">Convert</button>
+            <div id="landResult" class="result">Click Convert</div>
+        </div>
+        <div class="card"><h3>👥 Demography</h3>
+            <div id="demoResult" class="result">Loading...</div>
+            <label>Project Years</label><input type="number" id="projYears" value="5">
+            <button id="projBtn">Project</button>
+            <div id="projResult" class="result">Click to project</div>
         </div>
     </div>
-    <div style="margin-top:20px;font-size:12px;color:#6a9ec0">JStL Spreadsheet™ - Thailand | Perpetual License</div>
+    <div class="footer">JStL Thailand | Perpetual License | Data: Revenue Dept</div>
 </div>
-
 <script>
     function calcProfit() {
-        let buy = parseFloat(document.getElementById('buy').value) || 0;
-        let sell = parseFloat(document.getElementById('sell').value) || 0;
-        let vatRate = parseFloat(document.getElementById('vat').value) || 0;
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let vat = parseFloat(document.getElementById('vatRate').value) || 0;
         let gross = sell - buy;
-        let vat = sell * vatRate / 100;
-        let net = gross - vat;
+        let tax = sell * vat / 100;
+        let net = gross - tax;
         let margin = sell ? (net / sell) * 100 : 0;
-        document.getElementById('profitResult').innerHTML = `
-            Gross: ฿${gross.toFixed(2)}<br>
-            VAT (${vatRate}%): ฿${vat.toFixed(2)}<br>
-            Net Profit: ฿${net.toFixed(2)}<br>
-            Margin: ${margin.toFixed(2)}%
-        `;
+        document.getElementById('profitResult').innerHTML = `Gross Profit: ฿${gross.toFixed(2)}<br>VAT (${vat}%): ฿${tax.toFixed(2)}<br>Net Profit: ฿${net.toFixed(2)}<br>Margin: ${margin.toFixed(2)}%`;
     }
-
     function calcTax() {
         let income = parseFloat(document.getElementById('income').value) || 0;
         let allowances = parseFloat(document.getElementById('allowances').value) || 0;
+        let residency = document.getElementById('residency').value;
+        if(residency === 'nonresident') { let tax = income * 0.15; let after = income - tax; let rate = 15; document.getElementById('taxResult').innerHTML = `Taxable: ฿${income.toFixed(2)}<br>Tax (15% flat): ฿${tax.toFixed(2)}<br><strong>Total Tax: ฿${tax.toFixed(2)}</strong><br>After Tax: ฿${after.toFixed(2)}<br>Rate: ${rate}%`; return; }
         let taxable = Math.max(0, income - allowances);
-        
-        let tax = 0;
-        if (taxable > 150000) tax += (Math.min(taxable, 300000) - 150000) * 0.05;
-        if (taxable > 300000) tax += (Math.min(taxable, 500000) - 300000) * 0.10;
-        if (taxable > 500000) tax += (Math.min(taxable, 750000) - 500000) * 0.15;
-        if (taxable > 750000) tax += (Math.min(taxable, 1000000) - 750000) * 0.20;
-        if (taxable > 1000000) tax += (Math.min(taxable, 2000000) - 1000000) * 0.25;
-        if (taxable > 2000000) tax += (Math.min(taxable, 5000000) - 2000000) * 0.30;
-        if (taxable > 5000000) tax += (taxable - 5000000) * 0.35;
-        
+        let slabs = [[0,150000,0],[150000,300000,5],[300000,500000,10],[500000,750000,15],[750000,1000000,20],[1000000,2000000,25],[2000000,5000000,30],[5000000,Infinity,35]];
+        let tax = 0, rem = taxable;
+        for(let s of slabs) { let amt = Math.min(rem, s[1]-s[0]); if(amt>0) tax += amt * s[2]/100; rem -= amt; if(rem<=0) break; }
         let after = income - tax;
-        let rate = income ? (tax / income * 100) : 0;
-        
-        document.getElementById('taxResult').innerHTML = `
-            Taxable Income: ฿${taxable.toFixed(2)}<br>
-            <strong>Tax Payable: ฿${tax.toFixed(2)}</strong><br>
-            After Tax: ฿${after.toFixed(2)}<br>
-            Effective Rate: ${rate.toFixed(2)}%
-        `;
+        let rate = income ? (tax/income)*100 : 0;
+        document.getElementById('taxResult').innerHTML = `Taxable: ฿${taxable.toFixed(2)}<br>Income Tax: ฿${tax.toFixed(2)}<br><strong>Total Tax: ฿${tax.toFixed(2)}</strong><br>After Tax: ฿${after.toFixed(2)}<br>Rate: ${rate.toFixed(2)}%`;
     }
-
     function calcLand() {
         let val = parseFloat(document.getElementById('landVal').value) || 0;
         let from = document.getElementById('fromUnit').value;
         let to = document.getElementById('toUnit').value;
-        
-        let sqm = 0;
-        if (from === 'rai') sqm = val * 1600;
-        else if (from === 'ngan') sqm = val * 400;
-        else if (from === 'wah') sqm = val * 4;
-        
-        let result = 0;
-        if (to === 'sqm') result = sqm;
-        else if (to === 'sqft') result = sqm * 10.764;
-        
-        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(2)} ${to}`;
+        let units = { rai:1600, ngan:400, wah:4, sqm:1 };
+        let sqm = val * units[from];
+        let result = sqm / units[to];
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqm.toFixed(2)} m² | ${(sqm*10.7639).toFixed(2)} sq ft`;
     }
+    let demo = { pop:71800000, year:2024, rate:-0.13 };
+    function showDemo() { document.getElementById('demoResult').innerHTML = `Population (${demo.year}): ${demo.pop.toLocaleString()}<br>Growth: ${demo.rate}%`; }
+    function calcProj() {
+        let years = parseInt(document.getElementById('projYears').value) || 5;
+        let pop = demo.pop, rate = demo.rate/100, res = [];
+        for(let i=1;i<=years;i++) { pop = pop * (1+rate); res.push(`Year ${demo.year+i}: ${Math.round(pop).toLocaleString()}`); }
+        document.getElementById('projResult').innerHTML = res.join('<br>');
+    }
+    document.getElementById('profitBtn').onclick = calcProfit;
+    document.getElementById('taxBtn').onclick = calcTax;
+    document.getElementById('landBtn').onclick = calcLand;
+    document.getElementById('projBtn').onclick = calcProj;
+    calcProfit(); calcTax(); calcLand(); showDemo();
 </script>
 </body>
 </html>
