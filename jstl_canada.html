@@ -5,134 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JStL - Canada</title>
     <style>
-        body{font-family:Arial;background:#0a1a2f;color:white;padding:20px}
-        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;padding:20px}
-        .grid{display:flex;flex-wrap:wrap;gap:20px}
-        .card{flex:1;min-width:250px;background:#0a2a3a;padding:20px;border-radius:12px}
-        input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none}
-        button{background:#1e5a7a;color:white;padding:12px;border:none;border-radius:8px;cursor:pointer;width:100%}
-        button:hover{background:#2a6f94}
-        .result{background:#0f2e44;padding:10px;border-radius:8px;margin-top:10px;font-family:monospace}
-        h3{color:#7abfef}
+        body { font-family: 'Segoe UI', sans-serif; background: #0a1a2f; margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: auto; background: #0d2b3e; border-radius: 16px; padding: 20px; }
+        h1, h2, h3 { color: #7abfef; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .card { flex: 1; min-width: 280px; background: #0a2a3a; padding: 20px; border-radius: 12px; }
+        input, select { width: 100%; padding: 10px; background: #1a3f55; color: white; border: 1px solid #2a5a7a; border-radius: 8px; margin: 8px 0; }
+        button { background: #1e5a7a; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin: 10px 0; }
+        button:hover { background: #2a6f94; }
+        .result { background: #0f2e44; padding: 15px; border-radius: 8px; color: #9fd3ff; font-family: monospace; margin-top: 15px; }
+        .footer { text-align: center; color: #6a9ec0; margin-top: 20px; }
+        .badge { background: #1e5a7a; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 8px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🇨🇦 JStL Canada</h1>
+    <h1>🇨🇦 JStL Spreadsheet™ - Canada</h1>
     <div class="grid">
-        
-        <!-- Profit Calculator -->
-        <div class="card">
-            <h3>💰 Profit</h3>
-            <input type="number" id="buy" placeholder="Buy Price" value="100">
-            <input type="number" id="sell" placeholder="Sell Price" value="180">
-            <select id="provinceTax">
-                <option value="5">Alberta (5% GST)</option>
-                <option value="13">Ontario (13% HST)</option>
-                <option value="12">BC (5% GST + 7% PST)</option>
-            </select>
-            <button onclick="calcProfit()">Calculate</button>
-            <div id="profitResult" class="result">Result here</div>
+        <div class="card"><h3>💰 Profit <span class="badge">GST/HST</span></h3>
+            <label>Buy Price (CAD)</label><input type="number" id="buyPrice" value="100">
+            <label>Sell Price (CAD)</label><input type="number" id="sellPrice" value="180">
+            <label>Province</label><select id="province">
+                <option value="AB">Alberta (5% GST)</option><option value="BC">BC (5% GST + 7% PST)</option>
+                <option value="ON">Ontario (13% HST)</option><option value="QC">Quebec (5% GST + 9.975% QST)</option></select>
+            <button id="profitBtn">Calculate</button>
+            <div id="profitResult" class="result">Click Calculate</div>
         </div>
-
-        <!-- Tax Calculator -->
-        <div class="card">
-            <h3>🧾 Income Tax</h3>
-            <input type="number" id="income" placeholder="Annual Income" value="60000">
-            <select id="provinceIncome">
-                <option value="AB">Alberta</option>
-                <option value="ON">Ontario</option>
-                <option value="BC">BC</option>
-            </select>
-            <button onclick="calcTax()">Calculate</button>
-            <div id="taxResult" class="result">Result here</div>
+        <div class="card"><h3>🧾 Income Tax <span class="badge">Federal + Provincial</span></h3>
+            <label>Annual Income (CAD)</label><input type="number" id="income" value="60000">
+            <label>Province</label><select id="taxProvince"><option value="AB">Alberta</option><option value="BC">BC</option><option value="ON">Ontario</option><option value="QC">Quebec</option></select>
+            <label>RRSP Contribution</label><input type="number" id="rrsp" value="0">
+            <button id="taxBtn">Calculate</button>
+            <div id="taxResult" class="result">Click Calculate</div>
         </div>
-
-        <!-- Land Converter -->
-        <div class="card">
-            <h3>🏞️ Land</h3>
-            <input type="number" id="landVal" placeholder="Value" value="1">
-            <select id="fromUnit">
-                <option value="acre">Acre</option>
-                <option value="hectare">Hectare</option>
-            </select>
-            <span> to </span>
-            <select id="toUnit">
-                <option value="sqft">Square Feet</option>
-                <option value="sqm">Square Meters</option>
-            </select>
-            <button onclick="calcLand()">Convert</button>
-            <div id="landResult" class="result">Result here</div>
+        <div class="card"><h3>🏞️ Land Converter</h3>
+            <label>Value</label><input type="number" id="landVal" value="1">
+            <label>From</label><select id="fromUnit"><option value="acre">Acre</option><option value="hectare">Hectare</option><option value="sqft">Sq Ft</option></select>
+            <label>To</label><select id="toUnit"><option value="sqft">Sq Ft</option><option value="acre">Acre</option><option value="hectare">Hectare</option></select>
+            <button id="landBtn">Convert</button>
+            <div id="landResult" class="result">Click Convert</div>
+        </div>
+        <div class="card"><h3>👥 Demography</h3>
+            <div id="demoResult" class="result">Loading...</div>
+            <label>Project Years</label><input type="number" id="projYears" value="5">
+            <button id="projBtn">Project</button>
+            <div id="projResult" class="result">Click to project</div>
         </div>
     </div>
-    <div style="margin-top:20px;font-size:12px;color:#6a9ec0">JStL Spreadsheet™ - Canada | Perpetual License</div>
+    <div class="footer">JStL Canada | Perpetual License | Data: CRA</div>
 </div>
-
 <script>
     function calcProfit() {
-        let buy = parseFloat(document.getElementById('buy').value) || 0;
-        let sell = parseFloat(document.getElementById('sell').value) || 0;
-        let taxRate = parseFloat(document.getElementById('provinceTax').value) || 0;
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let prov = document.getElementById('province').value;
+        let rates = { AB:5, BC:12, ON:13, QC:14.975 };
+        let totalRate = rates[prov] || 5;
         let gross = sell - buy;
-        let tax = sell * taxRate / 100;
+        let tax = sell * totalRate / 100;
         let net = gross - tax;
         let margin = sell ? (net / sell) * 100 : 0;
-        document.getElementById('profitResult').innerHTML = `
-            Gross: $${gross.toFixed(2)}<br>
-            Tax (${taxRate}%): $${tax.toFixed(2)}<br>
-            Net Profit: $${net.toFixed(2)}<br>
-            Margin: ${margin.toFixed(2)}%
-        `;
+        document.getElementById('profitResult').innerHTML = `Gross: $${gross.toFixed(2)}<br>Tax (${totalRate}%): $${tax.toFixed(2)}<br>Net: $${net.toFixed(2)}<br>Margin: ${margin.toFixed(2)}%`;
     }
-
     function calcTax() {
         let income = parseFloat(document.getElementById('income').value) || 0;
-        let prov = document.getElementById('provinceIncome').value;
-        
-        let federal = 0;
-        if (income > 57375) federal += (Math.min(income, 114750) - 57375) * 0.205;
-        if (income > 114750) federal += (Math.min(income, 177882) - 114750) * 0.26;
-        if (income > 177882) federal += (Math.min(income, 253414) - 177882) * 0.29;
-        if (income > 253414) federal += (income - 253414) * 0.33;
-        
-        let provincial = 0;
-        if (prov === 'AB') {
-            if (income > 148000) provincial += (income - 148000) * 0.12;
-        } else if (prov === 'ON') {
-            if (income > 51446) provincial += (Math.min(income, 102894) - 51446) * 0.0915;
-            if (income > 102894) provincial += (income - 102894) * 0.1116;
-        } else if (prov === 'BC') {
-            if (income > 47037) provincial += (income - 47037) * 0.077;
-        }
-        
+        let rrsp = parseFloat(document.getElementById('rrsp').value) || 0;
+        let prov = document.getElementById('taxProvince').value;
+        let taxable = Math.max(0, income - rrsp);
+        let federal = 0, remaining = taxable;
+        let fedRates = [[0,57375,15],[57375,114750,20.5],[114750,177882,26],[177882,253414,29],[253414,Infinity,33]];
+        for(let r of fedRates) { let amt = Math.min(remaining, r[1]-r[0]); if(amt>0) federal += amt * r[2]/100; remaining -= amt; if(remaining<=0) break; }
+        let provRates = { AB:[[0,148000,10],[148000,Infinity,12]], BC:[[0,47037,5.06],[47037,Infinity,7.7]], ON:[[0,51446,5.05],[51446,Infinity,9.15]], QC:[[0,49275,14],[49275,Infinity,19]] };
+        let provincial = 0, rem2 = taxable;
+        for(let r of provRates[prov]) { let amt = Math.min(rem2, r[1]-r[0]); if(amt>0) provincial += amt * r[2]/100; rem2 -= amt; if(rem2<=0) break; }
         let total = federal + provincial;
         let after = income - total;
-        let rate = income ? (total / income * 100) : 0;
-        
-        document.getElementById('taxResult').innerHTML = `
-            Federal Tax: $${federal.toFixed(2)}<br>
-            Provincial Tax: $${provincial.toFixed(2)}<br>
-            <strong>Total Tax: $${total.toFixed(2)}</strong><br>
-            After Tax: $${after.toFixed(2)}<br>
-            Rate: ${rate.toFixed(2)}%
-        `;
+        let rate = income ? (total/income)*100 : 0;
+        document.getElementById('taxResult').innerHTML = `Taxable: $${taxable.toFixed(2)}<br>Federal: $${federal.toFixed(2)}<br>Provincial: $${provincial.toFixed(2)}<br><strong>Total Tax: $${total.toFixed(2)}</strong><br>After Tax: $${after.toFixed(2)}<br>Rate: ${rate.toFixed(2)}%`;
     }
-
     function calcLand() {
         let val = parseFloat(document.getElementById('landVal').value) || 0;
         let from = document.getElementById('fromUnit').value;
         let to = document.getElementById('toUnit').value;
-        
-        let sqft = 0;
-        if (from === 'acre') sqft = val * 43560;
-        else if (from === 'hectare') sqft = val * 107639;
-        
-        let result = 0;
-        if (to === 'sqft') result = sqft;
-        else if (to === 'sqm') result = sqft / 10.764;
-        
-        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(2)} ${to}`;
+        let units = { acre:43560, hectare:107639, sqft:1 };
+        let sqft = val * units[from];
+        let result = sqft / units[to];
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqft.toFixed(2)} sq ft`;
     }
+    let demo = { pop:41575585, year:2025, rate:-0.2 };
+    function showDemo() { document.getElementById('demoResult').innerHTML = `Population (${demo.year}): ${demo.pop.toLocaleString()}<br>Growth: ${demo.rate}%`; }
+    function calcProj() {
+        let years = parseInt(document.getElementById('projYears').value) || 5;
+        let pop = demo.pop, rate = demo.rate/100, res = [];
+        for(let i=1;i<=years;i++) { pop = pop * (1+rate); res.push(`Year ${demo.year+i}: ${Math.round(pop).toLocaleString()}`); }
+        document.getElementById('projResult').innerHTML = res.join('<br>');
+    }
+    document.getElementById('profitBtn').onclick = calcProfit;
+    document.getElementById('taxBtn').onclick = calcTax;
+    document.getElementById('landBtn').onclick = calcLand;
+    document.getElementById('projBtn').onclick = calcProj;
+    calcProfit(); calcTax(); calcLand(); showDemo();
 </script>
 </body>
 </html>
