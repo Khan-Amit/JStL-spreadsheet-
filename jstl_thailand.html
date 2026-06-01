@@ -1,117 +1,121 @@
-.footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
-        .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
-        .save-bar{display:flex;gap:10px;margin-bottom:20px}
-        .save-bar button{width:auto;margin:0;padding:10px 20px}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL - Thailand</title>
+    <style>
+        body{font-family:Arial;background:#0a1a2f;color:white;padding:20px}
+        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;padding:20px}
+        .grid{display:flex;flex-wrap:wrap;gap:20px}
+        .card{flex:1;min-width:250px;background:#0a2a3a;padding:20px;border-radius:12px}
+        input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none}
+        button{background:#1e5a7a;color:white;padding:12px;border:none;border-radius:8px;cursor:pointer;width:100%}
+        button:hover{background:#2a6f94}
+        .result{background:#0f2e44;padding:10px;border-radius:8px;margin-top:10px;font-family:monospace}
+        h3{color:#7abfef}
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h1>🇹🇭 JStL Spreadsheet™ - Thailand</h1>
-        <p>Revenue Department | VAT 7% | Progressive Tax 0-35% | Thai Land Units</p>
-    </div>
-
-    <div class="content">
-        <div class="save-bar">
-            <button id="downloadTxtBtn">📄 Save as .jstl</button>
-            <button id="downloadHtmlBtn">🌐 Save as HTML Grid</button>
+    <h1>🇹🇭 JStL Thailand</h1>
+    <div class="grid">
+        
+        <div class="card">
+            <h3>💰 Profit (VAT)</h3>
+            <input type="number" id="buy" placeholder="Buy Price" value="1000">
+            <input type="number" id="sell" placeholder="Sell Price" value="1500">
+            <input type="number" id="vat" placeholder="VAT %" value="7">
+            <button onclick="calcProfit()">Calculate</button>
+            <div id="profitResult" class="result">Result here</div>
         </div>
 
-        <div class="grid-2">
-            <div class="card">
-                <h3>💰 Profit Calculator</h3>
-                <div class="input-group"><label>Buy Price (THB)</label><input type="number" id="buyPrice" value="1000"></div>
-                <div class="input-group"><label>Sell Price (THB)</label><input type="number" id="sellPrice" value="1500"></div>
-                <div class="input-group"><label>VAT Rate (%)</label><input type="number" id="vatRate" value="7"></div>
-                <button id="calcProfit">⟳ Calculate</button>
-                <div id="profitResult" class="result">Click Calculate</div>
-            </div>
-
-            <div class="card">
-                <h3>🧾 Income Tax Calculator</h3>
-                <div class="input-group"><label>Annual Income (THB)</label><input type="number" id="annualIncome" value="500000"></div>
-                <div class="input-group"><label>Allowances (Personal)</label><input type="number" id="allowances" value="60000"></div>
-                <div class="input-group"><label>Residency</label><select id="residency"><option value="resident">Resident</option><option value="nonresident">Non-Resident (15% Flat)</option></select></div>
-                <button id="calcTax">⟳ Calculate</button>
-                <div id="taxResult" class="result">Click Calculate</div>
-            </div>
-
-            <div class="card">
-                <h3>🏞️ Land Converter</h3>
-                <div class="input-group"><label>Value</label><input type="number" id="landValue" value="1"></div>
-                <div class="input-group"><label>From</label><select id="fromUnit"><option value="rai">Rai</option><option value="ngan">Ngan</option><option value="wah">Talang Wah</option><option value="sqm">Sq Meter</option></select></div>
-                <div class="input-group"><label>To</label><select id="toUnit"><option value="sqm">Sq Meter</option><option value="sqft">Sq Ft</option><option value="rai">Rai</option></select></div>
-                <button id="calcLand">⟳ Convert</button>
-                <div id="landResult" class="result">Click Convert</div>
-            </div>
-
-            <div class="card">
-                <h3>👥 Demography</h3>
-                <div id="demographyResult" class="result">Loading...</div>
-                <div class="input-group"><label>Projection Years</label><input type="number" id="projYears" value="5"></div>
-                <button id="calcProj">⟳ Project</button>
-                <div id="projResult" class="result">Click to project</div>
-            </div>
+        <div class="card">
+            <h3>🧾 Income Tax</h3>
+            <input type="number" id="income" placeholder="Annual Income" value="500000">
+            <input type="number" id="allowances" placeholder="Allowances" value="60000">
+            <button onclick="calcTax()">Calculate</button>
+            <div id="taxResult" class="result">Result here</div>
         </div>
-        <div class="disclaimer">⚠️ Estimation only. Consult Revenue Department for official taxes.</div>
+
+        <div class="card">
+            <h3>🏞️ Land</h3>
+            <input type="number" id="landVal" placeholder="Value" value="1">
+            <select id="fromUnit">
+                <option value="rai">Rai</option>
+                <option value="ngan">Ngan</option>
+                <option value="wah">Talang Wah</option>
+            </select>
+            <span> to </span>
+            <select id="toUnit">
+                <option value="sqm">Square Meters</option>
+                <option value="sqft">Square Feet</option>
+            </select>
+            <button onclick="calcLand()">Convert</button>
+            <div id="landResult" class="result">Result here</div>
+        </div>
     </div>
-    <div class="footer">JStL getElementById('sellPrice').value) || 0;
-        let vat = parseFloat(document.getElementById('vatRate').value) || 0;
+    <div style="margin-top:20px;font-size:12px;color:#6a9ec0">JStL Spreadsheet™ - Thailand | Perpetual License</div>
+</div>
+
+<script>
+    function calcProfit() {
+        let buy = parseFloat(document.getElementById('buy').value) || 0;
+        let sell = parseFloat(document.getElementById('sell').value) || 0;
+        let vatRate = parseFloat(document.getElementById('vat').value) || 0;
         let gross = sell - buy;
-        let vatAmt = sell * vat / 100;
-        let net = gross - vatAmt;
+        let vat = sell * vatRate / 100;
+        let net = gross - vat;
         let margin = sell ? (net / sell) * 100 : 0;
         document.getElementById('profitResult').innerHTML = `
-            Gross Profit: ฿${gross.toFixed(2)}<br>
-            VAT (${vat}%): ฿${vatAmt.toFixed(2)}<br>
+            Gross: ฿${gross.toFixed(2)}<br>
+            VAT (${vatRate}%): ฿${vat.toFixed(2)}<br>
             Net Profit: ฿${net.toFixed(2)}<br>
             Margin: ${margin.toFixed(2)}%
         `;
     }
 
-    // Tax calculation
-    function calcThaiTax(income) {
-        let tax = 0;
-        for (let b of thaiBrackets) {
-            if (income > b.min) {
-                let taxable = Math.min(income, b.max) - b.min;
-                if (taxable > 0) tax += taxable * b.rate / 100;
-            }
-        }
-        return tax;
-    }
-
     function calcTax() {
-        let income = parseFloat(document.getElementById('annualIncome').value) || 0;
+        let income = parseFloat(document.getElementById('income').value) || 0;
         let allowances = parseFloat(document.getElementById('allowances').value) || 0;
-        let residency = document.getElementById('residency').value;
+        let taxable = Math.max(0, income - allowances);
         
         let tax = 0;
-        let effective = 0;
-        
-        if (residency === 'nonresident') {
-            tax = income * 15 / 100;
-            effective = 15;
-        } else {
-            let taxable = Math.max(0, income - allowances);
-            tax = calcThaiTax(taxable);
-            effective = income ? (tax / income * 100) : 0;
-        }
+        if (taxable > 150000) tax += (Math.min(taxable, 300000) - 150000) * 0.05;
+        if (taxable > 300000) tax += (Math.min(taxable, 500000) - 300000) * 0.10;
+        if (taxable > 500000) tax += (Math.min(taxable, 750000) - 500000) * 0.15;
+        if (taxable > 750000) tax += (Math.min(taxable, 1000000) - 750000) * 0.20;
+        if (taxable > 1000000) tax += (Math.min(taxable, 2000000) - 1000000) * 0.25;
+        if (taxable > 2000000) tax += (Math.min(taxable, 5000000) - 2000000) * 0.30;
+        if (taxable > 5000000) tax += (taxable - 5000000) * 0.35;
         
         let after = income - tax;
+        let rate = income ? (tax / income * 100) : 0;
         
-        document..getElementById('landValue').value) || 0;
-        let from = document.getElementById('fromUnit').value;
-        let to = document.getElementById('toUnit').value;
-        let sqm = val * ('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `JStL_Thailand_${Date.now()}.html`;
-        link.click();
-        alert('Saved');
+        document.getElementById('taxResult').innerHTML = `
+            Taxable Income: ฿${taxable.toFixed(2)}<br>
+            <strong>Tax Payable: ฿${tax.toFixed(2)}</strong><br>
+            After Tax: ฿${after.toFixed(2)}<br>
+            Effective Rate: ${rate.toFixed(2)}%
+        `;
     }
 
-    // Events
-    document.getElementById('calcProfit').onclick = calcProfit;
-    document.getElementById('calcTax').onclick = calcTax;
-    document.getElementById('calcLand').onclick = calcLand;
-    document.annualIncome
+    function calcLand() {
+        let val = parseFloat(document.getElementById('landVal').value) || 0;
+        let from = document.getElementById('fromUnit').value;
+        let to = document.getElementById('toUnit').value;
+        
+        let sqm = 0;
+        if (from === 'rai') sqm = val * 1600;
+        else if (from === 'ngan') sqm = val * 400;
+        else if (from === 'wah') sqm = val * 4;
+        
+        let result = 0;
+        if (to === 'sqm') result = sqm;
+        else if (to === 'sqft') result = sqm * 10.764;
+        
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(2)} ${to}`;
+    }
+</script>
+</body>
+</html>
