@@ -1,0 +1,108 @@
+function generateTextGrid() {
+    let income = document.getElementById('annualIncome').value;
+    let lines = [];
+    
+    // Top border
+    lines.push('+' + '-'.repeat(78) + '+');
+    
+    // Title line
+    let title = ' JStL Spreadsheet™ - ' + (document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand'));
+    lines.push('|' + title + ' '.repeat(78 - title.length) + '|');
+    
+    // Date line
+    let dateStr = ' Generated: ' + new Date().toLocaleString();
+    lines.push('|' + dateStr + ' '.repeat(78 - dateStr.length) + '|');
+    
+    // Separator
+    lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+    
+    // Header
+    lines.push('|' + ' CATEGORY'.padEnd(32) + '|' + ' ITEM'.padEnd(30) + '|' + ' VALUE'.padEnd(14) + '|');
+    
+    // Separator
+    lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+    
+    // Input row
+    lines.push('|' + ' INPUTS'.padEnd(32) + '|' + ' Annual Income'.padEnd(30) + '|' + (' ' + income).padEnd(14) + '|');
+    
+    // Separator before results
+    lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
+    
+    // Get tax result text (clean)
+    let taxText = document.getElementById('taxResult').innerText || '';
+    let taxLines = taxText.split('\n');
+    for(let i = 0; i < Math.min(taxLines.length, 3); i++) {
+        let line = taxLines[i].substring(0, 28);
+        lines.push('|' + ' RESULTS'.padEnd(32) + '|' + (' ' + line).padEnd(30) + '|' + ' '.padEnd(14) + '|');
+    }
+    
+    // Bottom border
+    lines.push('+' + '-'.repeat(78) + '+');
+    
+    // License line
+    let license = ' JStL Spreadsheet™ — Perpetual License';
+    lines.push('|' + license + ' '.repeat(78 - license.length) + '|');
+    
+    // Email line
+    let email = ' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com';
+    lines.push('|' + email + ' '.repeat(78 - email.length) + '|');
+    
+    // Bottom border
+    lines.push('+' + '-'.repeat(78) + '+');
+    
+    return lines.join('\n');
+}
+
+function downloadTxt() {
+    let content = generateTextGrid();
+    let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+    let link = document.createElement('a');
+    let url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = `JStL_${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}_${Date.now()}.jstl`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    alert('✅ Saved as text grid');
+}
+
+function downloadHtml() {
+    let income = document.getElementById('annualIncome').value;
+    let html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JStL ${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}</title>
+    <style>
+        body{background:#0a1a2f;font-family:monospace;padding:20px}
+        h1{color:#7abfef}
+        table{border-collapse:collapse;width:100%}
+        th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}
+        th{background:#071a2b;color:#7abfef}
+    </style>
+</head>
+<body>
+    <h1>JStL Spreadsheet™ - ${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}</h1>
+    <h3>Generated: ${new Date().toLocaleString()}</h3>
+    <table>
+        <thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead>
+        <tbody>
+            <tr><td>INPUT</td><td>Annual Income</td><td>${income}</td></tr>
+            <tr><td>RESULT</td><td>Tax Summary</td><td>${document.getElementById('taxResult').innerText.replace(/\n/g, ' ')}</td></tr>
+        </tbody>
+    </table>
+    <p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p>
+</body>
+</html>`;
+    let blob = new Blob([html], {type: "text/html;charset=utf-8"});
+    let link = document.createElement('a');
+    let url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = `JStL_${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}_${Date.now()}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    alert('✅ Saved as HTML');
+}
