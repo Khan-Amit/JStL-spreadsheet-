@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Master Excel Calculator System | Professional 10-in-1 Suite</title>
+    <title>JStL Spreadsheet™ | Master Excel Calculator System</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 30px;
@@ -30,76 +30,177 @@
         .header {
             background: linear-gradient(135deg, #1B5E20, #0D3B0F);
             color: white;
-            padding: 40px;
+            padding: 30px 40px;
             text-align: center;
         }
         
         .header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .header h3 {
+            font-size: 1.2em;
+            font-weight: normal;
+            opacity: 0.9;
         }
         
         .badge {
             display: inline-block;
             background: #FFD700;
             color: #1B5E20;
-            padding: 8px 20px;
+            padding: 5px 15px;
             border-radius: 40px;
             font-weight: bold;
-            margin-top: 15px;
-            font-size: 0.9em;
+            margin-top: 10px;
+            font-size: 0.8em;
         }
         
         .price-banner {
             background: linear-gradient(135deg, #FF6B35, #F7931E);
-            padding: 20px;
+            padding: 15px 20px;
             text-align: center;
             color: white;
         }
         
         .price-banner .price {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
         }
         
         .price-banner .original {
             text-decoration: line-through;
             opacity: 0.8;
-        }
-        
-        .price-banner .countdown {
-            background: #000000aa;
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 30px;
-            margin-top: 10px;
+            font-size: 1.1em;
         }
         
         .content {
-            padding: 40px;
+            padding: 30px;
         }
         
-        .section-title {
-            font-size: 1.8em;
+        /* GRID SYSTEM - LIKE YOUR JStL */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .grid-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .grid-card h3 {
             color: #1B5E20;
-            margin: 30px 0 20px 0;
-            border-left: 5px solid #FF6B35;
-            padding-left: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* TABLE STYLES - LIKE YOUR SPREADSHEET */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table td:first-child {
+            font-weight: bold;
+            color: #555;
+            width: 45%;
+        }
+        
+        .data-table td:last-child {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+        
+        .input-row {
+            background-color: #fff3e0;
+        }
+        
+        .result-row {
+            background-color: #e8f5e9;
+        }
+        
+        .input-badge {
+            background: #FF6B35;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            margin-left: 8px;
+        }
+        
+        .result-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            margin-left: 8px;
+        }
+        
+        /* LIVE DEMO SECTION */
+        .demo-box {
+            background: #f9f9f9;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            margin-bottom: 25px;
+        }
+        
+        .demo-box h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+        }
+        
+        .demo-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .demo-result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
         }
         
         .btn {
             display: inline-block;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            margin: 10px;
+            margin: 8px;
             cursor: pointer;
             border: none;
             text-align: center;
         }
         
-        .btn-demo {
+        .btn-download {
             background: linear-gradient(135deg, #FF6B35, #F7931E);
             color: white;
         }
@@ -116,70 +217,19 @@
         
         .button-group {
             text-align: center;
-            margin: 30px 0;
+            margin: 20px 0;
         }
         
-        /* LIVE DEMO SECTION */
-        .demo-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .demo-box {
-            background: #f9f9f9;
-            border-radius: 20px;
+        .footer {
+            background: #1a1a2e;
+            color: #aaa;
             padding: 25px;
-            border: 2px solid #4CAF50;
-        }
-        
-        .demo-box h3 {
-            color: #1B5E20;
-            margin-bottom: 20px;
             text-align: center;
+            font-size: 0.85em;
         }
         
-        .demo-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-        
-        .demo-result {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .result-value {
-            font-size: 1.3em;
-            color: #1B5E20;
-        }
-        
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-        
-        .calculator-card {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        
-        .calculator-icon {
-            font-size: 2em;
+        .footer a {
+            color: #4CAF50;
         }
         
         .instruction-popup {
@@ -198,7 +248,7 @@
         .instruction-content {
             background: white;
             max-width: 400px;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             margin: 20px;
         }
@@ -209,23 +259,13 @@
             cursor: pointer;
         }
         
-        .footer {
-            background: #1a1a2e;
-            color: #aaa;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .footer a {
-            color: #4CAF50;
-        }
-        
         @media (max-width: 768px) {
             .header h1 { font-size: 1.5em; }
-            .price-banner .price { font-size: 2em; }
+            .price-banner .price { font-size: 1.8em; }
+            .grid-2col { grid-template-columns: 1fr; }
             .content { padding: 20px; }
-            .demo-container { grid-template-columns: 1fr; }
-            .btn { display: block; margin: 10px auto; width: 80%; }
+            .btn { display: block; margin: 10px auto; width: 90%; }
+            .demo-input-group { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -233,115 +273,113 @@
 
 <div class="container">
     <div class="header">
-        <h1>📊 Master Excel Calculator System</h1>
-        <p>10 Professional Calculators in 1 File</p>
-        <div class="badge">🐍 Python · 📊 Excel · 🤖 Auto-Calc · 🎯 10+ Tools</div>
+        <h1>📊 JStL Spreadsheet™</h1>
+        <h3>Master Excel Calculator System</h3>
+        <div class="badge">Perpetual License | Bangladesh | BDT</div>
     </div>
     
     <div class="price-banner">
-        <div>🔥 EARLY BIRD OFFER 🔥</div>
+        <span>🔥 EARLY BIRD OFFER 🔥</span>
         <div class="price">$199 USD</div>
-        <div class="original">Regular: $369</div>
-        <div class="countdown">💎 36 of 50 copies remaining</div>
+        <span class="original">Regular: $369</span>
+        <div>💎 36 of 50 copies remaining</div>
     </div>
     
     <div class="content">
         
         <!-- BUTTON GROUP -->
         <div class="button-group">
-            <a href="demo_calculator.xlsx" class="btn btn-demo" download="demo_calculator.xlsx">📥 Download FREE Demo Excel</a>
+            <a href="demo_calculator.xlsx" class="btn btn-download" download>📥 Download Demo Excel</a>
             <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy Full Version - $199</button>
             <button class="btn btn-instruction" onclick="showInstructions()">📋 Payment Instructions</button>
         </div>
         
-        <!-- LIVE DEMO SECTION - WORKING IN BROWSER -->
-        <h2 class="section-title">🎯 LIVE DEMO - Try Now! (No Download Needed)</h2>
-        
-        <div class="demo-container">
-            <!-- Stock Calculator Demo -->
-            <div class="demo-box">
-                <h3>💰 Stock Profit Calculator</h3>
-                <label>📦 Quantity:</label>
-                <input type="number" id="qty" class="demo-input" value="100" oninput="calculateStock()">
-                
-                <label>💰 Cost Price ($):</label>
-                <input type="number" id="cost" class="demo-input" value="75000" oninput="calculateStock()">
-                
-                <label>💵 Selling Price ($):</label>
-                <input type="number" id="price" class="demo-input" value="85000" oninput="calculateStock()">
-                
-                <div class="demo-result">
-                    📊 Total Cost: $<span id="totalCost" class="result-value">7,500,000</span><br>
-                    📈 Total Value: $<span id="totalValue" class="result-value">8,500,000</span><br>
-                    🎯 Profit: $<span id="profit" class="result-value">1,000,000</span><br>
-                    📉 Margin: <span id="margin" class="result-value">13.33</span>%
-                </div>
+        <!-- GRID SECTION 1: FINANCE + DEMOGRAPHY (LIKE YOUR JStL) -->
+        <div class="grid-2col">
+            
+            <!-- FINANCE CALCULATOR CARD -->
+            <div class="grid-card">
+                <h3>💰 Finance Calculator <span class="input-badge">BDT</span></h3>
+                <table class="data-table">
+                    <tr class="input-row"><td>📥 Income</td><td><input type="number" id="income" value="500000" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>📊 VAT Rate (%)</td><td><input type="number" id="vatRate" value="15" class="demo-input" style="width:100px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🏷️ Sales Tax (%)</td><td><input type="number" id="salesTaxRate" value="5" class="demo-input" style="width:100px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🛒 Buy Price</td><td><input type="number" id="buyPrice" value="500" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>💵 Sell Price</td><td><input type="number" id="sellPrice" value="750" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="result-row"><td>📈 Gross Profit</td><td><span id="grossProfit">250.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>🧾 VAT Amount</td><td><span id="vatAmount">112.50</span> BDT</td></tr>
+                    <tr class="result-row"><td>📑 Sales Tax</td><td><span id="salesTax">37.50</span> BDT</td></tr>
+                    <tr class="result-row"><td>🎯 Net Profit</td><td><span id="netProfit">100.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>📊 Profit Margin (%)</td><td><span id="profitMargin">13.33</span>%</td></tr>
+                    <tr class="result-row"><td>🏦 Income Tax Payable</td><td><span id="incomeTax">40000.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>✅ After Tax Income</td><td><span id="afterTax">460000.00</span> BDT</td></tr>
+                </table>
+                <p style="font-size: 0.7em; margin-top: 10px; color: #888;">Estimation only. Consult CA for official taxes.</p>
             </div>
             
-            <!-- Percentage Calculator Demo -->
-            <div class="demo-box">
-                <h3>🎯 Percentage Calculator</h3>
-                <label>💰 Original Amount ($):</label>
-                <input type="number" id="amount" class="demo-input" value="1000" oninput="calculatePercentage()">
-                
-                <label>📊 Rate (%):</label>
-                <input type="number" id="rate" class="demo-input" value="15" oninput="calculatePercentage()">
-                
-                <div class="demo-result">
-                    ✨ Calculated: $<span id="calculated" class="result-value">150.00</span><br>
-                    🎯 Final Amount: $<span id="finalAmount" class="result-value">1,150.00</span>
-                </div>
+            <!-- DEMOGRAPHY CARD -->
+            <div class="grid-card">
+                <h3>👥 Demography <span class="input-badge">2024 Data</span></h3>
+                <table class="data-table">
+                    <tr><td>👨‍👩‍👧‍👦 Population</td><td><span id="population">1,441,710,000</span></td></tr>
+                    <tr><td>🍼 Birth Rate</td><td><input type="number" id="birthRate" value="16.1" class="demo-input" style="width:80px" oninput="calculateDemography()"> /1k</td></tr>
+                    <tr><td>⚰️ Death Rate</td><td><input type="number" id="deathRate" value="6.6" class="demo-input" style="width:80px" oninput="calculateDemography()"> /1k</td></tr>
+                    <tr><td>📈 Growth Rate</td><td><span id="growthRate">0.99</span>%</td></tr>
+                    <tr><td>👨 Male %</td><td><input type="number" id="malePercent" value="51.5" class="demo-input" style="width:80px" oninput="calculateDemography()"> %</td></tr>
+                    <tr><td>👩 Female %</td><td><span id="femalePercent">48.5</span>%</td></tr>
+                    <tr><td>🏙️ Urban %</td><td><input type="number" id="urbanPercent" value="36.4" class="demo-input" style="width:80px" oninput="calculateDemography()"> %</td></tr>
+                    <tr><td>📅 Projection Years</td><td><input type="number" id="projectYears" value="5" class="demo-input" style="width:80px" oninput="calculateDemography()"></td></tr>
+                    <tr class="result-row"><td>🔮 Projected Population</td><td><span id="projectedPop">1,515,000,000</span></td></tr>
+                    <tr class="result-row"><td>📉 Population Change</td><td><span id="popChange">-20</span></td></tr>
+                </table>
+                <p style="font-size: 0.7em; margin-top: 10px; color: #888;">Data: Census India, World Bank estimates</p>
             </div>
         </div>
         
-        <!-- Math Demo -->
-        <div class="demo-box" style="margin-top: 20px;">
-            <h3>🧮 Math Calculator - Live Results</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <input type="number" id="num1" class="demo-input" value="25" placeholder="Number A" oninput="calculateMath()">
-                <input type="number" id="num2" class="demo-input" value="15" placeholder="Number B" oninput="calculateMath()">
+        <!-- LIVE STOCK DEMO SECTION -->
+        <div class="demo-box">
+            <h3>💰 Live Stock Calculator</h3>
+            <div class="demo-input-group">
+                <input type="number" id="stockQty" class="demo-input" value="100" placeholder="Quantity" oninput="calculateStock()">
+                <input type="number" id="stockCost" class="demo-input" value="75000" placeholder="Cost Price" oninput="calculateStock()">
+                <input type="number" id="stockPrice" class="demo-input" value="85000" placeholder="Selling Price" oninput="calculateStock()">
             </div>
             <div class="demo-result">
-                ➕ Addition: <span id="add">40</span> &nbsp;|&nbsp;
-                ➖ Subtraction: <span id="sub">10</span> &nbsp;|&nbsp;
-                ✖️ Multiplication: <span id="mul">375</span> &nbsp;|&nbsp;
-                ➗ Division: <span id="div">1.67</span>
+                📊 Total Cost: $<span id="stockTotalCost">7,500,000</span> &nbsp;|&nbsp;
+                📈 Total Value: $<span id="stockTotalValue">8,500,000</span> &nbsp;|&nbsp;
+                🎯 Profit: $<span id="stockProfit">1,000,000</span> &nbsp;|&nbsp;
+                📉 Margin: <span id="stockMargin">13.33</span>%
             </div>
         </div>
         
-        <!-- Full Version List -->
-        <h2 class="section-title">💎 Full Version (10 Calculators)</h2>
-        <div class="calculator-grid">
-            <div class="calculator-card"><div class="calculator-icon">💰</div> Stock Inventory</div>
-            <div class="calculator-card"><div class="calculator-icon">👥</div> Demography</div>
-            <div class="calculator-card"><div class="calculator-icon">📈</div> Statistics</div>
-            <div class="calculator-card"><div class="calculator-icon">💳</div> Finance</div>
-            <div class="calculator-card"><div class="calculator-icon">🧮</div> Math Solver</div>
-            <div class="calculator-card"><div class="calculator-icon">📐</div> Geometry</div>
-            <div class="calculator-card"><div class="calculator-icon">🎯</div> Percentage</div>
-            <div class="calculator-card"><div class="calculator-icon">📉</div> Trend Analysis</div>
-            <div class="calculator-card"><div class="calculator-icon">⚖️</div> Unit Converter</div>
-            <div class="calculator-card"><div class="calculator-icon">🏠</div> INDEX Dashboard</div>
+        <!-- FULL VERSION LIST -->
+        <div class="grid-card" style="margin-top: 10px;">
+            <h3>💎 Full Version Includes (10 Calculators)</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">
+                <div>💰 Stock Inventory</div>
+                <div>👥 Demography</div>
+                <div>📈 Statistics</div>
+                <div>💳 Finance</div>
+                <div>🧮 Math Solver</div>
+                <div>📐 Geometry</div>
+                <div>🎯 Percentage</div>
+                <div>📉 Trend Analysis</div>
+                <div>⚖️ Unit Converter</div>
+                <div>🏠 INDEX Dashboard</div>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8em; color: #666;">✅ Auto-calculation | ✅ Perpetual License | ✅ Lifetime Updates</p>
         </div>
         
-        <!-- Payment Methods -->
-        <h2 class="section-title">💳 Accepted Payment Methods</h2>
-        <div class="calculator-grid">
-            <div class="calculator-card">💳 Credit/Debit Card</div>
-            <div class="calculator-card">🏦 Western Union</div>
-            <div class="calculator-card">🪙 Crypto (BTC/USDT/ETH)</div>
-            <div class="calculator-card">🏛️ Bank Transfer</div>
-        </div>
-        
-        <!-- Guarantee -->
-        <div style="text-align: center; padding: 20px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
-            <span>🏆 7-Day Money-Back Guarantee</span>
+        <!-- GUARANTEE -->
+        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
+            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
         </div>
     </div>
     
     <div class="footer">
-        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
-        <p><button onclick="showInstructions()" style="background:none; color:#4CAF50; border:none;">Instructions</button> | <a href="LICENSE">License</a></p>
+        <p>JStL Spreadsheet™ | Perpetual License</p>
+        <p>© 2026 Seliim Ahmed | amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com</p>
+        <p><button onclick="showInstructions()" style="background:none; color:#4CAF50; border:none;">Payment Instructions</button> | <a href="LICENSE">License</a></p>
     </div>
 </div>
 
@@ -370,41 +408,66 @@
 </div>
 
 <script>
+    // FINANCE CALCULATOR (Like your JStL)
+    function calculateFinance() {
+        let income = parseFloat(document.getElementById('income').value) || 0;
+        let vatRate = parseFloat(document.getElementById('vatRate').value) || 0;
+        let salesTaxRate = parseFloat(document.getElementById('salesTaxRate').value) || 0;
+        let buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+        
+        let grossProfit = sellPrice - buyPrice;
+        let vatAmount = grossProfit * vatRate / 100;
+        let salesTax = grossProfit * salesTaxRate / 100;
+        let netProfit = grossProfit - vatAmount - salesTax;
+        let profitMargin = (netProfit / sellPrice) * 100;
+        let incomeTax = income * 0.08; // 8% income tax assumption
+        let afterTaxIncome = income - incomeTax;
+        
+        document.getElementById('grossProfit').innerHTML = grossProfit.toFixed(2);
+        document.getElementById('vatAmount').innerHTML = vatAmount.toFixed(2);
+        document.getElementById('salesTax').innerHTML = salesTax.toFixed(2);
+        document.getElementById('netProfit').innerHTML = netProfit.toFixed(2);
+        document.getElementById('profitMargin').innerHTML = profitMargin.toFixed(2);
+        document.getElementById('incomeTax').innerHTML = incomeTax.toFixed(2);
+        document.getElementById('afterTax').innerHTML = afterTaxIncome.toFixed(2);
+    }
+    
+    // DEMOGRAPHY CALCULATOR
+    function calculateDemography() {
+        let population = 1441710000;
+        let birthRate = parseFloat(document.getElementById('birthRate').value) || 0;
+        let deathRate = parseFloat(document.getElementById('deathRate').value) || 0;
+        let malePercent = parseFloat(document.getElementById('malePercent').value) || 0;
+        let urbanPercent = parseFloat(document.getElementById('urbanPercent').value) || 0;
+        let years = parseFloat(document.getElementById('projectYears').value) || 0;
+        
+        let growthRate = birthRate - deathRate;
+        let femalePercent = 100 - malePercent;
+        let projectedPop = population * Math.pow(1 + (growthRate/1000), years);
+        let popChange = projectedPop - population;
+        
+        document.getElementById('growthRate').innerHTML = (growthRate/10).toFixed(2);
+        document.getElementById('femalePercent').innerHTML = femalePercent.toFixed(1);
+        document.getElementById('projectedPop').innerHTML = Math.round(projectedPop).toLocaleString();
+        document.getElementById('popChange').innerHTML = Math.round(popChange).toLocaleString();
+    }
+    
+    // STOCK CALCULATOR
     function calculateStock() {
-        let qty = parseFloat(document.getElementById('qty').value) || 0;
-        let cost = parseFloat(document.getElementById('cost').value) || 0;
-        let price = parseFloat(document.getElementById('price').value) || 0;
+        let qty = parseFloat(document.getElementById('stockQty').value) || 0;
+        let cost = parseFloat(document.getElementById('stockCost').value) || 0;
+        let price = parseFloat(document.getElementById('stockPrice').value) || 0;
         
         let totalCost = qty * cost;
         let totalValue = qty * price;
         let profit = totalValue - totalCost;
         let margin = totalCost > 0 ? (profit / totalCost * 100) : 0;
         
-        document.getElementById('totalCost').innerHTML = totalCost.toLocaleString();
-        document.getElementById('totalValue').innerHTML = totalValue.toLocaleString();
-        document.getElementById('profit').innerHTML = profit.toLocaleString();
-        document.getElementById('margin').innerHTML = margin.toFixed(2);
-    }
-    
-    function calculatePercentage() {
-        let amount = parseFloat(document.getElementById('amount').value) || 0;
-        let rate = parseFloat(document.getElementById('rate').value) || 0;
-        
-        let calculated = amount * rate / 100;
-        let final = amount + calculated;
-        
-        document.getElementById('calculated').innerHTML = calculated.toFixed(2);
-        document.getElementById('finalAmount').innerHTML = final.toLocaleString();
-    }
-    
-    function calculateMath() {
-        let num1 = parseFloat(document.getElementById('num1').value) || 0;
-        let num2 = parseFloat(document.getElementById('num2').value) || 0;
-        
-        document.getElementById('add').innerHTML = num1 + num2;
-        document.getElementById('sub').innerHTML = num1 - num2;
-        document.getElementById('mul').innerHTML = num1 * num2;
-        document.getElementById('div').innerHTML = num2 !== 0 ? (num1 / num2).toFixed(2) : '∞';
+        document.getElementById('stockTotalCost').innerHTML = totalCost.toLocaleString();
+        document.getElementById('stockTotalValue').innerHTML = totalValue.toLocaleString();
+        document.getElementById('stockProfit').innerHTML = profit.toLocaleString();
+        document.getElementById('stockMargin').innerHTML = margin.toFixed(2);
     }
     
     function showInstructions() {
@@ -419,11 +482,11 @@
         alert("📞 TO PURCHASE:\n\nEmail: seliim.ahmed@gmail.com\n\nPlease provide:\n1. Your full name\n2. Preferred payment method\n3. Your email for delivery\n\nYou will receive:\n✅ Payment instructions\n✅ Digital Certificate after payment\n✅ Software download link\n\nThank you! 🙏");
     }
     
-    // Initialize all calculators on page load
+    // Initialize all on load
     window.onload = function() {
+        calculateFinance();
+        calculateDemography();
         calculateStock();
-        calculatePercentage();
-        calculateMath();
     }
 </script>
 
