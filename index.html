@@ -2,404 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JStL Spreadsheet™ - Bangladesh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>JStL Spreadsheet™ - Master Index</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Courier New', 'Segoe UI', monospace;
-            background: #0a1a2f;
-            padding: 30px 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        /* Document style header */
-        .doc-header {
-            background: #1a3a5c;
-            color: white;
-            padding: 20px 30px;
-            border-bottom: 3px solid #FFD700;
-        }
-        
-        .doc-header h1 {
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-        
-        .doc-header p {
-            opacity: 0.8;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        
-        /* Main content */
-        .doc-content {
-            padding: 30px;
-        }
-        
-        /* Clean line-by-line display */
-        .line {
-            padding: 10px 0;
-            border-bottom: 1px dashed #ddd;
-            font-family: 'Courier New', monospace;
-            font-size: 15px;
-        }
-        
-        .line-label {
-            font-weight: bold;
-            color: #1a3a5c;
-            display: inline-block;
-            width: 200px;
-        }
-        
-        .line-value {
-            color: #2c5a2e;
-            font-weight: bold;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1a3a5c;
-            margin: 25px 0 15px 0;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #FFD700;
-            display: inline-block;
-        }
-        
-        /* Input area */
-        .input-area {
-            background: #f0f4f8;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-        }
-        
-        .input-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .input-row label {
-            font-weight: bold;
-            width: 140px;
-            color: #1a3a5c;
-        }
-        
-        .input-row input, .input-row select {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            width: 200px;
-        }
-        
-        button {
-            background: #1a3a5c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
-            margin-right: 10px;
-        }
-        
-        button:hover {
-            background: #2c5a7a;
-        }
-        
-        .btn-download {
-            background: #2c5a2e;
-        }
-        
-        .btn-download:hover {
-            background: #1e4a20;
-        }
-        
-        /* Footer */
-        .doc-footer {
-            background: #1a3a5c;
-            color: #aaa;
-            padding: 15px 30px;
-            text-align: center;
-            font-size: 11px;
-            border-top: 1px solid #2a5a7a;
-        }
-        
-        .license-text {
-            font-family: monospace;
-            font-size: 11px;
-            text-align: center;
-            margin-top: 15px;
-            color: #666;
-        }
-        
-        @media (max-width: 600px) {
-            .line-label { width: 140px; font-size: 13px; }
-            .doc-content { padding: 20px; }
-            .input-row { flex-direction: column; align-items: flex-start; }
-            .input-row label { width: auto; }
-        }
+        *{box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
+        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
+        .header{background:#071a2b;padding:30px;text-align:center;border-bottom:1px solid #1e4a6e}
+        .header h1{margin:0;color:#7abfef;font-size:28px}
+        .header p{margin:10px 0 0;color:#6a9ec0}
+        .content{padding:20px}
+        .country-grid{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px;justify-content:center}
+        .country-card{flex:1;min-width:200px;max-width:250px;background:#0a2a3a;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
+        .country-card:hover{background:#1a4a6a;transform:translateY(-3px)}
+        .country-card h2{margin:0 0 10px;font-size:32px}
+        .country-card h3{margin:0;color:#7abfef}
+        .country-card p{margin:10px 0 0;color:#b8e0ff;font-size:12px}
+        .install-banner{background:#0a2a3a;margin:20px;padding:15px;border-radius:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+        .install-banner button{background:#2a6f94;width:auto;margin:0;padding:10px 20px}
+        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px}
+        button:hover{background:#2a6f94}
+        .price-section{background:#0a2a3a;margin:20px;padding:20px;border-radius:12px;text-align:center}
+        .price-badge{display:inline-block;background:#1e5a7a;padding:5px 15px;border-radius:20px;margin:5px}
+        .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
+        .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
+        .contact{text-align:center;margin-top:20px;color:#6a9ec0}
+        .contact a{color:#7abfef;text-decoration:none}
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="header">
+        <h1>📊 JStL Spreadsheet™</h1>
+        <p>Installable App | No Excel | No Google | Country-Specific Tax & Land Editions</p>
+    </div>
 
-<div class="container" id="printArea">
-    <div class="doc-header">
-        <h1>📊 JStL Spreadsheet™ - Bangladesh</h1>
-        <p>Generated: <span id="dateTime"></span> | Perpetual License</p>
+    <div class="install-banner" id="installBanner" style="display:none">
+        <span style="color:#b8e0ff">📲 Install JStL as an app on your device</span>
+        <button id="installBtn">Install App</button>
     </div>
-    
-    <div class="doc-content">
-        <!-- INPUT SECTION -->
-        <div class="input-area">
-            <h3 style="color:#1a3a5c; margin-bottom:15px;">📝 Input Parameters</h3>
-            <div class="input-row">
-                <label>Taxpayer Category:</label>
-                <select id="category">
-                    <option value="general">General</option>
-                    <option value="women_senior">Women / Senior (65+)</option>
-                    <option value="freedom_fighter">Freedom Fighter (Gazetted)</option>
-                    <option value="disabled">Person with Disability</option>
-                </select>
+
+    <div class="content">
+        <div class="country-grid">
+            <div class="country-card" onclick="location.href='jstl_bangladesh.html'">
+                <h2>🇧🇩</h2>
+                <h3>Bangladesh</h3>
+                <p>VAT 15% | Tax 0-30% | Bigha/Katha | NBR Database</p>
             </div>
-            <div class="input-row">
-                <label>Annual Income (BDT):</label>
-                <input type="number" id="income" value="5000000" step="100000">
+            <div class="country-card" onclick="location.href='jstl_canada.html'">
+                <h2>🇨🇦</h2>
+                <h3>Canada</h3>
+                <p>GST/PST/HST | Federal+Provincial | RRSP | CRA Data</p>
             </div>
-            <div class="input-row">
-                <label>Population:</label>
-                <input type="number" id="population" value="171186372">
+            <div class="country-card" onclick="location.href='jstl_india.html'">
+                <h2>🇮🇳</h2>
+                <h3>India</h3>
+                <p>GST 5-40% | Old/New Regime | Bigha/Gaj | Income Tax Dept</p>
             </div>
-            <div class="input-row">
-                <label>Male %:</label>
-                <input type="number" id="malePercent" value="49.6" step="0.1">
-            </div>
-            <div class="input-row">
-                <label>Female %:</label>
-                <input type="number" id="femalePercent" value="50.4" step="0.1">
-            </div>
-            <div class="input-row">
-                <label>Birth Rate (/1k):</label>
-                <input type="number" id="birthRate" value="17.8" step="0.1">
-            </div>
-            <div class="input-row">
-                <label>Death Rate (/1k):</label>
-                <input type="number" id="deathRate" value="5.5" step="0.1">
-            </div>
-            <div>
-                <button onclick="calculate()">⟳ Calculate</button>
-                <button onclick="downloadAsText()" class="btn-download">📥 Download as Text</button>
-                <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+            <div class="country-card" onclick="location.href='jstl_thailand.html'">
+                <h2>🇹🇭</h2>
+                <h3>Thailand</h3>
+                <p>VAT 7% | Tax 0-35% | Rai/Ngan/Wah | Revenue Dept</p>
             </div>
         </div>
-        
-        <!-- RESULT DISPLAY - CLEAN DOCUMENT STYLE -->
-        <div id="resultArea">
-            <!-- Dynamic content will appear here -->
+
+        <div class="price-section">
+            <h3 style="color:#7abfef">💰 Pricing</h3>
+            <span class="price-badge">🔥 Early Bird: $36 (36 copies)</span>
+            <span class="price-badge">📆 Year 1: $96</span>
+            <span class="price-badge">💎 Year 2+: $199</span>
+            <p style="color:#b8e0ff;margin-top:15px">One license = All countries + Lifetime updates</p>
         </div>
-        
-        <div class="license-text">
-            JStL Spreadsheet™ | Perpetual License<br>
-            amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com
+
+        <div class="license-box">
+            <strong>🎓 JStL Spreadsheet™ License</strong><br>
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
+            Perpetual license | Full functionality guarantee | 12-month support | Lifetime updates<br>
+            Your data stays yours | No third-party sharing | Bulletproof protection<br>
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        </div>
+
+        <div class="contact">
+            📧 <a href="mailto:amit.khanna.1082@gmail.com">amit.khanna.1082@gmail.com</a> | 
+            📧 <a href="mailto:seliim.ahmed@gmail.com">seliim.ahmed@gmail.com</a>
         </div>
     </div>
-    
-    <div class="doc-footer">
-        JStL Spreadsheet™ - Bangladesh Edition | Data: NBR, Bangladesh | Estimation only. Consult CA for official taxes.
+    <div class="footer">
+        JStL Spreadsheet™ | Bangladesh | Canada | India | Thailand | More coming soon
     </div>
 </div>
 
 <script>
-    function formatNumber(num) {
-        return num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    }
-    
-    function formatNumberInt(num) {
-        return Math.round(num).toLocaleString();
-    }
-    
-    function getTaxFreeThreshold(category) {
-        switch(category) {
-            case 'women_senior': return 400000;
-            case 'freedom_fighter': return 500000;
-            case 'disabled': return 475000;
-            default: return 350000;
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'flex';
+    });
+    document.getElementById('installBtn').onclick = () => {
+        if(deferredPrompt) { 
+            deferredPrompt.prompt(); 
+            deferredPrompt.userChoice.then(() => { 
+                document.getElementById('installBanner').style.display = 'none'; 
+            }); 
         }
-    }
-    
-    function calculateTax(income, category) {
-        let taxFree = getTaxFreeThreshold(category);
-        let taxable = Math.max(0, income - taxFree);
-        let tax = 0;
-        let remaining = taxable;
-        
-        if(remaining > 0) {
-            let slab2 = Math.min(remaining, 100000);
-            tax += slab2 * 0.05;
-            remaining -= slab2;
-            
-            let slab3 = Math.min(remaining, 400000);
-            tax += slab3 * 0.10;
-            remaining -= slab3;
-            
-            let slab4 = Math.min(remaining, 500000);
-            tax += slab4 * 0.15;
-            remaining -= slab4;
-            
-            let slab5 = Math.min(remaining, 500000);
-            tax += slab5 * 0.20;
-            remaining -= slab5;
-            
-            let slab6 = Math.min(remaining, 2000000);
-            tax += slab6 * 0.25;
-            remaining -= slab6;
-            
-            if(remaining > 0) tax += remaining * 0.30;
-        }
-        
-        return { taxable, tax };
-    }
-    
-    function calculate() {
-        let income = parseFloat(document.getElementById('income').value) || 0;
-        let category = document.getElementById('category').value;
-        let population = parseFloat(document.getElementById('population').value) || 0;
-        let malePercent = parseFloat(document.getElementById('malePercent').value) || 0;
-        let femalePercent = parseFloat(document.getElementById('femalePercent').value) || 0;
-        let birthRate = parseFloat(document.getElementById('birthRate').value) || 0;
-        let deathRate = parseFloat(document.getElementById('deathRate').value) || 0;
-        
-        let { taxable, tax } = calculateTax(income, category);
-        let afterTax = income - tax;
-        let effectiveRate = income > 0 ? (tax / income * 100) : 0;
-        
-        let maleCount = population * malePercent / 100;
-        let femaleCount = population * femalePercent / 100;
-        let growthRate = birthRate - deathRate;
-        let growthPercent = (growthRate / 10);
-        
-        let html = `
-            <div class="section-title">📊 JStL Bangladesh - Tax Calculation</div>
-            
-            <div class="line">
-                <span class="line-label">Taxpayer Category:</span>
-                <span class="line-value">${category.replace('_', ' ').toUpperCase()}</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Annual Income:</span>
-                <span class="line-value">${formatNumber(income)} BDT</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Tax Free Threshold:</span>
-                <span class="line-value">${formatNumber(getTaxFreeThreshold(category))} BDT</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Taxable Income:</span>
-                <span class="line-value">${formatNumber(taxable)} BDT</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Total Tax Payable:</span>
-                <span class="line-value">${formatNumber(tax)} BDT</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Income After Tax:</span>
-                <span class="line-value">${formatNumber(afterTax)} BDT</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Effective Tax Rate:</span>
-                <span class="line-value">${effectiveRate.toFixed(2)}%</span>
-            </div>
-            
-            <div class="section-title">👥 Demography - Bangladesh</div>
-            
-            <div class="line">
-                <span class="line-label">Total Population:</span>
-                <span class="line-value">${formatNumberInt(population)}</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Male Population (${malePercent}%):</span>
-                <span class="line-value">${formatNumberInt(maleCount)}</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Female Population (${femalePercent}%):</span>
-                <span class="line-value">${formatNumberInt(femaleCount)}</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Birth Rate:</span>
-                <span class="line-value">${birthRate.toFixed(1)} /1,000 people</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Death Rate:</span>
-                <span class="line-value">${deathRate.toFixed(1)} /1,000 people</span>
-            </div>
-            <div class="line">
-                <span class="line-label">Population Growth Rate:</span>
-                <span class="line-value">${growthPercent.toFixed(2)}%</span>
-            </div>
-            
-            <div class="section-title">📋 Tax Slabs (AY 2025-26)</div>
-            <div class="line">First 350,000 BDT → 0%</div>
-            <div class="line">Next 100,000 BDT → 5%</div>
-            <div class="line">Next 400,000 BDT → 10%</div>
-            <div class="line">Next 500,000 BDT → 15%</div>
-            <div class="line">Next 500,000 BDT → 20%</div>
-            <div class="line">Next 2,000,000 BDT → 25%</div>
-            <div class="line">Remaining Amount → 30%</div>
-        `;
-        
-        document.getElementById('resultArea').innerHTML = html;
-        
-        // Update timestamp
-        let now = new Date();
-        document.getElementById('dateTime').innerHTML = now.toLocaleString();
-    }
-    
-    function downloadAsText() {
-        let content = document.getElementById('printArea').cloneNode(true);
-        
-        // Remove buttons from cloned content
-        let btns = content.querySelectorAll('button');
-        btns.forEach(btn => btn.remove());
-        
-        // Remove input area
-        let inputArea = content.querySelector('.input-area');
-        if(inputArea) inputArea.remove();
-        
-        let text = content.innerText;
-        
-        let blob = new Blob([text], {type: 'text/plain'});
-        let link = document.createElement('a');
-        let now = new Date();
-        link.download = `JStL_Bangladesh_${now.toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-        URL.revokeObjectURL(link.href);
-    }
-    
-    // Initialize on page load
-    window.onload = function() {
-        calculate();
-    }
+    };
 </script>
-
 </body>
 </html>
+
+
+
