@@ -1,4 +1,6 @@
+// ==================== UNIFIED DOWNLOAD FUNCTIONS ====================
 function generateTextGrid() {
+    let country = document.title.replace('JStL ', '');
     let income = document.getElementById('annualIncome').value;
     let lines = [];
     
@@ -6,7 +8,7 @@ function generateTextGrid() {
     lines.push('+' + '-'.repeat(78) + '+');
     
     // Title line
-    let title = ' JStL Spreadsheet™ - ' + (document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand'));
+    let title = ' JStL Spreadsheet™ - ' + country;
     lines.push('|' + title + ' '.repeat(78 - title.length) + '|');
     
     // Date line
@@ -28,12 +30,24 @@ function generateTextGrid() {
     // Separator before results
     lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
     
-    // Get tax result text (clean)
+    // Get tax result text (clean first 3 lines)
     let taxText = document.getElementById('taxResult').innerText || '';
     let taxLines = taxText.split('\n');
-    for(let i = 0; i < Math.min(taxLines.length, 3); i++) {
+    for(let i = 0; i < Math.min(taxLines.length, 4); i++) {
         let line = taxLines[i].substring(0, 28);
-        lines.push('|' + ' RESULTS'.padEnd(32) + '|' + (' ' + line).padEnd(30) + '|' + ' '.padEnd(14) + '|');
+        if(line.trim().length > 0) {
+            lines.push('|' + ' RESULTS'.padEnd(32) + '|' + (' ' + line).padEnd(30) + '|' + ' '.padEnd(14) + '|');
+        }
+    }
+    
+    // Demography line
+    let demoText = document.getElementById('demographyResult').innerText || '';
+    let demoLines = demoText.split('\n');
+    for(let i = 0; i < Math.min(demoLines.length, 2); i++) {
+        let line = demoLines[i].substring(0, 28);
+        if(line.trim().length > 0) {
+            lines.push('|' + ' DEMOGRAPHY'.padEnd(32) + '|' + (' ' + line).padEnd(30) + '|' + ' '.padEnd(14) + '|');
+        }
     }
     
     // Bottom border
@@ -59,7 +73,8 @@ function downloadTxt() {
     let link = document.createElement('a');
     let url = URL.createObjectURL(blob);
     link.href = url;
-    link.download = `JStL_${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}_${Date.now()}.jstl`;
+    let country = document.title.replace('JStL ', '').replace(' ', '_');
+    link.download = `JStL_${country}_${Date.now()}.jstl`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -68,38 +83,43 @@ function downloadTxt() {
 }
 
 function downloadHtml() {
+    let country = document.title.replace('JStL ', '');
     let income = document.getElementById('annualIncome').value;
+    let taxResult = document.getElementById('taxResult').innerHTML || '';
+    let demoResult = document.getElementById('demographyResult').innerHTML || '';
     let html = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>JStL ${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}</title>
+    <title>JStL ${country}</title>
     <style>
         body{background:#0a1a2f;font-family:monospace;padding:20px}
         h1{color:#7abfef}
-        table{border-collapse:collapse;width:100%}
+        table{border-collapse:collapse;width:100%;margin-top:20px}
         th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}
         th{background:#071a2b;color:#7abfef}
+        .footer{text-align:center;color:#6a9ec0;margin-top:20px}
     </style>
 </head>
 <body>
-    <h1>JStL Spreadsheet™ - ${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}</h1>
+    <h1>JStL Spreadsheet™ - ${country}</h1>
     <h3>Generated: ${new Date().toLocaleString()}</h3>
     <table>
-        <thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead>
+        <thead><tr><th>Category</th><th>Details</th></tr></thead>
         <tbody>
-            <tr><td>INPUT</td><td>Annual Income</td><td>${income}</td></tr>
-            <tr><td>RESULT</td><td>Tax Summary</td><td>${document.getElementById('taxResult').innerText.replace(/\n/g, ' ')}</td></tr>
+            <tr><td><strong>Annual Income</strong></td><td>${income}</td></tr>
+            <tr><td><strong>Tax Calculation</strong></td><td>${taxResult}</td></tr>
+            <tr><td><strong>Demography</strong></td><td>${demoResult}</td></tr>
         </tbody>
     </table>
-    <p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p>
+    <div class="footer">JStL Spreadsheet™ | Perpetual License | Your data stays yours</div>
 </body>
 </html>`;
     let blob = new Blob([html], {type: "text/html;charset=utf-8"});
     let link = document.createElement('a');
     let url = URL.createObjectURL(blob);
     link.href = url;
-    link.download = `JStL_${document.title.includes('Canada') ? 'Canada' : (document.title.includes('India') ? 'India' : 'Thailand')}_${Date.now()}.html`;
+    link.download = `JStL_${country.replace(' ', '_')}_${Date.now()}.html`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
