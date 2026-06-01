@@ -2,111 +2,493 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>JStL Spreadsheet™ - Master Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>JStL Spreadsheet™ | Master Excel Calculator System</title>
     <style>
-        *{box-sizing:border-box}
-        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
-        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
-        .header{background:#071a2b;padding:30px;text-align:center;border-bottom:1px solid #1e4a6e}
-        .header h1{margin:0;color:#7abfef;font-size:28px}
-        .header p{margin:10px 0 0;color:#6a9ec0}
-        .content{padding:20px}
-        .country-grid{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px;justify-content:center}
-        .country-card{flex:1;min-width:200px;max-width:250px;background:#0a2a3a;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
-        .country-card:hover{background:#1a4a6a;transform:translateY(-3px)}
-        .country-card h2{margin:0 0 10px;font-size:32px}
-        .country-card h3{margin:0;color:#7abfef}
-        .country-card p{margin:10px 0 0;color:#b8e0ff;font-size:12px}
-        .install-banner{background:#0a2a3a;margin:20px;padding:15px;border-radius:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-        .install-banner button{background:#2a6f94;width:auto;margin:0;padding:10px 20px}
-        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px}
-        button:hover{background:#2a6f94}
-        .price-section{background:#0a2a3a;margin:20px;padding:20px;border-radius:12px;text-align:center}
-        .price-badge{display:inline-block;background:#1e5a7a;padding:5px 15px;border-radius:20px;margin:5px}
-        .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
-        .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
-        .contact{text-align:center;margin-top:20px;color:#6a9ec0}
-        .contact a{color:#7abfef;text-decoration:none}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1B5E20, #0D3B0F);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        
+        .header h3 {
+            font-size: 1.2em;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #1B5E20;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        
+        .price-banner {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            padding: 15px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .price-banner .price {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .price-banner .original {
+            text-decoration: line-through;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        /* GRID SYSTEM - LIKE YOUR JStL */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .grid-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .grid-card h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* TABLE STYLES - LIKE YOUR SPREADSHEET */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table td:first-child {
+            font-weight: bold;
+            color: #555;
+            width: 45%;
+        }
+        
+        .data-table td:last-child {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+        
+        .input-row {
+            background-color: #fff3e0;
+        }
+        
+        .result-row {
+            background-color: #e8f5e9;
+        }
+        
+        .input-badge {
+            background: #FF6B35;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            margin-left: 8px;
+        }
+        
+        .result-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            margin-left: 8px;
+        }
+        
+        /* LIVE DEMO SECTION */
+        .demo-box {
+            background: #f9f9f9;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            margin-bottom: 25px;
+        }
+        
+        .demo-box h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+        }
+        
+        .demo-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .demo-result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+        
+        .btn-buy {
+            background: linear-gradient(135deg, #1B5E20, #2E7D32);
+            color: white;
+        }
+        
+        .btn-instruction {
+            background: #1565C0;
+            color: white;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 25px;
+            text-align: center;
+            font-size: 0.85em;
+        }
+        
+        .footer a {
+            color: #4CAF50;
+        }
+        
+        .instruction-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .instruction-content {
+            background: white;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px;
+        }
+        
+        .close-btn {
+            float: right;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5em; }
+            .price-banner .price { font-size: 1.8em; }
+            .grid-2col { grid-template-columns: 1fr; }
+            .content { padding: 20px; }
+            .btn { display: block; margin: 10px auto; width: 90%; }
+            .demo-input-group { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google | Country-Specific Tax & Land Editions</p>
+        <h3>Master Excel Calculator System</h3>
+        <div class="badge">Perpetual License | Bangladesh | BDT</div>
     </div>
-
-    <div class="install-banner" id="installBanner" style="display:none">
-        <span style="color:#b8e0ff">📲 Install JStL as an app on your device</span>
-        <button id="installBtn">Install App</button>
+    
+    <div class="price-banner">
+        <span>🔥 EARLY BIRD OFFER 🔥</span>
+        <div class="price">$199 USD</div>
+        <span class="original">Regular: $369</span>
+        <div>💎 36 of 50 copies remaining</div>
     </div>
-
+    
     <div class="content">
-        <div class="country-grid">
-            <div class="country-card" onclick="location.href='jstl_bangladesh.html'">
-                <h2>🇧🇩</h2>
-                <h3>Bangladesh</h3>
-                <p>VAT 15% | Tax 0-30% | Bigha/Katha | NBR Database</p>
+        
+        <!-- BUTTON GROUP -->
+        <div class="button-group">
+            <a href="demo_calculator.xlsx" class="btn btn-download" download>📥 Download Demo Excel</a>
+            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy Full Version - $199</button>
+            <button class="btn btn-instruction" onclick="showInstructions()">📋 Payment Instructions</button>
+        </div>
+        
+        <!-- GRID SECTION 1: FINANCE + DEMOGRAPHY (LIKE YOUR JStL) -->
+        <div class="grid-2col">
+            
+            <!-- FINANCE CALCULATOR CARD -->
+            <div class="grid-card">
+                <h3>💰 Finance Calculator <span class="input-badge">BDT</span></h3>
+                <table class="data-table">
+                    <tr class="input-row"><td>📥 Income</td><td><input type="number" id="income" value="500000" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>📊 VAT Rate (%)</td><td><input type="number" id="vatRate" value="15" class="demo-input" style="width:100px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🏷️ Sales Tax (%)</td><td><input type="number" id="salesTaxRate" value="5" class="demo-input" style="width:100px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🛒 Buy Price</td><td><input type="number" id="buyPrice" value="500" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>💵 Sell Price</td><td><input type="number" id="sellPrice" value="750" class="demo-input" style="width:120px" oninput="calculateFinance()"></td></tr>
+                    <tr class="result-row"><td>📈 Gross Profit</td><td><span id="grossProfit">250.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>🧾 VAT Amount</td><td><span id="vatAmount">112.50</span> BDT</td></tr>
+                    <tr class="result-row"><td>📑 Sales Tax</td><td><span id="salesTax">37.50</span> BDT</td></tr>
+                    <tr class="result-row"><td>🎯 Net Profit</td><td><span id="netProfit">100.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>📊 Profit Margin (%)</td><td><span id="profitMargin">13.33</span>%</td></tr>
+                    <tr class="result-row"><td>🏦 Income Tax Payable</td><td><span id="incomeTax">40000.00</span> BDT</td></tr>
+                    <tr class="result-row"><td>✅ After Tax Income</td><td><span id="afterTax">460000.00</span> BDT</td></tr>
+                </table>
+                <p style="font-size: 0.7em; margin-top: 10px; color: #888;">Estimation only. Consult CA for official taxes.</p>
             </div>
-            <div class="country-card" onclick="location.href='jstl_canada.html'">
-                <h2>🇨🇦</h2>
-                <h3>Canada</h3>
-                <p>GST/PST/HST | Federal+Provincial | RRSP | CRA Data</p>
-            </div>
-            <div class="country-card" onclick="location.href='jstl_india.html'">
-                <h2>🇮🇳</h2>
-                <h3>India</h3>
-                <p>GST 5-40% | Old/New Regime | Bigha/Gaj | Income Tax Dept</p>
-            </div>
-            <div class="country-card" onclick="location.href='jstl_thailand.html'">
-                <h2>🇹🇭</h2>
-                <h3>Thailand</h3>
-                <p>VAT 7% | Tax 0-35% | Rai/Ngan/Wah | Revenue Dept</p>
+            
+            <!-- DEMOGRAPHY CARD -->
+            <div class="grid-card">
+                <h3>👥 Demography <span class="input-badge">2024 Data</span></h3>
+                <table class="data-table">
+                    <tr><td>👨‍👩‍👧‍👦 Population</td><td><span id="population">1,441,710,000</span></td></tr>
+                    <tr><td>🍼 Birth Rate</td><td><input type="number" id="birthRate" value="16.1" class="demo-input" style="width:80px" oninput="calculateDemography()"> /1k</td></tr>
+                    <tr><td>⚰️ Death Rate</td><td><input type="number" id="deathRate" value="6.6" class="demo-input" style="width:80px" oninput="calculateDemography()"> /1k</td></tr>
+                    <tr><td>📈 Growth Rate</td><td><span id="growthRate">0.99</span>%</td></tr>
+                    <tr><td>👨 Male %</td><td><input type="number" id="malePercent" value="51.5" class="demo-input" style="width:80px" oninput="calculateDemography()"> %</td></tr>
+                    <tr><td>👩 Female %</td><td><span id="femalePercent">48.5</span>%</td></tr>
+                    <tr><td>🏙️ Urban %</td><td><input type="number" id="urbanPercent" value="36.4" class="demo-input" style="width:80px" oninput="calculateDemography()"> %</td></tr>
+                    <tr><td>📅 Projection Years</td><td><input type="number" id="projectYears" value="5" class="demo-input" style="width:80px" oninput="calculateDemography()"></td></tr>
+                    <tr class="result-row"><td>🔮 Projected Population</td><td><span id="projectedPop">1,515,000,000</span></td></tr>
+                    <tr class="result-row"><td>📉 Population Change</td><td><span id="popChange">-20</span></td></tr>
+                </table>
+                <p style="font-size: 0.7em; margin-top: 10px; color: #888;">Data: Census India, World Bank estimates</p>
             </div>
         </div>
-
-        <div class="price-section">
-            <h3 style="color:#7abfef">💰 Pricing</h3>
-            <span class="price-badge">🔥 Early Bird: $36 (36 copies)</span>
-            <span class="price-badge">📆 Year 1: $96</span>
-            <span class="price-badge">💎 Year 2+: $199</span>
-            <p style="color:#b8e0ff;margin-top:15px">One license = All countries + Lifetime updates</p>
+        
+        <!-- LIVE STOCK DEMO SECTION -->
+        <div class="demo-box">
+            <h3>💰 Live Stock Calculator</h3>
+            <div class="demo-input-group">
+                <input type="number" id="stockQty" class="demo-input" value="100" placeholder="Quantity" oninput="calculateStock()">
+                <input type="number" id="stockCost" class="demo-input" value="75000" placeholder="Cost Price" oninput="calculateStock()">
+                <input type="number" id="stockPrice" class="demo-input" value="85000" placeholder="Selling Price" oninput="calculateStock()">
+            </div>
+            <div class="demo-result">
+                📊 Total Cost: $<span id="stockTotalCost">7,500,000</span> &nbsp;|&nbsp;
+                📈 Total Value: $<span id="stockTotalValue">8,500,000</span> &nbsp;|&nbsp;
+                🎯 Profit: $<span id="stockProfit">1,000,000</span> &nbsp;|&nbsp;
+                📉 Margin: <span id="stockMargin">13.33</span>%
+            </div>
         </div>
-
-        <div class="license-box">
-            <strong>🎓 JStL Spreadsheet™ License</strong><br>
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
-            Perpetual license | Full functionality guarantee | 12-month support | Lifetime updates<br>
-            Your data stays yours | No third-party sharing | Bulletproof protection<br>
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        
+        <!-- FULL VERSION LIST -->
+        <div class="grid-card" style="margin-top: 10px;">
+            <h3>💎 Full Version Includes (10 Calculators)</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">
+                <div>💰 Stock Inventory</div>
+                <div>👥 Demography</div>
+                <div>📈 Statistics</div>
+                <div>💳 Finance</div>
+                <div>🧮 Math Solver</div>
+                <div>📐 Geometry</div>
+                <div>🎯 Percentage</div>
+                <div>📉 Trend Analysis</div>
+                <div>⚖️ Unit Converter</div>
+                <div>🏠 INDEX Dashboard</div>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8em; color: #666;">✅ Auto-calculation | ✅ Perpetual License | ✅ Lifetime Updates</p>
         </div>
-
-        <div class="contact">
-            📧 <a href="mailto:amit.khanna.1082@gmail.com">amit.khanna.1082@gmail.com</a> | 
-            📧 <a href="mailto:seliim.ahmed@gmail.com">seliim.ahmed@gmail.com</a>
+        
+        <!-- GUARANTEE -->
+        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
+            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
         </div>
     </div>
+    
     <div class="footer">
-        JStL Spreadsheet™ | Bangladesh | Canada | India | Thailand | More coming soon
+        <p>JStL Spreadsheet™ | Perpetual License</p>
+        <p>© 2026 Seliim Ahmed | amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com</p>
+        <p><button onclick="showInstructions()" style="background:none; color:#4CAF50; border:none;">Payment Instructions</button> | <a href="LICENSE">License</a></p>
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="instructionPopup" class="instruction-popup">
+    <div class="instruction-content">
+        <span class="close-btn" onclick="closeInstructions()">&times;</span>
+        <h2>📋 How to Buy</h2>
+        <p><strong>Payment Methods:</strong></p>
+        <ul>
+            <li>✅ Credit/Debit Card</li>
+            <li>✅ Western Union</li>
+            <li>✅ Crypto (BTC/USDT/ETH)</li>
+            <li>✅ Bank Transfer</li>
+        </ul>
+        <p><strong>To Purchase:</strong><br>Email: <strong>seliim.ahmed@gmail.com</strong></p>
+        <p><strong>After Payment You Get:</strong></p>
+        <ul>
+            <li>✓ Digital Certificate with your name</li>
+            <li>✓ Unique License Number</li>
+            <li>✓ 12-Month Warranty Certificate</li>
+            <li>✓ Software Download Link</li>
+        </ul>
+        <button class="btn btn-buy" onclick="closeInstructions()" style="width:100%; margin-top:10px;">Close</button>
     </div>
 </div>
 
 <script>
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('installBanner').style.display = 'flex';
-    });
-    document.getElementById('installBtn').onclick = () => {
-        if(deferredPrompt) { 
-            deferredPrompt.prompt(); 
-            deferredPrompt.userChoice.then(() => { 
-                document.getElementById('installBanner').style.display = 'none'; 
-            }); 
-        }
-    };
+    // FINANCE CALCULATOR (Like your JStL)
+    function calculateFinance() {
+        let income = parseFloat(document.getElementById('income').value) || 0;
+        let vatRate = parseFloat(document.getElementById('vatRate').value) || 0;
+        let salesTaxRate = parseFloat(document.getElementById('salesTaxRate').value) || 0;
+        let buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+        
+        let grossProfit = sellPrice - buyPrice;
+        let vatAmount = grossProfit * vatRate / 100;
+        let salesTax = grossProfit * salesTaxRate / 100;
+        let netProfit = grossProfit - vatAmount - salesTax;
+        let profitMargin = (netProfit / sellPrice) * 100;
+        let incomeTax = income * 0.08; // 8% income tax assumption
+        let afterTaxIncome = income - incomeTax;
+        
+        document.getElementById('grossProfit').innerHTML = grossProfit.toFixed(2);
+        document.getElementById('vatAmount').innerHTML = vatAmount.toFixed(2);
+        document.getElementById('salesTax').innerHTML = salesTax.toFixed(2);
+        document.getElementById('netProfit').innerHTML = netProfit.toFixed(2);
+        document.getElementById('profitMargin').innerHTML = profitMargin.toFixed(2);
+        document.getElementById('incomeTax').innerHTML = incomeTax.toFixed(2);
+        document.getElementById('afterTax').innerHTML = afterTaxIncome.toFixed(2);
+    }
+    
+    // DEMOGRAPHY CALCULATOR
+    function calculateDemography() {
+        let population = 1441710000;
+        let birthRate = parseFloat(document.getElementById('birthRate').value) || 0;
+        let deathRate = parseFloat(document.getElementById('deathRate').value) || 0;
+        let malePercent = parseFloat(document.getElementById('malePercent').value) || 0;
+        let urbanPercent = parseFloat(document.getElementById('urbanPercent').value) || 0;
+        let years = parseFloat(document.getElementById('projectYears').value) || 0;
+        
+        let growthRate = birthRate - deathRate;
+        let femalePercent = 100 - malePercent;
+        let projectedPop = population * Math.pow(1 + (growthRate/1000), years);
+        let popChange = projectedPop - population;
+        
+        document.getElementById('growthRate').innerHTML = (growthRate/10).toFixed(2);
+        document.getElementById('femalePercent').innerHTML = femalePercent.toFixed(1);
+        document.getElementById('projectedPop').innerHTML = Math.round(projectedPop).toLocaleString();
+        document.getElementById('popChange').innerHTML = Math.round(popChange).toLocaleString();
+    }
+    
+    // STOCK CALCULATOR
+    function calculateStock() {
+        let qty = parseFloat(document.getElementById('stockQty').value) || 0;
+        let cost = parseFloat(document.getElementById('stockCost').value) || 0;
+        let price = parseFloat(document.getElementById('stockPrice').value) || 0;
+        
+        let totalCost = qty * cost;
+        let totalValue = qty * price;
+        let profit = totalValue - totalCost;
+        let margin = totalCost > 0 ? (profit / totalCost * 100) : 0;
+        
+        document.getElementById('stockTotalCost').innerHTML = totalCost.toLocaleString();
+        document.getElementById('stockTotalValue').innerHTML = totalValue.toLocaleString();
+        document.getElementById('stockProfit').innerHTML = profit.toLocaleString();
+        document.getElementById('stockMargin').innerHTML = margin.toFixed(2);
+    }
+    
+    function showInstructions() {
+        document.getElementById('instructionPopup').style.display = 'flex';
+    }
+    
+    function closeInstructions() {
+        document.getElementById('instructionPopup').style.display = 'none';
+    }
+    
+    function contactForPayment() {
+        alert("📞 TO PURCHASE:\n\nEmail: seliim.ahmed@gmail.com\n\nPlease provide:\n1. Your full name\n2. Preferred payment method\n3. Your email for delivery\n\nYou will receive:\n✅ Payment instructions\n✅ Digital Certificate after payment\n✅ Software download link\n\nThank you! 🙏");
+    }
+    
+    // Initialize all on load
+    window.onload = function() {
+        calculateFinance();
+        calculateDemography();
+        calculateStock();
+    }
 </script>
+
 </body>
 </html>
