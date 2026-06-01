@@ -5,137 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JStL - India</title>
     <style>
-        body{font-family:Arial;background:#0a1a2f;color:white;padding:20px}
-        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;padding:20px}
-        .grid{display:flex;flex-wrap:wrap;gap:20px}
-        .card{flex:1;min-width:250px;background:#0a2a3a;padding:20px;border-radius:12px}
-        input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none}
-        button{background:#1e5a7a;color:white;padding:12px;border:none;border-radius:8px;cursor:pointer;width:100%}
-        button:hover{background:#2a6f94}
-        .result{background:#0f2e44;padding:10px;border-radius:8px;margin-top:10px;font-family:monospace}
-        h3{color:#7abfef}
+        body { font-family: 'Segoe UI', sans-serif; background: #0a1a2f; margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: auto; background: #0d2b3e; border-radius: 16px; padding: 20px; }
+        h1, h2, h3 { color: #7abfef; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .card { flex: 1; min-width: 280px; background: #0a2a3a; padding: 20px; border-radius: 12px; }
+        input, select { width: 100%; padding: 10px; background: #1a3f55; color: white; border: 1px solid #2a5a7a; border-radius: 8px; margin: 8px 0; }
+        button { background: #1e5a7a; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin: 10px 0; }
+        button:hover { background: #2a6f94; }
+        .result { background: #0f2e44; padding: 15px; border-radius: 8px; color: #9fd3ff; font-family: monospace; margin-top: 15px; }
+        .footer { text-align: center; color: #6a9ec0; margin-top: 20px; }
+        .badge { background: #1e5a7a; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 8px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🇮🇳 JStL India</h1>
+    <h1>🇮🇳 JStL Spreadsheet™ - India</h1>
     <div class="grid">
-        
-        <div class="card">
-            <h3>💰 Profit (GST)</h3>
-            <input type="number" id="buy" placeholder="Buy Price" value="5000">
-            <input type="number" id="sell" placeholder="Sell Price" value="8000">
-            <select id="gstRate">
-                <option value="5">5% GST</option>
-                <option value="12">12% GST</option>
-                <option value="18" selected>18% GST</option>
-                <option value="28">28% GST</option>
-            </select>
-            <button onclick="calcProfit()">Calculate</button>
-            <div id="profitResult" class="result">Result here</div>
+        <div class="card"><h3>💰 Profit <span class="badge">GST</span></h3>
+            <label>Buy Price (INR)</label><input type="number" id="buyPrice" value="5000">
+            <label>Sell Price (INR)</label><input type="number" id="sellPrice" value="8000">
+            <label>GST Rate</label><select id="gstRate"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select>
+            <button id="profitBtn">Calculate</button>
+            <div id="profitResult" class="result">Click Calculate</div>
         </div>
-
-        <div class="card">
-            <h3>🧾 Income Tax</h3>
-            <input type="number" id="income" placeholder="Annual Income" value="1000000">
-            <select id="regime">
-                <option value="new">New Regime</option>
-                <option value="old">Old Regime</option>
-            </select>
-            <input type="number" id="deductions" placeholder="Deductions (80C etc.)" value="150000">
-            <button onclick="calcTax()">Calculate</button>
-            <div id="taxResult" class="result">Result here</div>
+        <div class="card"><h3>🧾 Income Tax <span class="badge">Old/New Regime</span></h3>
+            <label>Annual Income (INR)</label><input type="number" id="income" value="1000000">
+            <label>Regime</label><select id="regime"><option value="new">New Regime</option><option value="old">Old Regime</option></select>
+            <label>Deductions (80C etc.)</label><input type="number" id="deductions" value="150000">
+            <button id="taxBtn">Calculate</button>
+            <div id="taxResult" class="result">Click Calculate</div>
         </div>
-
-        <div class="card">
-            <h3>🏞️ Land</h3>
-            <input type="number" id="landVal" placeholder="Value" value="1">
-            <select id="fromUnit">
-                <option value="bigha">Bigha</option>
-                <option value="gaj">Gaj</option>
-                <option value="acre">Acre</option>
-            </select>
-            <span> to </span>
-            <select id="toUnit">
-                <option value="sqft">Square Feet</option>
-                <option value="gaj">Gaj</option>
-            </select>
-            <button onclick="calcLand()">Convert</button>
-            <div id="landResult" class="result">Result here</div>
+        <div class="card"><h3>🏞️ Land Converter</h3>
+            <label>Value</label><input type="number" id="landVal" value="1">
+            <label>From</label><select id="fromUnit"><option value="bigha">Bigha</option><option value="gaj">Gaj</option><option value="acre">Acre</option><option value="sqft">Sq Ft</option></select>
+            <label>To</label><select id="toUnit"><option value="sqft">Sq Ft</option><option value="acre">Acre</option><option value="bigha">Bigha</option></select>
+            <button id="landBtn">Convert</button>
+            <div id="landResult" class="result">Click Convert</div>
+        </div>
+        <div class="card"><h3>👥 Demography</h3>
+            <div id="demoResult" class="result">Loading...</div>
+            <label>Project Years</label><input type="number" id="projYears" value="5">
+            <button id="projBtn">Project</button>
+            <div id="projResult" class="result">Click to project</div>
         </div>
     </div>
-    <div style="margin-top:20px;font-size:12px;color:#6a9ec0">JStL Spreadsheet™ - India | Perpetual License</div>
+    <div class="footer">JStL India | Perpetual License | Data: Income Tax Dept</div>
 </div>
-
 <script>
     function calcProfit() {
-        let buy = parseFloat(document.getElementById('buy').value) || 0;
-        let sell = parseFloat(document.getElementById('sell').value) || 0;
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
         let gst = parseFloat(document.getElementById('gstRate').value) || 0;
         let gross = sell - buy;
-        let gstAmt = sell * gst / 100;
-        let net = gross - gstAmt;
+        let tax = sell * gst / 100;
+        let net = gross - tax;
         let margin = sell ? (net / sell) * 100 : 0;
-        document.getElementById('profitResult').innerHTML = `
-            Gross: ₹${gross.toFixed(2)}<br>
-            GST (${gst}%): ₹${gstAmt.toFixed(2)}<br>
-            Net Profit: ₹${net.toFixed(2)}<br>
-            Margin: ${margin.toFixed(2)}%
-        `;
+        document.getElementById('profitResult').innerHTML = `Gross Profit: ₹${gross.toFixed(2)}<br>GST (${gst}%): ₹${tax.toFixed(2)}<br>Net Profit: ₹${net.toFixed(2)}<br>Margin: ${margin.toFixed(2)}%`;
     }
-
     function calcTax() {
         let income = parseFloat(document.getElementById('income').value) || 0;
         let regime = document.getElementById('regime').value;
         let deductions = parseFloat(document.getElementById('deductions').value) || 0;
-        
-        let taxable = income;
-        if (regime === 'old') taxable = Math.max(0, income - deductions);
-        
-        let tax = 0;
-        if (regime === 'new') {
-            if (taxable > 300000) tax += (Math.min(taxable, 700000) - 300000) * 0.05;
-            if (taxable > 700000) tax += (Math.min(taxable, 1000000) - 700000) * 0.10;
-            if (taxable > 1000000) tax += (Math.min(taxable, 1200000) - 1000000) * 0.12;
-            if (taxable > 1200000) tax += (Math.min(taxable, 1500000) - 1200000) * 0.15;
-            if (taxable > 1500000) tax += (taxable - 1500000) * 0.30;
-        } else {
-            if (taxable > 250000) tax += (Math.min(taxable, 500000) - 250000) * 0.05;
-            if (taxable > 500000) tax += (Math.min(taxable, 1000000) - 500000) * 0.20;
-            if (taxable > 1000000) tax += (taxable - 1000000) * 0.30;
-        }
-        
+        let taxable = regime === 'old' ? Math.max(0, income - deductions) : income;
+        let slabs = regime === 'new' ? [[0,300000,0],[300000,700000,5],[700000,1000000,10],[1000000,1200000,12],[1200000,1500000,15],[1500000,Infinity,30]] : [[0,250000,0],[250000,500000,5],[500000,1000000,20],[1000000,Infinity,30]];
+        let tax = 0, rem = taxable;
+        for(let s of slabs) { let amt = Math.min(rem, s[1]-s[0]); if(amt>0) tax += amt * s[2]/100; rem -= amt; if(rem<=0) break; }
+        if(taxable <= 500000 && regime === 'new') tax = Math.max(0, tax - 25000);
         let cess = tax * 0.04;
         let total = tax + cess;
         let after = income - total;
-        let rate = income ? (total / income * 100) : 0;
-        
-        document.getElementById('taxResult').innerHTML = `
-            Taxable: ₹${taxable.toFixed(2)}<br>
-            Income Tax: ₹${tax.toFixed(2)}<br>
-            Cess (4%): ₹${cess.toFixed(2)}<br>
-            <strong>Total Tax: ₹${total.toFixed(2)}</strong><br>
-            After Tax: ₹${after.toFixed(2)}<br>
-            Rate: ${rate.toFixed(2)}%
-        `;
+        let rate = income ? (total/income)*100 : 0;
+        document.getElementById('taxResult').innerHTML = `Taxable: ₹${taxable.toFixed(2)}<br>Income Tax: ₹${tax.toFixed(2)}<br>Cess (4%): ₹${cess.toFixed(2)}<br><strong>Total Tax: ₹${total.toFixed(2)}</strong><br>After Tax: ₹${after.toFixed(2)}<br>Rate: ${rate.toFixed(2)}%`;
     }
-
     function calcLand() {
         let val = parseFloat(document.getElementById('landVal').value) || 0;
         let from = document.getElementById('fromUnit').value;
         let to = document.getElementById('toUnit').value;
-        
-        let sqft = 0;
-        if (from === 'bigha') sqft = val * 27225;
-        else if (from === 'gaj') sqft = val * 9;
-        else if (from === 'acre') sqft = val * 43560;
-        
-        let result = 0;
-        if (to === 'sqft') result = sqft;
-        else if (to === 'gaj') result = sqft / 9;
-        
-        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(2)} ${to}`;
+        let units = { bigha:27225, gaj:9, acre:43560, sqft:1 };
+        let sqft = val * units[from];
+        let result = sqft / units[to];
+        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqft.toFixed(2)} sq ft`;
     }
+    let demo = { pop:1441710000, year:2024, rate:0.99 };
+    function showDemo() { document.getElementById('demoResult').innerHTML = `Population (${demo.year}): ${demo.pop.toLocaleString()}<br>Growth: ${demo.rate}%`; }
+    function calcProj() {
+        let years = parseInt(document.getElementById('projYears').value) || 5;
+        let pop = demo.pop, rate = demo.rate/100, res = [];
+        for(let i=1;i<=years;i++) { pop = pop * (1+rate); res.push(`Year ${demo.year+i}: ${Math.round(pop).toLocaleString()}`); }
+        document.getElementById('projResult').innerHTML = res.join('<br>');
+    }
+    document.getElementById('profitBtn').onclick = calcProfit;
+    document.getElementById('taxBtn').onclick = calcTax;
+    document.getElementById('landBtn').onclick = calcLand;
+    document.getElementById('projBtn').onclick = calcProj;
+    calcProfit(); calcTax(); calcLand(); showDemo();
 </script>
 </body>
 </html>
