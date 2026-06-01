@@ -3,752 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Global Tax Simulator | Enki</title>
+    <title>JStL Spreadsheet™ | Income Tax Calculator</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none; /* slightly cleaner UI, but inputs remain selectable */
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a2f1f;  /* deep bottle green base */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', 'Roboto', 'Inter', system-ui, -apple-system, 'BlinkMacSystemFont', sans-serif;
-            padding: 24px;
+            padding: 20px;
         }
-
-        /* Main card – deep bottle green with subtle shine */
-        .tax-card {
-            max-width: 780px;
-            width: 100%;
-            background: #0b3b26;
-            background-image: radial-gradient(circle at 25% 40%, rgba(200,230,180,0.03) 2%, transparent 2.5%),
-                              radial-gradient(circle at 70% 85%, rgba(210,240,170,0.02) 1.8%, transparent 2%);
-            background-size: 48px 48px, 32px 32px;
-            border-radius: 2.5rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-            padding: 2rem 2rem 2.2rem;
-            transition: all 0.2s ease;
-            border: 1px solid #2d6a4f;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
         }
-
-        h1 {
-            font-size: 1.95rem;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            color: #e2f0e6;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            border-bottom: 2px solid #2a6e4b;
-            padding-bottom: 0.65rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .title-icon {
-            font-size: 1.9rem;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-        }
-
-        /* country selector grid — bottle green themed */
-        .country-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-bottom: 2rem;
-            justify-content: space-between;
-        }
-
-        .country-btn {
-            flex: 1;
-            min-width: 100px;
-            background: #1a4d36;
-            border: none;
-            padding: 12px 6px;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #dfefdf;
-            cursor: pointer;
-            transition: 0.2s;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        .header {
+            background: #1B5E20;
+            color: white;
+            padding: 30px;
             text-align: center;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #2c8c5a;
         }
-
-        .country-btn:hover {
-            background: #2a6b48;
-            transform: translateY(-2px);
-            color: white;
-            border-bottom-color: #a3e4b0;
-        }
-
-        .country-active {
-            background: #2f8b5c;
-            color: white;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            border-bottom: 2px solid #dcfce4;
-            text-shadow: 0 0 2px #0a2f1a;
-        }
-
-        /* income input block */
-        .income-block {
-            background: #0e3523;
-            border-radius: 2rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2f7855;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .income-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-            font-weight: 500;
-            color: #cdf2da;
-            letter-spacing: 0.3px;
-        }
-
-        .income-label span:first-child {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .currency-note {
-            font-size: 0.8rem;
-            background: #0f412c;
-            padding: 4px 12px;
-            border-radius: 24px;
-            color: #b9e6cb;
-        }
-
-        .income-input-wrapper {
-            display: flex;
-            align-items: center;
-            background: #052012;
-            border-radius: 56px;
-            padding: 4px 20px;
-            border: 1px solid #3c8b64;
-            transition: 0.2s;
-        }
-
-        .income-input-wrapper:focus-within {
-            border-color: #95e0b0;
-            box-shadow: 0 0 0 2px rgba(100,210,130,0.4);
-        }
-
-        .currency-symbol {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #a3dcb4;
-            padding-right: 12px;
-        }
-
-        #incomeInput {
-            width: 100%;
-            background: transparent;
-            border: none;
-            font-size: 1.9rem;
-            font-weight: 500;
-            padding: 14px 0;
-            color: #f4fff0;
-            outline: none;
-            font-family: monospace;
-            letter-spacing: 1px;
-        }
-
-        #incomeInput::placeholder {
-            color: #4a7b63;
-            font-size: 1.2rem;
-            font-weight: normal;
-        }
-
-        /* tax results grid */
-        .tax-results {
-            background: #0c3623;
-            border-radius: 1.8rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #317753;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 12px 0;
-            border-bottom: 1px dashed #2c6e4c;
-            font-size: 1.1rem;
-        }
-
-        .result-row:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            font-weight: 500;
-            color: #cbe9d7;
-        }
-
-        .result-value {
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: #e5ffe9;
-            letter-spacing: 0.5px;
-            font-family: monospace;
-        }
-
-        .net-value {
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #d2ffb0;
-        }
-
-        .tax-bracket-note {
-            font-size: 0.75rem;
-            background: #1c503b;
-            padding: 8px 14px;
+        .header h1 { font-size: 2em; margin-bottom: 5px; }
+        .header p { opacity: 0.9; font-size: 0.9em; }
+        .badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #1B5E20;
+            padding: 5px 15px;
             border-radius: 40px;
-            margin-top: 12px;
-            text-align: center;
-            color: #cfebdb;
-        }
-
-        /* download button */
-        .download-btn {
-            background: #1f6547;
-            width: 100%;
-            border: none;
-            padding: 16px 12px;
-            border-radius: 60px;
-            font-size: 1.2rem;
             font-weight: bold;
-            color: #ffffff;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        .price-banner {
+            background: #FF6B35;
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+        .price-banner .price { font-size: 2em; font-weight: bold; }
+        .content { padding: 25px; }
+        .country-section {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .country-buttons {
             display: flex;
-            align-items: center;
             justify-content: center;
             gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .country-btn {
+            background: #1B5E20;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 1em;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 5px 0 #0a351f;
-            border-top: 1px solid #53af7c;
         }
-
-        .download-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #0a351f;
+        .country-btn:hover { background: #FF6B35; }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
         }
-
-        .download-btn:hover {
-            background: #2d8260;
-            letter-spacing: 0.5px;
+        .card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
         }
-
-        footer {
-            font-size: 0.7rem;
+        .card h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-label { font-weight: bold; color: #555; }
+        .info-value { color: #1B5E20; font-weight: 600; }
+        .input-field { margin-bottom: 15px; }
+        .input-field label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
             text-align: center;
-            margin-top: 1.5rem;
-            color: #6ea084;
         }
-
-        @media (max-width: 550px) {
-            .tax-card { padding: 1.5rem; }
-            .country-btn { font-size: 0.9rem; padding: 8px 4px; min-width: 70px; }
-            .result-value { font-size: 1.2rem; }
-            .net-value { font-size: 1.4rem; }
-            #incomeInput { font-size: 1.5rem; }
+        .result-value { font-size: 1.2em; font-weight: bold; color: #1B5E20; }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-download { background: #1B5E20; color: white; }
+        .btn-buy { background: #FF6B35; color: white; }
+        .button-group { text-align: center; margin: 20px 0; }
+        .footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; }
+            .btn { display: block; margin: 10px auto; width: 90%; }
         }
     </style>
 </head>
 <body>
 
-<div class="tax-card" id="taxApp">
-    <h1>
-        <span>🌿 Global Tax Compass</span>
-        <span class="title-icon">⚖️</span>
-    </h1>
-
-    <!-- 4 country buttons -->
-    <div class="country-grid">
-        <button class="country-btn" data-country="Bangladesh">🇧🇩 Bangladesh</button>
-        <button class="country-btn" data-country="Canada">🇨🇦 Canada</button>
-        <button class="country-btn" data-country="India">🇮🇳 India</button>
-        <button class="country-btn" data-country="Thailand">🇹🇭 Thailand</button>
+<div class="container">
+    <div class="header">
+        <h1>📊 JStL Spreadsheet™</h1>
+        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
+        <div class="badge">🇧🇩 🇨🇦 🇮🇳 🇹🇭 · Click Country to Load Tax Structure</div>
     </div>
-
-    <!-- Income input -->
-    <div class="income-block">
-        <div class="income-label">
-            <span>💰 Annual taxable income</span>
-            <span class="currency-note" id="currencyHint">(BDT)</span>
+    
+    <div class="price-banner">
+        <span>🔥 EARLY BIRD OFFER 🔥</span>
+        <div class="price">$199 USD</div>
+        <span class="original">Regular: $369</span>
+        <div>💎 36 of 50 copies remaining</div>
+    </div>
+    
+    <div class="content">
+        
+        <div class="button-group">
+            <button class="btn btn-download" onclick="downloadPage()">📥 Download JStL Spreadsheet (HTML)</button>
+            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy License - $199</button>
         </div>
-        <div class="income-input-wrapper">
-            <span class="currency-symbol" id="currencySymbol">৳</span>
-            <input type="number" id="incomeInput" placeholder="0.00" value="650000" step="any">
+        
+        <div class="country-section">
+            <h3 style="color: #1B5E20;">🌍 Select Country Scenario</h3>
+            <div class="country-buttons">
+                <button class="country-btn" onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
+                <button class="country-btn" onclick="selectCountry('canada')">🇨🇦 Canada</button>
+                <button class="country-btn" onclick="selectCountry('india')">🇮🇳 India</button>
+                <button class="country-btn" onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Default: Bangladesh | Click country to load tax data</p>
+            <button class="country-btn" style="background: #FF6B35; margin-top: 10px;" onclick="loadDefaults()">Load Default Values</button>
+        </div>
+        
+        <div class="two-column">
+            <div class="card">
+                <h3>📊 Tax Structure</h3>
+                <div id="taxStructure">
+                    <div class="info-row"><span class="info-label">Tax Free Threshold:</span><span class="info-value">350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 1 (0%):</span><span class="info-value">0 - 350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 2 (5%):</span><span class="info-value">350,001 - 450,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 3 (10%):</span><span class="info-value">450,001 - 850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 4 (15%):</span><span class="info-value">850,001 - 1,350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 5 (20%):</span><span class="info-value">1,350,001 - 1,850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 6 (25%):</span><span class="info-value">1,850,001 - 3,850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 7 (30%):</span><span class="info-value">Above 3,850,000 BDT</span></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>💰 Tax Calculator</h3>
+                <div class="input-field">
+                    <label>Annual Income (<span id="currencySymbol">BDT</span>)</label>
+                    <input type="number" id="income" value="1000000" oninput="calculateTax()">
+                </div>
+                <div class="result">
+                    📊 Taxable Income: <span class="result-value" id="taxableIncome">650,000</span> <span id="currency1">BDT</span><br>
+                    🧾 Tax Payable: <span class="result-value" id="taxAmount">25,000</span> <span id="currency2">BDT</span><br>
+                    📈 Effective Rate: <span class="result-value" id="effectiveRate">2.5</span>%
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>💡 Investment Tax Rebate (Section 44A)</h3>
+            <div class="info-row"><span class="info-label">Rebate = Lowest of:</span><span class="info-value">3% of Taxable Income, 15% of Eligible Investment, or 1,000,000 BDT</span></div>
+            <div class="info-row"><span class="info-label">Eligible Investments:</span><span class="info-value">Sanchayapatra, Life Insurance, Provident Fund, DSE/CSE Shares, DPS</span></div>
+        </div>
+        
+        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
+            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
         </div>
     </div>
-
-    <!-- Tax output panel -->
-    <div class="tax-results" id="taxResultsPanel">
-        <!-- dynamic content loaded via JS, but static fallback will be replaced -->
-        <div class="result-row">
-            <span class="result-label">💰 Taxable Income</span>
-            <span class="result-value" id="displayIncome">—</span>
-        </div>
-        <div class="result-row">
-            <span class="result-label">🧾 Total Tax Payable</span>
-            <span class="result-value" id="displayTax">—</span>
-        </div>
-        <div class="result-row">
-            <span class="result-label">💵 Net Income (After Tax)</span>
-            <span class="result-value net-value" id="displayNet">—</span>
-        </div>
-        <div class="tax-bracket-note" id="bracketNote">▼ progressive tax rates applied</div>
+    
+    <div class="footer">
+        <p>JStL Spreadsheet™ | Installable App | No Excel | No Google</p>
+        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
     </div>
-
-    <button class="download-btn" id="downloadBtn">
-        ⬇️ SAVE AS HTML FILE (no Excel)
-    </button>
-    <footer>embedded tax rules • real-time calculation • bottle green edition</footer>
 </div>
 
 <script>
-    // --------------------------------------------------------------
-    //  ENTIRE EMBEDDED TAX DATA (NO API)
-    //  All currencies, tax brackets per country
-    // --------------------------------------------------------------
-    const TAX_SYSTEM = {
-        Bangladesh: {
-            currency: "BDT",
-            symbol: "৳",
-            brackets: [
-                { upTo: 350000, rate: 0.00 },      // 0% up to 350k
-                { upTo: 450000, rate: 0.05 },      // 5% on next 100k
-                { upTo: 750000, rate: 0.10 },      // 10% on next 300k
-                { upTo: 1150000, rate: 0.15 },     // 15% on next 400k
-                { upTo: 1650000, rate: 0.20 },     // 20% on next 500k
-                { upTo: Infinity, rate: 0.25 }     // 25% above 1.65M
+    const taxData = {
+        bangladesh: {
+            name: "Bangladesh", currency: "BDT", taxFree: 350000,
+            slabs: [
+                { limit: 350000, rate: 0 },
+                { limit: 450000, rate: 5 },
+                { limit: 850000, rate: 10 },
+                { limit: 1350000, rate: 15 },
+                { limit: 1850000, rate: 20 },
+                { limit: 3850000, rate: 25 },
+                { limit: Infinity, rate: 30 }
             ],
-            formatHint: "Progressive slabs (BDT)"
+            structure: [
+                "Tax Free Threshold: 350,000 BDT",
+                "Slab 1 (0%): 0 - 350,000 BDT",
+                "Slab 2 (5%): 350,001 - 450,000 BDT",
+                "Slab 3 (10%): 450,001 - 850,000 BDT",
+                "Slab 4 (15%): 850,001 - 1,350,000 BDT",
+                "Slab 5 (20%): 1,350,001 - 1,850,000 BDT",
+                "Slab 6 (25%): 1,850,001 - 3,850,000 BDT",
+                "Slab 7 (30%): Above 3,850,000 BDT"
+            ]
         },
-        Canada: {
-            currency: "CAD",
-            symbol: "$",
-            brackets: [
-                { upTo: 53359, rate: 0.15 },       // federal 15%
-                { upTo: 106717, rate: 0.205 },
-                { upTo: 165430, rate: 0.26 },
-                { upTo: 235675, rate: 0.29 },
-                { upTo: Infinity, rate: 0.33 }
+        canada: {
+            name: "Canada", currency: "CAD", taxFree: 15000,
+            slabs: [
+                { limit: 15000, rate: 0 },
+                { limit: 53359, rate: 15 },
+                { limit: 106717, rate: 20.5 },
+                { limit: 165430, rate: 26 },
+                { limit: 235675, rate: 29 },
+                { limit: Infinity, rate: 33 }
             ],
-            formatHint: "Federal marginal rates (CAD)"
+            structure: [
+                "Tax Free Threshold: 15,000 CAD",
+                "Slab 1 (0%): 0 - 15,000 CAD",
+                "Slab 2 (15%): 15,001 - 53,359 CAD",
+                "Slab 3 (20.5%): 53,360 - 106,717 CAD",
+                "Slab 4 (26%): 106,718 - 165,430 CAD",
+                "Slab 5 (29%): 165,431 - 235,675 CAD",
+                "Slab 6 (33%): Above 235,675 CAD"
+            ]
         },
-        India: {
-            currency: "INR",
-            symbol: "₹",
-            brackets: [
-                { upTo: 300000, rate: 0.00 },      // 0% up to 3L (new regime default)
-                { upTo: 600000, rate: 0.05 },
-                { upTo: 900000, rate: 0.10 },
-                { upTo: 1200000, rate: 0.15 },
-                { upTo: 1500000, rate: 0.20 },
-                { upTo: Infinity, rate: 0.30 }
+        india: {
+            name: "India", currency: "INR", taxFree: 250000,
+            slabs: [
+                { limit: 250000, rate: 0 },
+                { limit: 500000, rate: 5 },
+                { limit: 1000000, rate: 20 },
+                { limit: Infinity, rate: 30 }
             ],
-            formatHint: "New income tax regime (INR)"
+            structure: [
+                "Tax Free Threshold: 250,000 INR",
+                "Slab 1 (0%): 0 - 250,000 INR",
+                "Slab 2 (5%): 250,001 - 500,000 INR",
+                "Slab 3 (20%): 500,001 - 1,000,000 INR",
+                "Slab 4 (30%): Above 1,000,000 INR"
+            ]
         },
-        Thailand: {
-            currency: "THB",
-            symbol: "฿",
-            brackets: [
-                { upTo: 150000, rate: 0.00 },
-                { upTo: 300000, rate: 0.05 },
-                { upTo: 500000, rate: 0.10 },
-                { upTo: 750000, rate: 0.15 },
-                { upTo: 1000000, rate: 0.20 },
-                { upTo: 2000000, rate: 0.25 },
-                { upTo: 5000000, rate: 0.30 },
-                { upTo: Infinity, rate: 0.35 }
+        thailand: {
+            name: "Thailand", currency: "THB", taxFree: 150000,
+            slabs: [
+                { limit: 150000, rate: 0 },
+                { limit: 300000, rate: 5 },
+                { limit: 500000, rate: 10 },
+                { limit: 750000, rate: 15 },
+                { limit: 1000000, rate: 20 },
+                { limit: 2000000, rate: 25 },
+                { limit: Infinity, rate: 35 }
             ],
-            formatHint: "Progressive personal income tax (THB)"
+            structure: [
+                "Tax Free Threshold: 150,000 THB",
+                "Slab 1 (0%): 0 - 150,000 THB",
+                "Slab 2 (5%): 150,001 - 300,000 THB",
+                "Slab 3 (10%): 300,001 - 500,000 THB",
+                "Slab 4 (15%): 500,001 - 750,000 THB",
+                "Slab 5 (20%): 750,001 - 1,000,000 THB",
+                "Slab 6 (25%): 1,000,001 - 2,000,000 THB",
+                "Slab 7 (35%): Above 2,000,000 THB"
+            ]
         }
     };
-
-    // Helper: Calculate progressive tax
-    function calculateProgressiveTax(income, brackets) {
-        if (income <= 0) return 0;
+    
+    let currentCountry = 'bangladesh';
+    
+    function selectCountry(country) {
+        currentCountry = country;
+        let data = taxData[country];
+        
+        let html = '';
+        for(let i = 0; i < data.structure.length; i++) {
+            let parts = data.structure[i].split(':');
+            html += '<div class="info-row"><span class="info-label">' + parts[0] + ':</span><span class="info-value">' + parts[1] + '</span></div>';
+        }
+        document.getElementById('taxStructure').innerHTML = html;
+        
+        let currencyElements = document.querySelectorAll('#currencySymbol, #currency1, #currency2');
+        currencyElements.forEach(el => { if(el) el.innerHTML = data.currency; });
+        
+        document.getElementById('income').value = '';
+        document.getElementById('taxableIncome').innerHTML = '0';
+        document.getElementById('taxAmount').innerHTML = '0';
+        document.getElementById('effectiveRate').innerHTML = '0';
+    }
+    
+    function loadDefaults() {
+        let data = taxData[currentCountry];
+        let defaultIncome = currentCountry === 'bangladesh' ? 1000000 : 
+                           currentCountry === 'canada' ? 80000 : 
+                           currentCountry === 'india' ? 1000000 : 1000000;
+        document.getElementById('income').value = defaultIncome;
+        calculateTax();
+    }
+    
+    function calculateTax() {
+        let income = parseFloat(document.getElementById('income').value) || 0;
+        let data = taxData[currentCountry];
+        
+        let taxable = Math.max(0, income - data.taxFree);
         let tax = 0;
-        let previousLimit = 0;
-        for (let bracket of brackets) {
-            const upper = bracket.upTo;
-            const rate = bracket.rate;
-            if (income > previousLimit) {
-                const taxableInSlice = Math.min(income, upper) - previousLimit;
-                if (taxableInSlice > 0) {
-                    tax += taxableInSlice * rate;
-                }
+        let remaining = taxable;
+        
+        for(let i = 0; i < data.slabs.length; i++) {
+            let slab = data.slabs[i];
+            let limit = slab.limit;
+            if(i === 0) limit = slab.limit - data.taxFree;
+            if(i > 0) limit = slab.limit - data.slabs[i-1].limit;
+            if(slab.limit === Infinity) {
+                tax += remaining * slab.rate / 100;
+                break;
             }
-            previousLimit = upper;
-            if (income <= upper) break;
+            let taxableInSlab = Math.min(remaining, limit);
+            tax += taxableInSlab * slab.rate / 100;
+            remaining -= taxableInSlab;
+            if(remaining <= 0) break;
         }
-        return tax;
+        
+        let effectiveRate = income > 0 ? (tax / income * 100).toFixed(2) : 0;
+        
+        document.getElementById('taxableIncome').innerHTML = Math.round(taxable).toLocaleString();
+        document.getElementById('taxAmount').innerHTML = Math.round(tax).toLocaleString();
+        document.getElementById('effectiveRate').innerHTML = effectiveRate;
     }
-
-    // Format number with commas & 2 decimals
-    function formatMoney(value, symbol, decimals = 0) {
-        let formattedNum;
-        if (decimals === 0) {
-            formattedNum = Math.round(value).toLocaleString();
-        } else {
-            formattedNum = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-        return `${symbol} ${formattedNum}`;
-    }
-
-    // DOM elements
-    const countryBtns = document.querySelectorAll('.country-btn');
-    const incomeInput = document.getElementById('incomeInput');
-    const displayIncomeSpan = document.getElementById('displayIncome');
-    const displayTaxSpan = document.getElementById('displayTax');
-    const displayNetSpan = document.getElementById('displayNet');
-    const bracketNoteDiv = document.getElementById('bracketNote');
-    const currencySymbolSpan = document.getElementById('currencySymbol');
-    const currencyHintSpan = document.getElementById('currencyHint');
-
-    // Current state
-    let currentCountry = "Bangladesh";   // default
-    let currentIncome = 650000;           // numeric
-
-    // Update UI based on country & income
-    function refreshAll() {
-        const incomeNum = parseFloat(currentIncome);
-        if (isNaN(incomeNum) || incomeNum < 0) {
-            // If invalid, set to 0
-            const cleanIncome = isNaN(incomeNum) ? 0 : Math.max(0, incomeNum);
-            currentIncome = cleanIncome;
-            incomeInput.value = cleanIncome;
-            refreshAll();
-            return;
-        }
-
-        const countryData = TAX_SYSTEM[currentCountry];
-        if (!countryData) return;
-
-        const brackets = countryData.brackets;
-        const taxAmount = calculateProgressiveTax(incomeNum, brackets);
-        const netIncome = incomeNum - taxAmount;
-
-        // Update symbol and hint
-        currencySymbolSpan.innerText = countryData.symbol;
-        currencyHintSpan.innerText = `(${countryData.currency})`;
-
-        // Format values
-        const showDecimals = (currentCountry === "Canada") ? 2 : 0;
-        const formattedIncome = formatMoney(incomeNum, countryData.symbol, showDecimals);
-        const formattedTax = formatMoney(taxAmount, countryData.symbol, showDecimals);
-        const formattedNet = formatMoney(netIncome, countryData.symbol, showDecimals);
-
-        displayIncomeSpan.innerText = formattedIncome;
-        displayTaxSpan.innerText = formattedTax;
-        displayNetSpan.innerText = formattedNet;
-
-        // dynamic note about brackets
-        let rateSummary = "";
-        if (currentCountry === "Bangladesh") rateSummary = "0% up to 350k → 5%→10%→15%→20%→25% (BDT)";
-        else if (currentCountry === "Canada") rateSummary = "Federal brackets: 15% → 20.5% → 26% → 29% → 33% (CAD)";
-        else if (currentCountry === "India") rateSummary = "0% up to 3L → 5% → 10% → 15% → 20% → 30% (INR)";
-        else if (currentCountry === "Thailand") rateSummary = "0% → 5% → 10% → 15% → 20% → 25% → 30% → 35% (THB)";
-        bracketNoteDiv.innerHTML = `📊 ${currentCountry} · ${rateSummary} · progressive tax system`;
-    }
-
-    // Event: income changed
-    function onIncomeChange() {
-        let rawValue = incomeInput.value.trim();
-        if (rawValue === "") rawValue = "0";
-        let numeric = parseFloat(rawValue);
-        if (isNaN(numeric)) numeric = 0;
-        if (numeric < 0) numeric = 0;
-        currentIncome = numeric;
-        incomeInput.value = numeric;   // prevent negative sign
-        refreshAll();
-    }
-
-    // Event: switch country
-    function setCountry(countryName) {
-        currentCountry = countryName;
-        // update active button styles
-        countryBtns.forEach(btn => {
-            const btnCountry = btn.getAttribute('data-country');
-            if (btnCountry === countryName) {
-                btn.classList.add('country-active');
-            } else {
-                btn.classList.remove('country-active');
-            }
-        });
-        refreshAll();
-    }
-
-    // attach income listener (input + change)
-    incomeInput.addEventListener('input', function(e) {
-        let val = e.target.value;
-        if (val === "" || val === "-") return;
-        let num = parseFloat(val);
-        if (!isNaN(num)) {
-            currentIncome = num;
-            refreshAll();
-        }
-    });
-    incomeInput.addEventListener('blur', function() {
-        let val = parseFloat(incomeInput.value);
-        if (isNaN(val)) val = 0;
-        if (val < 0) val = 0;
-        currentIncome = val;
-        incomeInput.value = val;
-        refreshAll();
-    });
-
-    // Attach country clicks
-    countryBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const country = btn.getAttribute('data-country');
-            if (country) setCountry(country);
-        });
-    });
-
-    // ---- Download entire page as HTML (no Excel, self-contained) ----
-    function downloadAsHTML() {
-        // We capture the current visual snapshot but also preserve full script logic.
-        // For perfect identical page: we clone the main container and create a full HTML document.
-        const originalDoc = document.cloneNode(true);
-        // Ensure the cloned version has fresh input and selected country active.
-        // However easiest: generate fresh HTML with current state pre-filled (income value + active country).
-        // Better approach: produce standalone identical interactive page, with current income & country preselected.
-        const activeCountry = currentCountry;
-        const incomeValue = currentIncome;
-
-        // Full HTML string with current state injected.
-        const htmlContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Tax Simulator - ${activeCountry} | Enki</title>
-    <style>
-        * { margin:0; padding:0; box-sizing: border-box; }
-        body {
-            background: #0a2f1f;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            padding: 24px;
-        }
-        .tax-card {
-            max-width: 780px;
-            width: 100%;
-            background: #0b3b26;
-            background-image: radial-gradient(circle at 25% 40%, rgba(200,230,180,0.03) 2%, transparent 2.5%);
-            border-radius: 2.5rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-            padding: 2rem 2rem 2.2rem;
-            border: 1px solid #2d6a4f;
-        }
-        h1 {
-            font-size: 1.95rem;
-            font-weight: 600;
-            color: #e2f0e6;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 2px solid #2a6e4b;
-            padding-bottom: 0.65rem;
-            margin-bottom: 1.8rem;
-        }
-        .country-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-bottom: 2rem;
-        }
-        .country-btn {
-            flex: 1;
-            background: #1a4d36;
-            border: none;
-            padding: 12px 6px;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #dfefdf;
-            cursor: pointer;
-            text-align: center;
-            border-bottom: 2px solid #2c8c5a;
-        }
-        .country-active { background: #2f8b5c; color: white; border-bottom: 2px solid #dcfce4; }
-        .income-block {
-            background: #0e3523;
-            border-radius: 2rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2f7855;
-        }
-        .income-label {
-            display: flex;
-            justify-content: space-between;
-            color: #cdf2da;
-            margin-bottom: 12px;
-        }
-        .income-input-wrapper {
-            display: flex;
-            align-items: center;
-            background: #052012;
-            border-radius: 56px;
-            padding: 4px 20px;
-            border: 1px solid #3c8b64;
-        }
-        .currency-symbol { font-size: 1.8rem; font-weight: 600; color: #a3dcb4; padding-right: 12px; }
-        #incomeInput {
-            width: 100%;
-            background: transparent;
-            border: none;
-            font-size: 1.9rem;
-            font-weight: 500;
-            padding: 14px 0;
-            color: #f4fff0;
-            outline: none;
-            font-family: monospace;
-        }
-        .tax-results {
-            background: #0c3623;
-            border-radius: 1.8rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px dashed #2c6e4c;
-            font-size: 1.1rem;
-        }
-        .result-value { font-weight: 700; font-size: 1.4rem; color: #e5ffe9; font-family: monospace; }
-        .net-value { font-size: 1.7rem; font-weight: 800; color: #d2ffb0; }
-        .download-btn {
-            background: #1f6547;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            border-radius: 60px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-        }
-        footer { font-size: 0.7rem; text-align: center; margin-top: 1.5rem; color: #6ea084; }
-        .tax-bracket-note { font-size: 0.75rem; background: #1c503b; padding: 8px; border-radius: 40px; margin-top: 12px; text-align: center; }
-    </style>
-</head>
-<body>
-<div class="tax-card">
-    <h1><span>🌿 Global Tax Compass</span><span>⚖️</span></h1>
-    <div class="country-grid">
-        <button class="country-btn" data-country="Bangladesh">🇧🇩 Bangladesh</button>
-        <button class="country-btn" data-country="Canada">🇨🇦 Canada</button>
-        <button class="country-btn" data-country="India">🇮🇳 India</button>
-        <button class="country-btn" data-country="Thailand">🇹🇭 Thailand</button>
-    </div>
-    <div class="income-block">
-        <div class="income-label"><span>💰 Annual taxable income</span><span id="currencyHint">(Currency)</span></div>
-        <div class="income-input-wrapper"><span class="currency-symbol" id="currencySymbol">$</span><input type="number" id="incomeInput" value="${incomeValue}" step="any"></div>
-    </div>
-    <div class="tax-results">
-        <div class="result-row"><span class="result-label">💰 Taxable Income</span><span class="result-value" id="displayIncome">—</span></div>
-        <div class="result-row"><span class="result-label">🧾 Total Tax Payable</span><span class="result-value" id="displayTax">—</span></div>
-        <div class="result-row"><span class="result-label">💵 Net Income</span><span class="result-value net-value" id="displayNet">—</span></div>
-        <div class="tax-bracket-note" id="bracketNote">progressive tax</div>
-    </div>
-    <button class="download-btn" id="downloadBtnInner">⬇️ SAVE AS HTML FILE</button>
-    <footer>bottle green • embedded tax rules</footer>
-</div>
-<script>
-    const TAX_SYSTEM = ${JSON.stringify(TAX_SYSTEM)};
-    function calculateProgressiveTax(income, brackets) {
-        if (income <= 0) return 0;
-        let tax = 0, prev = 0;
-        for (let b of brackets) {
-            let upper = b.upTo;
-            if (income > prev) {
-                let slice = Math.min(income, upper) - prev;
-                if (slice > 0) tax += slice * b.rate;
-            }
-            prev = upper;
-            if (income <= upper) break;
-        }
-        return tax;
-    }
-    function formatMoney(v, sym, dec) { let n = (dec===2? v.toFixed(2) : Math.round(v)).toLocaleString(); return sym+' '+n; }
-    let currentCountry = "${activeCountry}";
-    let currentIncome = ${incomeValue};
-    const incomeInputEl = document.getElementById('incomeInput');
-    function refresh() {
-        let inc = parseFloat(currentIncome);
-        if (isNaN(inc)) inc = 0;
-        const data = TAX_SYSTEM[currentCountry];
-        if(!data) return;
-        const tax = calculateProgressiveTax(inc, data.brackets);
-        const net = inc - tax;
-        document.getElementById('currencySymbol').innerText = data.symbol;
-        document.getElementById('currencyHint').innerText = '('+data.currency+')';
-        let dec = currentCountry === "Canada" ? 2 : 0;
-        document.getElementById('displayIncome').innerText = formatMoney(inc, data.symbol, dec);
-        document.getElementById('displayTax').innerText = formatMoney(tax, data.symbol, dec);
-        document.getElementById('displayNet').innerText = formatMoney(net, data.symbol, dec);
-        let noteMap = { Bangladesh:"0%→5%→25% BDT", Canada:"fed brackets", India:"0%→5%→30%", Thailand:"0%→5%→35%" };
-        document.getElementById('bracketNote').innerHTML = \`📊 \${currentCountry} · \${noteMap[currentCountry] || "progressive"}\`;
-        document.querySelectorAll('.country-btn').forEach(btn => {
-            if(btn.getAttribute('data-country') === currentCountry) btn.classList.add('country-active');
-            else btn.classList.remove('country-active');
-        });
-    }
-    incomeInputEl.addEventListener('input', (e) => { let v = parseFloat(e.target.value); if(!isNaN(v)) { currentIncome = v; refresh(); } });
-    window.setCountry = (c) => { currentCountry = c; refresh(); };
-    document.querySelectorAll('.country-btn').forEach(btn => btn.addEventListener('click', () => window.setCountry(btn.getAttribute('data-country'))));
-    document.getElementById('downloadBtnInner')?.addEventListener('click', () => { alert("This is the downloaded version. Use original 'Save as HTML' if needed, but file is self-contained."); });
-    refresh();
-<\/script>
-</body>
-</html>`;
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = `tax_simulator_${activeCountry.toLowerCase()}.html`;
-        document.body.appendChild(link);
+    
+    function downloadPage() {
+        let htmlContent = document.documentElement.outerHTML;
+        let blob = new Blob([htmlContent], {type: 'text/html'});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'jstl_spreadsheet.html';
         link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(link.href);
     }
-
-    // attach download button
-    const downloadBtn = document.getElementById('downloadBtn');
-    downloadBtn.addEventListener('click', downloadAsHTML);
-
-    // initial setup: set default country (Bangladesh active + income)
-    setCountry("Bangladesh");
-    incomeInput.value = "650000";
-    currentIncome = 650000;
-    refreshAll();
+    
+    function contactForPayment() {
+        alert("📞 TO PURCHASE JStL LICENSE:\n\nEmail: seliim.ahmed@gmail.com\n\nPrice: $199 USD\n\nYou will receive:\n✅ Digital Certificate\n✅ Perpetual License Key\n✅ Software Download Link");
+    }
+    
+    window.onload = function() {
+        selectCountry('bangladesh');
+        loadDefaults();
+    }
 </script>
+
 </body>
 </html>
