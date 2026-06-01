@@ -27,7 +27,6 @@
             box-shadow: 0 25px 60px rgba(0,0,0,0.4);
         }
         
-        /* GREEN HEADER - PRESERVED */
         .header {
             background: linear-gradient(135deg, #1B5E20, #0D3B0F);
             color: white;
@@ -41,10 +40,9 @@
             letter-spacing: 2px;
         }
         
-        .header h3 {
+        .header p {
             font-size: 1.2em;
-            font-weight: normal;
-            opacity: 0.9;
+            opacity: 0.95;
         }
         
         .badge {
@@ -54,41 +52,76 @@
             padding: 8px 20px;
             border-radius: 40px;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 0.9em;
         }
         
-        /* ORANGE PRICE BANNER - PRESERVED */
+        .info-bar {
+            background: #1a1a2e;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .info-item {
+            color: #ddd;
+            font-size: 0.9em;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
         .price-banner {
             background: linear-gradient(135deg, #FF6B35, #F7931E);
-            padding: 20px;
+            padding: 20px 40px;
             text-align: center;
             color: white;
+        }
+        
+        .price-banner .early {
+            font-size: 1.2em;
+            letter-spacing: 2px;
         }
         
         .price-banner .price {
             font-size: 3em;
             font-weight: bold;
+            margin: 10px 0;
         }
         
         .price-banner .original {
+            font-size: 1.2em;
             text-decoration: line-through;
             opacity: 0.8;
         }
         
-        .price-banner .countdown {
-            background: #000000aa;
+        .price-banner .saving {
+            background: #1B5E20;
             display: inline-block;
             padding: 5px 15px;
             border-radius: 30px;
+            font-size: 0.9em;
             margin-top: 10px;
+        }
+        
+        .countdown {
+            background: #000000aa;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-top: 15px;
+            font-weight: bold;
         }
         
         .content {
             padding: 40px;
         }
         
-        /* GREEN SECTION TITLES - PRESERVED */
         .section-title {
             font-size: 1.8em;
             color: #1B5E20;
@@ -97,7 +130,6 @@
             padding-left: 20px;
         }
         
-        /* BUTTONS - PRESERVED */
         .btn {
             display: inline-block;
             padding: 15px 30px;
@@ -110,7 +142,7 @@
             text-align: center;
         }
         
-        .btn-download {
+        .btn-demo {
             background: linear-gradient(135deg, #FF6B35, #F7931E);
             color: white;
         }
@@ -130,15 +162,14 @@
             margin: 30px 0;
         }
         
-        /* GRID SYSTEM - PRESERVED */
+        /* GRID SYSTEM */
         .grid-2col {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin-bottom: 30px;
+            margin: 30px 0;
         }
         
-        /* GREEN BORDER CARDS - PRESERVED */
         .grid-card {
             background: #f8f9fa;
             border-radius: 20px;
@@ -152,19 +183,16 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #4CAF50;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.3em;
         }
         
-        /* TABLE STYLES */
         .data-table {
             width: 100%;
             border-collapse: collapse;
         }
         
         .data-table td {
-            padding: 10px 8px;
+            padding: 12px 8px;
             border-bottom: 1px solid #e0e0e0;
         }
         
@@ -187,27 +215,9 @@
             background-color: #e8f5e9;
         }
         
-        .input-badge {
-            background: #FF6B35;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7em;
-            margin-left: 8px;
-        }
-        
-        .result-badge {
-            background: #4CAF50;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7em;
-            margin-left: 8px;
-        }
-        
         .demo-input {
-            width: 120px;
-            padding: 8px;
+            width: 130px;
+            padding: 8px 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 0.9em;
@@ -217,7 +227,21 @@
             width: 160px;
         }
         
-        /* FOOTER - PRESERVED */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .calculator-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
         .footer {
             background: #1a1a2e;
             color: #aaa;
@@ -230,7 +254,6 @@
             text-decoration: none;
         }
         
-        /* POPUP */
         .instruction-popup {
             display: none;
             position: fixed;
@@ -265,213 +288,145 @@
             .grid-2col { grid-template-columns: 1fr; }
             .btn { display: block; margin: 10px auto; width: 90%; }
             .demo-input { width: 100%; }
-            select.demo-input { width: 100%; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- GREEN HEADER -->
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <h3>Professional Calculator Suite | Perpetual License</h3>
+        <p>Professional Calculator Suite | Perpetual License</p>
         <div class="badge">Multi-Country | Auto-Calc | Lifetime Updates</div>
     </div>
     
-    <!-- ORANGE PRICE BANNER -->
+    <div class="info-bar">
+        <div class="info-item"><span class="info-label">👨‍💻 Author:</span> Seliim Ahmed</div>
+        <div class="info-item"><span class="info-label">📧 Contact:</span> seliim.ahmed@gmail.com</div>
+        <div class="info-item"><span class="info-label">📅 Version:</span> JStL v2.0</div>
+        <div class="info-item"><span class="info-label">🎯 Status:</span> ✅ Production Ready</div>
+    </div>
+    
     <div class="price-banner">
-        <div>🔥 EARLY BIRD OFFER 🔥</div>
+        <div class="early">🔥 EARLY BIRD OFFER 🔥</div>
         <div class="price">$199 USD</div>
         <div class="original">Regular: $369</div>
-        <div class="countdown">💎 36 of 50 copies remaining</div>
+        <div class="saving">💎 YOU SAVE $170 💎</div>
+        <div class="countdown">🎯 First 50 Buyers Only · 36 Copies Remaining</div>
     </div>
     
     <div class="content">
         
         <!-- BUTTON GROUP -->
         <div class="button-group">
-            <button class="btn btn-download" onclick="downloadJStL()">📥 Download JStL Spreadsheet</button>
+            <button class="btn btn-demo" onclick="downloadJStL()">📥 Download JStL Spreadsheet</button>
             <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy License - $199</button>
             <button class="btn btn-instruction" onclick="showInstructions()">📋 Payment Instructions</button>
         </div>
         
-        <!-- 2-COLUMN GRID -->
+        <!-- GRID SECTION -->
         <div class="grid-2col">
             
-            <!-- FINANCE CALCULATOR CARD -->
+            <!-- FINANCE CALCULATOR -->
             <div class="grid-card">
                 <h3>💰 JStL Finance</h3>
                 <table class="data-table">
-                    <tr class="input-row">
-                        <td>🌍 Country</td>
-                        <td>
-                            <select id="countryFinance" class="demo-input" onchange="calculateFinance()">
-                                <option value="BDT">🇧🇩 Bangladesh (BDT)</option>
-                                <option value="INR">🇮🇳 India (INR)</option>
-                                <option value="USD">🇺🇸 USA (USD)</option>
-                                <option value="GBP">🇬🇧 UK (GBP)</option>
-                                <option value="CAD">🇨🇦 Canada (CAD)</option>
-                                <option value="AUD">🇦🇺 Australia (AUD)</option>
-                                <option value="PKR">🇵🇰 Pakistan (PKR)</option>
-                                <option value="NPR">🇳🇵 Nepal (NPR)</option>
-                                <option value="LKR">🇱🇰 Sri Lanka (LKR)</option>
-                                <option value="CNY">🇨🇳 China (CNY)</option>
-                                <option value="EUR">🇪🇺 Euro (EUR)</option>
-                                <option value="JPY">🇯🇵 Japan (JPY)</option>
-                            </select>
-                        </td>
+                    <tr class="input-row"><td>🌍 Country</td>
+                        <td><select id="countryFinance" class="demo-input" onchange="calculateFinance()">
+                            <option value="BDT">🇧🇩 Bangladesh (BDT)</option>
+                            <option value="INR">🇮🇳 India (INR)</option>
+                            <option value="USD">🇺🇸 USA (USD)</option>
+                            <option value="GBP">🇬🇧 UK (GBP)</option>
+                            <option value="CAD">🇨🇦 Canada (CAD)</option>
+                            <option value="AUD">🇦🇺 Australia (AUD)</option>
+                            <option value="PKR">🇵🇰 Pakistan (PKR)</option>
+                            <option value="NPR">🇳🇵 Nepal (NPR)</option>
+                            <option value="EUR">🇪🇺 Euro (EUR)</option>
+                            <option value="JPY">🇯🇵 Japan (JPY)</option>
+                        </select></td>
                     </tr>
-                    <tr class="input-row">
-                        <td>📥 Income</td>
-                        <td><input type="number" id="income" value="500000" class="demo-input" oninput="calculateFinance()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>📊 VAT Rate (%)</td>
-                        <td><input type="number" id="vatRate" value="15" class="demo-input" oninput="calculateFinance()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>🏷️ Sales Tax (%)</td>
-                        <td><input type="number" id="salesTaxRate" value="5" class="demo-input" oninput="calculateFinance()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>🛒 Buy Price</td>
-                        <td><input type="number" id="buyPrice" value="500" class="demo-input" oninput="calculateFinance()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>💵 Sell Price</td>
-                        <td><input type="number" id="sellPrice" value="750" class="demo-input" oninput="calculateFinance()"></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>📈 Gross Profit</td>
-                        <td><span id="grossProfit">250.00</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>🧾 VAT Amount</td>
-                        <td><span id="vatAmount">112.50</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>📑 Sales Tax</td>
-                        <td><span id="salesTax">37.50</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>🎯 Net Profit</td>
-                        <td><span id="netProfit">100.00</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>📊 Profit Margin (%)</td>
-                        <td><span id="profitMargin">13.33</span>%</td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>🏦 Income Tax (8%)</td>
-                        <td><span id="incomeTax">40000.00</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>✅ After Tax Income</td>
-                        <td><span id="afterTax">460000.00</span></td>
-                    </tr>
+                    <tr class="input-row"><td>📥 Income</td><td><input type="number" id="income" value="500000" class="demo-input" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>📊 VAT Rate (%)</td><td><input type="number" id="vatRate" value="15" class="demo-input" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🏷️ Sales Tax (%)</td><td><input type="number" id="salesTaxRate" value="5" class="demo-input" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>🛒 Buy Price</td><td><input type="number" id="buyPrice" value="500" class="demo-input" oninput="calculateFinance()"></td></tr>
+                    <tr class="input-row"><td>💵 Sell Price</td><td><input type="number" id="sellPrice" value="750" class="demo-input" oninput="calculateFinance()"></td></tr>
+                    <tr class="result-row"><td>📈 Gross Profit</td><td><span id="grossProfit">250.00</span></td></tr>
+                    <tr class="result-row"><td>🧾 VAT Amount</td><td><span id="vatAmount">112.50</span></td></tr>
+                    <tr class="result-row"><td>📑 Sales Tax</td><td><span id="salesTax">37.50</span></td></tr>
+                    <tr class="result-row"><td>🎯 Net Profit</td><td><span id="netProfit">100.00</span></td></tr>
+                    <tr class="result-row"><td>📊 Profit Margin (%)</td><td><span id="profitMargin">13.33</span>%</td></tr>
+                    <tr class="result-row"><td>🏦 Income Tax (8%)</td><td><span id="incomeTax">40000.00</span></td></tr>
+                    <tr class="result-row"><td>✅ After Tax Income</td><td><span id="afterTax">460000.00</span></td></tr>
                 </table>
                 <p style="font-size: 0.7em; margin-top: 10px; color: #888;">JStL Finance v2.0 | Auto-calculation</p>
             </div>
             
-            <!-- DEMOGRAPHY CALCULATOR CARD -->
+            <!-- DEMOGRAPHY CALCULATOR -->
             <div class="grid-card">
                 <h3>👥 JStL Demography</h3>
                 <table class="data-table">
-                    <tr class="input-row">
-                        <td>🌍 Select Country</td>
-                        <td>
-                            <select id="countrySelect" class="demo-input" onchange="loadCountryData()">
-                                <option value="india">🇮🇳 India</option>
-                                <option value="bangladesh" selected>🇧🇩 Bangladesh</option>
-                                <option value="usa">🇺🇸 USA</option>
-                                <option value="uk">🇬🇧 United Kingdom</option>
-                                <option value="canada">🇨🇦 Canada</option>
-                                <option value="australia">🇦🇺 Australia</option>
-                                <option value="pakistan">🇵🇰 Pakistan</option>
-                                <option value="nepal">🇳🇵 Nepal</option>
-                                <option value="srilanka">🇱🇰 Sri Lanka</option>
-                                <option value="china">🇨🇳 China</option>
-                                <option value="japan">🇯🇵 Japan</option>
-                                <option value="germany">🇩🇪 Germany</option>
-                                <option value="brazil">🇧🇷 Brazil</option>
-                            </select>
-                        </td>
+                    <tr class="input-row"><td>🌍 Select Country</td>
+                        <td><select id="countrySelect" class="demo-input" onchange="loadCountryData()">
+                            <option value="india">🇮🇳 India</option>
+                            <option value="bangladesh" selected>🇧🇩 Bangladesh</option>
+                            <option value="usa">🇺🇸 USA</option>
+                            <option value="uk">🇬🇧 United Kingdom</option>
+                            <option value="canada">🇨🇦 Canada</option>
+                            <option value="australia">🇦🇺 Australia</option>
+                            <option value="pakistan">🇵🇰 Pakistan</option>
+                            <option value="nepal">🇳🇵 Nepal</option>
+                            <option value="china">🇨🇳 China</option>
+                            <option value="japan">🇯🇵 Japan</option>
+                            <option value="germany">🇩🇪 Germany</option>
+                            <option value="brazil">🇧🇷 Brazil</option>
+                        </select></td>
                     </tr>
-                    <tr class="input-row">
-                        <td>👨‍👩‍👧‍👦 Population</td>
-                        <td><span id="population">171,186,000</span></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>🍼 Birth Rate (/1k)</td>
-                        <td><input type="number" id="birthRate" value="17.8" class="demo-input" oninput="calculateDemography()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>⚰️ Death Rate (/1k)</td>
-                        <td><input type="number" id="deathRate" value="5.5" class="demo-input" oninput="calculateDemography()"></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>📈 Growth Rate</td>
-                        <td><span id="growthRate">1.23</span>%</td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>👨 Male %</td>
-                        <td><input type="number" id="malePercent" value="49.8" class="demo-input" oninput="calculateDemography()"></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>👩 Female %</td>
-                        <td><span id="femalePercent">50.2</span>%</td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>🏙️ Urban %</td>
-                        <td><input type="number" id="urbanPercent" value="39.0" class="demo-input" oninput="calculateDemography()"></td>
-                    </tr>
-                    <tr class="input-row">
-                        <td>📅 Projection Years</td>
-                        <td><input type="number" id="projectYears" value="5" class="demo-input" oninput="calculateDemography()"></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>🔮 Projected Population</td>
-                        <td><span id="projectedPop">183,000,000</span></td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>📉 Population Change</td>
-                        <td><span id="popChange">+11,814,000</span></td>
-                    </tr>
+                    <tr class="input-row"><td>👨‍👩‍👧‍👦 Population</td><td><span id="population">171,186,000</span></td></tr>
+                    <tr class="input-row"><td>🍼 Birth Rate (/1k)</td><td><input type="number" id="birthRate" value="17.8" class="demo-input" oninput="calculateDemography()"></td></tr>
+                    <tr class="input-row"><td>⚰️ Death Rate (/1k)</td><td><input type="number" id="deathRate" value="5.5" class="demo-input" oninput="calculateDemography()"></td></tr>
+                    <tr class="result-row"><td>📈 Growth Rate</td><td><span id="growthRate">1.23</span>%</td></tr>
+                    <tr class="input-row"><td>👨 Male %</td><td><input type="number" id="malePercent" value="49.8" class="demo-input" oninput="calculateDemography()"></td></tr>
+                    <tr class="result-row"><td>👩 Female %</td><td><span id="femalePercent">50.2</span>%</td></tr>
+                    <tr class="input-row"><td>🏙️ Urban %</td><td><input type="number" id="urbanPercent" value="39.0" class="demo-input" oninput="calculateDemography()"></td></tr>
+                    <tr class="input-row"><td>📅 Projection Years</td><td><input type="number" id="projectYears" value="5" class="demo-input" oninput="calculateDemography()"></td></tr>
+                    <tr class="result-row"><td>🔮 Projected Population</td><td><span id="projectedPop">183,000,000</span></td></tr>
+                    <tr class="result-row"><td>📉 Population Change</td><td><span id="popChange">+11,814,000</span></td></tr>
                 </table>
                 <p style="font-size: 0.7em; margin-top: 10px; color: #888;">JStL Demography v2.0 | Data: World Bank, UN</p>
             </div>
         </div>
         
-        <!-- FULL SUITE FEATURES -->
+        <!-- FULL VERSION FEATURES -->
         <div class="grid-card" style="margin-top: 10px;">
             <h3>💎 JStL Full Suite Includes</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
-                <div>💰 Stock Inventory</div>
-                <div>👥 Demography</div>
-                <div>📈 Statistics</div>
-                <div>💳 Finance</div>
-                <div>🧮 Math Solver</div>
-                <div>📐 Geometry</div>
-                <div>🎯 Percentage</div>
-                <div>📉 Trend Analysis</div>
-                <div>⚖️ Unit Converter</div>
-                <div>🏠 Dashboard</div>
+            <div class="calculator-grid">
+                <div class="calculator-card">💰 Stock Inventory</div>
+                <div class="calculator-card">👥 Demography</div>
+                <div class="calculator-card">📈 Statistics</div>
+                <div class="calculator-card">💳 Finance</div>
+                <div class="calculator-card">🧮 Math Solver</div>
+                <div class="calculator-card">📐 Geometry</div>
+                <div class="calculator-card">🎯 Percentage</div>
+                <div class="calculator-card">📉 Trend Analysis</div>
+                <div class="calculator-card">⚖️ Unit Converter</div>
+                <div class="calculator-card">🏠 Dashboard</div>
             </div>
-            <p style="margin-top: 15px; font-size: 0.8em;">✅ Perpetual License | ✅ Auto-calculation | ✅ Lifetime Updates | ✅ Multi-Currency</p>
+            <p style="margin-top: 15px; font-size: 0.85em; color: #555;">✅ Perpetual License | ✅ Auto-calculation | ✅ Lifetime Updates | ✅ Multi-Currency</p>
         </div>
         
-        <!-- GUARANTEE SECTION - GREEN THEME -->
-        <div style="text-align: center; padding: 20px; background: #f0fdf4; border-radius: 15px; margin-top: 20px; border: 1px solid #4CAF50;">
-            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
+        <!-- GUARANTEE -->
+        <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 20px; margin-top: 30px;">
+            <span style="font-size: 2.5em;">🏆</span>
+            <h3 style="color: #1B5E20; margin: 10px 0;">7-Day Money-Back Guarantee</h3>
+            <p>Not satisfied? Full refund. No questions asked.</p>
+            <p style="margin-top: 10px;">📧 seliim.ahmed@gmail.com</p>
         </div>
     </div>
     
-    <!-- FOOTER - DARK GREEN THEME -->
     <div class="footer">
         <p>JStL Spreadsheet™ | Perpetual License | v2.0</p>
-        <p>© 2026 JStL | seliim.ahmed@gmail.com | amit.khanna.1082@gmail.com</p>
-        <p><button onclick="showInstructions()" style="background:none; color:#4CAF50; border:none;">Payment Instructions</button> | <a href="LICENSE">License</a></p>
+        <p>© 2026 JStL | seliim.ahmed@gmail.com</p>
+        <p><button onclick="showInstructions()" style="background:none; color:#4CAF50; border:none; cursor:pointer;">Payment Instructions</button> | <a href="LICENSE">License</a></p>
     </div>
 </div>
 
@@ -479,21 +434,22 @@
 <div id="instructionPopup" class="instruction-popup">
     <div class="instruction-content">
         <span class="close-btn" onclick="closeInstructions()">&times;</span>
-        <h2>📋 How to Buy JStL License</h2>
-        <p><strong>Payment Methods:</strong></p>
-        <ul>
+        <h2 style="color: #1B5E20;">📋 How to Buy JStL License</h2>
+        <hr style="margin: 15px 0;">
+        <p><strong>💳 Payment Methods:</strong></p>
+        <ul style="margin: 10px 0 20px 20px;">
             <li>✅ Credit/Debit Card</li>
             <li>✅ Western Union</li>
             <li>✅ Crypto (BTC/USDT/ETH)</li>
             <li>✅ Bank Transfer</li>
         </ul>
-        <p><strong>To Purchase:</strong><br>Email: <strong>seliim.ahmed@gmail.com</strong></p>
-        <p><strong>After Payment:</strong></p>
-        <ul>
-            <li>✓ Digital Certificate</li>
+        <p><strong>📞 To Purchase:</strong><br>Email: <strong>seliim.ahmed@gmail.com</strong></p>
+        <p><strong>✅ After Payment You Get:</strong></p>
+        <ul style="margin: 10px 0 20px 20px;">
+            <li>✓ Digital Certificate with your name</li>
             <li>✓ Perpetual License Key</li>
-            <li>✓ 12-Month Warranty</li>
-            <li>✓ Software Download</li>
+            <li>✓ 12-Month Warranty Certificate</li>
+            <li>✓ Software Download Link</li>
         </ul>
         <button class="btn btn-buy" onclick="closeInstructions()" style="width:100%; margin-top:10px;">Close</button>
     </div>
@@ -510,7 +466,6 @@
         australia: { population: 25926000, birthRate: 12.1, deathRate: 7.3, malePercent: 49.7, urbanPercent: 86.2 },
         pakistan: { population: 235825000, birthRate: 27.0, deathRate: 7.0, malePercent: 51.5, urbanPercent: 37.0 },
         nepal: { population: 30547000, birthRate: 18.7, deathRate: 6.4, malePercent: 48.9, urbanPercent: 21.0 },
-        srilanka: { population: 21919000, birthRate: 14.0, deathRate: 7.5, malePercent: 48.4, urbanPercent: 18.5 },
         china: { population: 1412600000, birthRate: 7.5, deathRate: 8.0, malePercent: 51.2, urbanPercent: 64.0 },
         japan: { population: 125125000, birthRate: 6.5, deathRate: 11.5, malePercent: 48.8, urbanPercent: 91.7 },
         germany: { population: 84482000, birthRate: 9.3, deathRate: 12.0, malePercent: 49.3, urbanPercent: 77.5 },
