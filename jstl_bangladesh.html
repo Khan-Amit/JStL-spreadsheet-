@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>JStL Spreadsheet™ - Bangladesh</title>
+    <title>JStL Spreadsheet™ - Bangladesh (Full Tax Database)</title>
     <style>
         *{box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
@@ -35,7 +35,7 @@
 <div class="container">
     <div class="header">
         <h1>🇧🇩 JStL Spreadsheet™ - Bangladesh</h1>
-        <p>VAT 15% | Income Tax 0-25% | Land Units (Bigha, Katha, Decimal) | Demography</p>
+        <p>Full NBR Tax Database | VAT 15% | Income Tax 0-30% | Investment Rebate</p>
     </div>
 
     <div class="content">
@@ -56,10 +56,27 @@
                 <div id="profitResult" class="result">Loading...</div>
             </div>
 
-            <!-- Tax Calculator -->
+            <!-- Tax Calculator - Full NBR Database -->
             <div class="card">
-                <h3>🧾 Income Tax Calculator <span class="badge">Slab 0%–25%</span></h3>
-                <div class="input-group"><label>Annual Income (BDT)</label><input type="number" id="annualIncome" value="500000" step="any"></div>
+                <h3>🧾 Income Tax Calculator <span class="badge">NBR 2025-26</span></h3>
+                <div class="input-group"><label>Taxpayer Category</label>
+                    <select id="taxpayerCategory">
+                        <option value="general">General</option>
+                        <option value="women_and_senior_65_plus">Women / Senior 65+</option>
+                        <option value="third_gender_hijra">Third Gender / Hijra</option>
+                        <option value="person_with_disability">Person with Disability</option>
+                        <option value="gazetted_freedom_fighter">Gazetted Freedom Fighter</option>
+                        <option value="july_warrior_2024_gazetted">July Warrior 2024 (Gazetted)</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>Annual Income (BDT)</label><input type="number" id="annualIncome" value="1000000" step="any"></div>
+                <div class="input-group"><label>Eligible Investment (For Rebate)</label><input type="number" id="investmentAmount" value="100000" step="any"></div>
+                <div class="input-group"><label>Residency Status</label>
+                    <select id="residencyStatus">
+                        <option value="resident">Resident</option>
+                        <option value="non_resident">Non-Resident (30% Flat)</option>
+                    </select>
+                </div>
                 <button id="calcTax">⟳ Calculate</button>
                 <div id="taxResult" class="result">Loading...</div>
             </div>
@@ -98,7 +115,7 @@
 
         <div class="disclaimer">
             ⚡ JStL Spreadsheet™ provides calculations for estimation purposes only. Consult a qualified professional for official decisions.<br>
-            📊 Data sources: NBR Bangladesh, Bangladesh Bureau of Statistics, World Bank, UN Data.
+            📊 Data sources: National Board of Revenue (NBR) Bangladesh, Finance Ordinance 2025, Income Tax Act 2023.
         </div>
     </div>
     <div class="footer">
@@ -107,12 +124,33 @@
 </div>
 
 <script>
-    // Land conversion (to sq ft base)
-    const toSqft = {
-        bigha: 14400, katha: 720, decimal: 435.6, acre: 43560, hectare: 107639, sqft: 1
+    // ==================== NBR BANGLADESH TAX DATABASE (EMBEDDED) ====================
+    const taxDB = {
+        tax_free_thresholds: {
+            AY_2025_26: {
+                general: 350000,
+                women_and_senior_65_plus: 400000,
+                third_gender_hijra: 475000,
+                person_with_disability: 475000,
+                gazetted_freedom_fighter: 500000,
+                july_warrior_2024_gazetted: 500000
+            }
+        },
+        tax_slabs: [
+            { rate: 0,  limit: 350000 },
+            { rate: 5,  limit: 100000 },
+            { rate: 10, limit: 400000 },
+            { rate: 15, limit: 500000 },
+            { rate: 20, limit: 500000 },
+            { rate: 25, limit: 2000000 },
+            { rate: 30, limit: Infinity }
+        ],
+        minimum_tax_floor: 5000,
+        non_resident_rate: 30,
+        investment_rebate: { percent_of_taxable_income: 3, percent_of_investment: 15, max_rebate_bdt: 1000000 }
     };
 
-    // Demography
+    // Demography data
     const demography = {
         population: 171186372,
         year: 2024,
@@ -124,15 +162,12 @@
         urbanPercentage: 39.4
     };
 
-    // Tax slabs
-    const taxSlabs = [
-        { min: 0, max: 250000, rate: 0 },
-        { min: 250001, max: 400000, rate: 10 },
-        { min: 400001, max: 500000, rate: 15 },
-        { min: 500001, max: 750000, rate: 20 },
-        { min: 750001, max: Infinity, rate: 25 }
-    ];
+    // Land conversion (to sq ft)
+    const toSqft = {
+        bigha: 14400, katha: 720, decimal: 435.6, acre: 43560, hectare: 107639, sqft: 1
+    };
 
+    // ==================== PROFIT CALCULATION ====================
     function updateProfit() {
         let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
         let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
@@ -146,33 +181,72 @@
         document.getElementById('profitResult').innerHTML = `
             <table class="result-table">
                 <tr><td>📦 Gross Profit:</td><td>${gross.toFixed(2)} BDT</td></tr>
-                <tr>。<td>🧾 VAT (${vatRate}%):</td><td>${vat.toFixed(2)} BDT</td></tr>
-                <tr>。<td>🏷️ Sales Tax (${salesTaxRate}%):</td><td>${salesTax.toFixed(2)} BDT</td></tr>
-                <tr>。<td>📉 Net Profit:</td><td>${net.toFixed(2)} BDT</td></tr>
-                <tr>。<td>📊 Profit Margin:</td><td>${margin.toFixed(2)}%</td></tr>
+                <tr><td>🧾 VAT (${vatRate}%):</td><td>${vat.toFixed(2)} BDT</td></tr>
+                <tr><td>🏷️ Sales Tax (${salesTaxRate}%):</td><td>${salesTax.toFixed(2)} BDT</td></tr>
+                <tr><td>📉 Net Profit:</td><td>${net.toFixed(2)} BDT</td></tr>
+                <tr><td>📊 Profit Margin:</td><td>${margin.toFixed(2)}%</td></tr>
             </table>
         `;
+    }
+
+    // ==================== TAX CALCULATION (NBR DATABASE) ====================
+    function calculateProgressiveTax(income, slabs, threshold) {
+        let taxable = Math.max(0, income - threshold);
+        let tax = 0;
+        let remaining = taxable;
+        for(let slab of taxDB.tax_slabs) {
+            if(remaining <= 0) break;
+            let taxableInSlab = Math.min(remaining, slab.limit);
+            tax += taxableInSlab * slab.rate / 100;
+            remaining -= taxableInSlab;
+        }
+        return tax;
     }
 
     function updateTax() {
         let income = parseFloat(document.getElementById('annualIncome').value) || 0;
+        let investment = parseFloat(document.getElementById('investmentAmount').value) || 0;
+        let category = document.getElementById('taxpayerCategory').value;
+        let residency = document.getElementById('residencyStatus').value;
+        
+        let threshold = taxDB.tax_free_thresholds.AY_2025_26[category] || 350000;
+        
         let tax = 0;
-        for(let slab of taxSlabs) {
-            if(income > slab.min) {
-                let taxable = Math.min(income, slab.max) - slab.min;
-                if(taxable > 0) tax += taxable * slab.rate / 100;
-            }
+        let effectiveRate = 0;
+        
+        if(residency === 'non_resident') {
+            tax = income * taxDB.non_resident_rate / 100;
+            effectiveRate = taxDB.non_resident_rate;
+        } else {
+            tax = calculateProgressiveTax(income, taxDB.tax_slabs, threshold);
+            
+            // Investment Rebate
+            let maxRebateFromIncome = income * taxDB.investment_rebate.percent_of_taxable_income / 100;
+            let maxRebateFromInvestment = investment * taxDB.investment_rebate.percent_of_investment / 100;
+            let rebate = Math.min(maxRebateFromIncome, maxRebateFromInvestment, taxDB.investment_rebate.max_rebate_bdt);
+            tax = Math.max(0, tax - rebate);
+            
+            // Minimum tax floor
+            tax = Math.max(tax, taxDB.minimum_tax_floor);
+            effectiveRate = income !== 0 ? (tax / income) * 100 : 0;
         }
+        
+        let afterTax = income - tax;
+        
         document.getElementById('taxResult').innerHTML = `
             <table class="result-table">
-                <tr>。<td>💰 Annual Income:</td><td>${income.toFixed(2)} BDT</td></tr>
-                <tr>。<td>📊 Tax Payable:</td><td>${tax.toFixed(2)} BDT</td></tr>
-                <tr>。<td>💵 After Tax Income:</td><td>${(income - tax).toFixed(2)} BDT</td></tr>
-                <tr>。<td>📈 Effective Rate:</td><td>${income !== 0 ? ((tax/income)*100).toFixed(2) : 0}%</td></tr>
+                <tr><td>📋 Category:</td><td>${category.replace(/_/g, ' ').toUpperCase()}</td></tr>
+                <tr><td>💰 Annual Income:</td><td>${income.toFixed(2)} BDT</td></tr>
+                ${residency === 'resident' ? `<tr><td>🎯 Tax-Free Threshold:</td><td>${threshold.toFixed(2)} BDT</td></tr>` : ''}
+                ${residency === 'resident' && investment > 0 ? `<tr><td>📈 Investment Rebate:</td><td>${rebate.toFixed(2)} BDT</td></tr>` : ''}
+                <tr><td>🧾 Income Tax Payable:</td><td><strong>${tax.toFixed(2)} BDT</strong></td></tr>
+                <tr><td>💵 After Tax Income:</td><td>${afterTax.toFixed(2)} BDT</td></tr>
+                <tr><td>📊 Effective Tax Rate:</td><td>${effectiveRate.toFixed(2)}%</td></tr>
             </table>
         `;
     }
 
+    // ==================== LAND CONVERSION ====================
     function updateLand() {
         let value = parseFloat(document.getElementById('landValue').value) || 0;
         let from = document.getElementById('fromUnit').value;
@@ -181,22 +255,23 @@
         let result = sqft / toSqft[to];
         document.getElementById('landResult').innerHTML = `
             <table class="result-table">
-                <tr>。<td>📐 ${value} ${from}:</td><td>= ${result.toFixed(6)} ${to}</td></tr>
-                <tr>。<td>📏 Square Feet:</td><td>= ${sqft.toFixed(2)} sq ft</td></tr>
+                <tr><td>📐 ${value} ${from}:</td><td>= ${result.toFixed(6)} ${to}</td></tr>
+                <tr><td>📏 Square Feet:</td><td>= ${sqft.toFixed(2)} sq ft</td></tr>
             </table>
         `;
     }
 
+    // ==================== DEMOGRAPHY ====================
     function updateDemography() {
         document.getElementById('demographyResult').innerHTML = `
             <table class="result-table">
-                <tr>。<td>👥 Population (${demography.year}):</td><td>${demography.population.toLocaleString()}</td></tr>
-                <tr>。<td>👶 Birth Rate:</td><td>${demography.birthRate} per 1,000</td></tr>
-                <tr>。<td>⚰️ Death Rate:</td><td>${demography.deathRate} per 1,000</td></tr>
-                <tr>。<td>📈 Growth Rate:</td><td>${demography.growthRate}%</td></tr>
-                <tr>。<td>♂️ Male Ratio:</td><td>${demography.maleRatio}%</td></tr>
-                <tr>。<td>♀️ Female Ratio:</td><td>${demography.femaleRatio}%</td></tr>
-                <tr>。<td>🏙️ Urban Population:</td><td>${demography.urbanPercentage}%</td></tr>
+                <tr><td>👥 Population (${demography.year}):</td><td>${demography.population.toLocaleString()}</td></tr>
+                <tr><td>👶 Birth Rate:</td><td>${demography.birthRate} per 1,000</td></tr>
+                <tr><td>⚰️ Death Rate:</td><td>${demography.deathRate} per 1,000</td></tr>
+                <tr><td>📈 Growth Rate:</td><td>${demography.growthRate}%</td></tr>
+                <tr><td>♂️ Male Ratio:</td><td>${demography.maleRatio}%</td></tr>
+                <tr><td>♀️ Female Ratio:</td><td>${demography.femaleRatio}%</td></tr>
+                <tr><td>🏙️ Urban Population:</td><td>${demography.urbanPercentage}%</td></tr>
             </table>
         `;
     }
@@ -213,20 +288,24 @@
         document.getElementById('projectionResult').innerHTML = results.join('<br>');
     }
 
+    // ==================== DOWNLOAD FUNCTIONS ====================
     function padRight(str, len) {
         let s = String(str);
         return s + ' '.repeat(Math.max(0, len - s.length));
     }
 
     function generateTextGrid() {
+        let income = document.getElementById('annualIncome').value;
+        let category = document.getElementById('taxpayerCategory').options[document.getElementById('taxpayerCategory').selectedIndex].text;
         let lines = [];
         lines.push('+' + '-'.repeat(78) + '+');
-        lines.push('|' + padRight(' JStL Spreadsheet™ - Bangladesh', 78) + '|');
+        lines.push('|' + padRight(' JStL Spreadsheet™ - Bangladesh (NBR Database)', 78) + '|');
         lines.push('|' + padRight(' Generated: ' + new Date().toLocaleString(), 78) + '|');
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
         lines.push('|' + padRight(' INPUTS', 32) + '|' + padRight(' ITEM', 30) + '|' + padRight(' VALUE', 14) + '|');
         lines.push('+' + '-'.repeat(32) + '+' + '-'.repeat(30) + '+' + '-'.repeat(14) + '+');
-        lines.push('|' + padRight('', 32) + '|' + padRight(' Income (BDT)', 30) + '|' + padRight(' ' + document.getElementById('annualIncome').value, 14) + '|');
+        lines.push('|' + padRight('', 32) + '|' + padRight(' Income (BDT)', 30) + '|' + padRight(' ' + income, 14) + '|');
+        lines.push('|' + padRight('', 32) + '|' + padRight(' Category', 30) + '|' + padRight(' ' + category, 14) + '|');
         lines.push('+' + '-'.repeat(78) + '+');
         lines.push('|' + padRight(' JStL Spreadsheet™ — Perpetual License', 78) + '|');
         lines.push('|' + padRight(' 📧 amit.khanna.1082@gmail.com | seliim.ahmed@gmail.com', 78) + '|');
@@ -251,8 +330,9 @@
     function downloadAsHTML() {
         let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JStL - Bangladesh</title><style>body{background:#0a1a2f;font-family:monospace;padding:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #2a5a7a;padding:10px;background:#0f2e44;color:#e0f0ff}th{background:#071a2b;color:#7abfef}</style></head><body><h1 style="color:#7abfef">JStL Spreadsheet™ - Bangladesh</h1><h3>Generated: ${new Date().toLocaleString()}</h3><table><thead><tr><th>Category</th><th>Item</th><th>Value</th></tr></thead><tbody>`;
         html += `<tr><td>INPUT</td><td>Annual Income</td><td>${document.getElementById('annualIncome').value} BDT</td></tr>`;
+        html += `<tr><td>INPUT</td><td>Category</td><td>${document.getElementById('taxpayerCategory').options[document.getElementById('taxpayerCategory').selectedIndex].text}</td></tr>`;
         html += `<tr><td>RESULT</td><td>Population</td><td>${demography.population.toLocaleString()}</td></tr>`;
-        html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License</p></body></html>`;
+        html += `</tbody></table><p style="color:#6a9ec0">JStL Spreadsheet™ | Perpetual License | NBR Data 2025-26</p></body></html>`;
         let blob = new Blob([html], {type: "text/html"});
         let link = document.createElement('a');
         let url = URL.createObjectURL(blob);
@@ -265,6 +345,7 @@
         alert('✅ Saved as HTML grid');
     }
 
+    // ==================== EVENT LISTENERS ====================
     document.getElementById('calcProfit').addEventListener('click', updateProfit);
     document.getElementById('calcTax').addEventListener('click', updateTax);
     document.getElementById('calcLand').addEventListener('click', updateLand);
@@ -277,10 +358,14 @@
     document.getElementById('vatRate').addEventListener('input', updateProfit);
     document.getElementById('salesTaxRate').addEventListener('input', updateProfit);
     document.getElementById('annualIncome').addEventListener('input', updateTax);
+    document.getElementById('taxpayerCategory').addEventListener('change', updateTax);
+    document.getElementById('investmentAmount').addEventListener('input', updateTax);
+    document.getElementById('residencyStatus').addEventListener('change', updateTax);
     document.getElementById('landValue').addEventListener('input', updateLand);
     document.getElementById('fromUnit').addEventListener('change', updateLand);
     document.getElementById('toUnit').addEventListener('change', updateLand);
 
+    // Initial load
     updateProfit();
     updateTax();
     updateLand();
