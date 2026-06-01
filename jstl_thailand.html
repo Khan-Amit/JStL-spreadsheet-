@@ -1,28 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>JStL Spreadsheet™ - Thailand</title>
-    <style>
-        *{box-sizing:border-box}
-        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
-        .container{max-width:1400px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
-        .header{background:#071a2b;padding:25px;text-align:center;border-bottom:1px solid #1e4a6e}
-        .header h1{margin:0;color:#7abfef;font-size:28px}
-        .header p{margin:10px 0 0;color:#6a9ec0}
-        .content{padding:20px}
-        .grid-2{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:20px}
-        .card{flex:1;min-width:280px;background:#0a2a3a;padding:20px;border-radius:12px}
-        .card h3{color:#7abfef;margin-top:0;margin-bottom:15px}
-        .input-group{margin-bottom:15px}
-        .input-group label{display:block;color:#b8e0ff;margin-bottom:5px;font-weight:bold}
-        .input-group input,.input-group select{width:100%;background:#1a3f55;color:white;border:1px solid #2a5a7a;padding:10px;border-radius:8px;font-size:14px}
-        button{background:#1e5a7a;color:white;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:16px;width:100%;margin-top:10px}
-        button:hover{background:#2a6f94}
-        .result{background:#0f2e44;padding:15px;border-radius:8px;margin-top:15px;color:#9fd3ff;font-family:monospace;font-size:13px;line-height:1.6}
-        .badge{display:inline-block;background:#1e5a7a;padding:3px 8px;border-radius:12px;font-size:11px;margin-left:8px}
-        .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
+.footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
         .disclaimer{font-size:11px;color:#6a9ec0;text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #1e4a6e}
         .save-bar{display:flex;gap:10px;margin-bottom:20px}
         .save-bar button{width:auto;margin:0;padding:10px 20px}
@@ -79,32 +55,7 @@
         </div>
         <div class="disclaimer">⚠️ Estimation only. Consult Revenue Department for official taxes.</div>
     </div>
-    <div class="footer">JStL Spreadsheet™ - Thailand | Perpetual License</div>
-</div>
-
-<script>
-    // Thai tax brackets (progressive)
-    const thaiBrackets = [
-        { min: 0, max: 150000, rate: 0 },
-        { min: 150000, max: 300000, rate: 5 },
-        { min: 300000, max: 500000, rate: 10 },
-        { min: 500000, max: 750000, rate: 15 },
-        { min: 750000, max: 1000000, rate: 20 },
-        { min: 1000000, max: 2000000, rate: 25 },
-        { min: 2000000, max: 5000000, rate: 30 },
-        { min: 5000000, max: Infinity, rate: 35 }
-    ];
-
-    // Demography
-    const demo = { population: 71800000, year: 2024, growthRate: -0.13 };
-
-    // Land conversion (to sqm)
-    const land = { rai: 1600, ngan: 400, wah: 4, sqm: 1 };
-
-    // Profit
-    function calcProfit() {
-        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
-        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+    <div class="footer">JStL getElementById('sellPrice').value) || 0;
         let vat = parseFloat(document.getElementById('vatRate').value) || 0;
         let gross = sell - buy;
         let vatAmt = sell * vat / 100;
@@ -149,58 +100,10 @@
         
         let after = income - tax;
         
-        document.getElementById('taxResult').innerHTML = `
-            Taxable Income: ฿${Math.max(0, income - allowances).toFixed(2)}<br>
-            Income Tax: ฿${tax.toFixed(2)}<br>
-            <strong>Total Tax: ฿${tax.toFixed(2)}</strong><br>
-            After Tax Income: ฿${after.toFixed(2)}<br>
-            Effective Rate: ${effective.toFixed(2)}%
-        `;
-    }
-
-    // Land conversion
-    function calcLand() {
-        let val = parseFloat(document.getElementById('landValue').value) || 0;
+        document..getElementById('landValue').value) || 0;
         let from = document.getElementById('fromUnit').value;
         let to = document.getElementById('toUnit').value;
-        let sqm = val * land[from];
-        let result = sqm / land[to];
-        document.getElementById('landResult').innerHTML = `${val} ${from} = ${result.toFixed(6)} ${to}<br>📏 ${sqm.toFixed(2)} m² | ${(sqm * 10.7639).toFixed(2)} sq ft`;
-    }
-
-    // Demography
-    function showDemo() {
-        document.getElementById('demographyResult').innerHTML = `
-            Population (${demo.year}): ${demo.population.toLocaleString()}<br>
-            Growth Rate: ${demo.growthRate}%
-        `;
-    }
-    function calcProj() {
-        let years = parseInt(document.getElementById('projYears').value) || 5;
-        let pop = demo.population;
-        let rate = demo.growthRate / 100;
-        let results = [];
-        for (let i = 1; i <= years; i++) {
-            pop = pop * (1 + rate);
-            results.push(`Year ${demo.year + i}: ${Math.round(pop).toLocaleString()}`);
-        }
-        document.getElementById('projResult').innerHTML = results.join('<br>');
-    }
-
-    // Downloads
-    function downloadTxt() {
-        let content = `JStL Thailand Report\nGenerated: ${new Date()}\nIncome: ฿${document.getElementById('annualIncome').value}\nLicense: Perpetual`;
-        let blob = new Blob([content], {type: "text/plain"});
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `JStL_Thailand_${Date.now()}.jstl`;
-        link.click();
-        alert('Saved');
-    }
-    function downloadHtml() {
-        let html = `<!DOCTYPE html><html><head><title>JStL Thailand</title><style>body{background:#0a1a2f;color:white}</style></head><body><h1>JStL Thailand Report</h1><p>Income: ฿${document.getElementById('annualIncome').value}</p></body></html>`;
-        let blob = new Blob([html], {type: "text/html"});
-        let link = document.createElement('a');
+        let sqm = val * ('a');
         link.href = URL.createObjectURL(blob);
         link.download = `JStL_Thailand_${Date.now()}.html`;
         link.click();
@@ -211,23 +114,4 @@
     document.getElementById('calcProfit').onclick = calcProfit;
     document.getElementById('calcTax').onclick = calcTax;
     document.getElementById('calcLand').onclick = calcLand;
-    document.getElementById('calcProj').onclick = calcProj;
-    document.getElementById('downloadTxtBtn').onclick = downloadTxt;
-    document.getElementById('downloadHtmlBtn').onclick = downloadHtml;
-    document.getElementById('buyPrice').oninput = calcProfit;
-    document.getElementById('sellPrice').oninput = calcProfit;
-    document.getElementById('vatRate').oninput = calcProfit;
-    document.getElementById('annualIncome').oninput = calcTax;
-    document.getElementById('allowances').oninput = calcTax;
-    document.getElementById('residency').onchange = calcTax;
-    document.getElementById('landValue').oninput = calcLand;
-    document.getElementById('fromUnit').onchange = calcLand;
-    document.getElementById('toUnit').onchange = calcLand;
-
-    calcProfit();
-    calcTax();
-    calcLand();
-    showDemo();
-</script>
-</body>
-</html>
+    document.annualIncome
