@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JStL Spreadsheet™</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', sans-serif;
             background: #0a0a2e;
             padding: 20px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -24,42 +29,82 @@
             text-align: center;
         }
         .header h1 { font-size: 2em; }
-        .country-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .badge {
+            background: #FFD700;
+            color: #1B5E20;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        .price {
+            background: #FF6B35;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .country-section {
+            background: #f0fdf4;
             padding: 20px;
-            flex-wrap: wrap;
+            text-align: center;
         }
         .country-btn {
             background: #1B5E20;
             color: white;
-            padding: 10px 25px;
             border: none;
-            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: bold;
         }
-        .country-btn:hover { background: #FF6B35; }
-        .content { padding: 20px; }
-        .card {
+        .country-btn:hover {
+            background: #FF6B35;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        .demo-card {
             background: #f5f5f5;
             padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
+        }
+        .demo-card h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
         }
         .download-btn {
-            background: #FF6B35;
+            background: #1B5E20;
             color: white;
-            padding: 15px 30px;
+            padding: 15px;
             border: none;
             border-radius: 50px;
             font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px;
             cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
+            width: calc(100% - 40px);
         }
         .footer {
             background: #1a1a2e;
@@ -67,72 +112,125 @@
             padding: 20px;
             text-align: center;
         }
-        @media (max-width: 600px) {
-            .country-buttons { flex-direction: column; }
-            .country-btn { width: 100%; }
+        @media (max-width: 700px) {
+            .demo-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
         <p>Installable App | No Excel | No Google</p>
+        <div class="badge">Text-based spreadsheets with clean grid</div>
     </div>
     
-    <div class="country-buttons">
-        <button class="country-btn" onclick="showData('bangladesh')">🇧🇩 Bangladesh</button>
-        <button class="country-btn" onclick="showData('canada')">🇨🇦 Canada</button>
-        <button class="country-btn" onclick="showData('india')">🇮🇳 India</button>
-        <button class="country-btn" onclick="showData('thailand')">🇹🇭 Thailand</button>
+    <div class="price">
+        🔥 EARLY BIRD: $199 USD (Regular $369) | 36 of 50 left
     </div>
     
-    <div class="content">
-        <div class="card">
-            <h3>📊 Demography Data</h3>
-            <p><strong>Population:</strong> <span id="pop">171,186,000</span></p>
-            <p><strong>Birth Rate:</strong> <span id="birth">17.8</span> /1k</p>
-            <p><strong>Death Rate:</strong> <span id="death">5.5</span> /1k</p>
-            <p><strong>Growth Rate:</strong> <span id="growth">1.23</span>%</p>
+    <div class="country-section">
+        <h3>🌍 Select Country Scenario</h3>
+        <div>
+            <button class="country-btn" onclick="setCountry('bangladesh')">🇧🇩 Bangladesh</button>
+            <button class="country-btn" onclick="setCountry('canada')">🇨🇦 Canada</button>
+            <button class="country-btn" onclick="setCountry('india')">🇮🇳 India</button>
+            <button class="country-btn" onclick="setCountry('thailand')">🇹🇭 Thailand</button>
         </div>
-        
-        <div class="card">
-            <h3>💰 Finance Data</h3>
-            <p><strong>Currency:</strong> <span id="currency">BDT</span></p>
-            <p><strong>VAT Rate:</strong> <span id="vat">15</span>%</p>
-            <p><strong>Income Tax:</strong> <span id="tax">8</span>%</p>
-        </div>
-        
-        <button class="download-btn" onclick="downloadSoftware()">📥 Download JStL Spreadsheet</button>
+        <p style="margin-top: 10px; font-size: 0.8em;">Default: Bangladesh | Values update automatically</p>
     </div>
+    
+    <div class="demo-grid">
+        <!-- Profit Demo -->
+        <div class="demo-card">
+            <h3>💰 Profit Demo</h3>
+            <label>Buy Price:</label>
+            <input type="number" id="buyPrice" value="500" oninput="calcProfit()">
+            <label>Sell Price:</label>
+            <input type="number" id="sellPrice" value="750" oninput="calcProfit()">
+            <label>Quantity:</label>
+            <input type="number" id="qty" value="100" oninput="calcProfit()">
+            <div class="result" id="profitResult">Profit: 250.00 BDT | Total: 25,000 BDT</div>
+        </div>
+        
+        <!-- Tax Demo -->
+        <div class="demo-card">
+            <h3>📊 Tax Demo</h3>
+            <label>Annual Income:</label>
+            <input type="number" id="income" value="500000" oninput="calcTax()">
+            <div class="result" id="taxResult">VAT: 75,000 | Income Tax: 40,000 | After Tax: 385,000 BDT</div>
+        </div>
+    </div>
+    
+    <!-- Demography Demo -->
+    <div class="demo-card" style="margin: 0 20px 20px 20px;">
+        <h3>👥 Demography Demo</h3>
+        <label>Projection Years:</label>
+        <input type="number" id="years" value="5" oninput="calcDemo()">
+        <div class="result" id="demoResult">Population: 171,186,000 | Projected: 181,976,131</div>
+    </div>
+    
+    <button class="download-btn" onclick="downloadJStL()">📥 Download JStL Spreadsheet</button>
     
     <div class="footer">
-        <p>JStL Spreadsheet™ | seliim.ahmed@gmail.com | $199</p>
+        <p>JStL Spreadsheet™ | seliim.ahmed@gmail.com | 7-Day Money-Back Guarantee</p>
     </div>
 </div>
 
 <script>
-    const data = {
-        bangladesh: { pop: "171,186,000", birth: "17.8", death: "5.5", growth: "1.23", currency: "BDT", vat: "15", tax: "8" },
-        canada: { pop: "38,929,000", birth: "9.8", death: "8.3", growth: "0.15", currency: "CAD", vat: "13", tax: "15" },
-        india: { pop: "1,441,710,000", birth: "16.1", death: "6.6", growth: "0.95", currency: "INR", vat: "18", tax: "10" },
-        thailand: { pop: "71,801,000", birth: "10.0", death: "8.0", growth: "0.20", currency: "THB", vat: "7", tax: "10" }
+    let country = 'bangladesh';
+    
+    const countryInfo = {
+        bangladesh: { currency: "BDT", vatRate: 15, taxRate: 8, population: 171186000, birthRate: 17.8, deathRate: 5.5 },
+        canada: { currency: "CAD", vatRate: 13, taxRate: 15, population: 38929000, birthRate: 9.8, deathRate: 8.3 },
+        india: { currency: "INR", vatRate: 18, taxRate: 10, population: 1441710000, birthRate: 16.1, deathRate: 6.6 },
+        thailand: { currency: "THB", vatRate: 7, taxRate: 10, population: 71801000, birthRate: 10.0, deathRate: 8.0 }
     };
     
-    function showData(country) {
-        let d = data[country];
-        document.getElementById('pop').innerHTML = d.pop;
-        document.getElementById('birth').innerHTML = d.birth;
-        document.getElementById('death').innerHTML = d.death;
-        document.getElementById('growth').innerHTML = d.growth;
-        document.getElementById('currency').innerHTML = d.currency;
-        document.getElementById('vat').innerHTML = d.vat;
-        document.getElementById('tax').innerHTML = d.tax;
+    function setCountry(c) {
+        country = c;
+        calcProfit();
+        calcTax();
+        calcDemo();
     }
     
-    function downloadSoftware() {
-        alert("📥 JStL Spreadsheet\n\nEmail seliim.ahmed@gmail.com after payment to receive download link.\n\nPrice: $199 USD");
+    function calcProfit() {
+        let buy = parseFloat(document.getElementById('buyPrice').value) || 0;
+        let sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+        let qty = parseFloat(document.getElementById('qty').value) || 0;
+        let cur = countryInfo[country].currency;
+        let profit = sell - buy;
+        let total = profit * qty;
+        document.getElementById('profitResult').innerHTML = `Profit per unit: ${profit.toFixed(2)} ${cur} | Total: ${total.toLocaleString()} ${cur}`;
+        calcTax();
     }
+    
+    function calcTax() {
+        let income = parseFloat(document.getElementById('income').value) || 0;
+        let info = countryInfo[country];
+        let vat = income * info.vatRate / 100;
+        let tax = income * info.taxRate / 100;
+        let after = income - vat - tax;
+        document.getElementById('taxResult').innerHTML = `VAT: ${vat.toFixed(2)} | Income Tax: ${tax.toFixed(2)} | After: ${after.toFixed(2)} ${info.currency}`;
+    }
+    
+    function calcDemo() {
+        let info = countryInfo[country];
+        let years = parseFloat(document.getElementById('years').value) || 0;
+        let growth = (info.birthRate - info.deathRate) / 10;
+        let projected = info.population * Math.pow(1 + (growth/100), years);
+        document.getElementById('demoResult').innerHTML = `Population: ${info.population.toLocaleString()} | Projected (${years} yrs): ${Math.round(projected).toLocaleString()}`;
+    }
+    
+    function downloadJStL() {
+        alert("📥 JStL Spreadsheet Download\n\nTo download the full software:\n1. Purchase license: $199 USD\n2. Email: seliim.ahmed@gmail.com\n3. You will receive download link + license key\n\nThank you!");
+    }
+    
+    // Initialize
+    calcProfit();
+    calcTax();
+    calcDemo();
 </script>
 </body>
 </html>
