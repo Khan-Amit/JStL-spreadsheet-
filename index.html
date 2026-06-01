@@ -2,456 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JStL Spreadsheet™ | Income Tax Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>JStL Spreadsheet™ - Master Index</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-        }
-        
-        .header {
-            background: #1B5E20;
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: #FFD700;
-            color: #1B5E20;
-            padding: 5px 15px;
-            border-radius: 40px;
-            font-weight: bold;
-            margin-top: 10px;
-            font-size: 0.8em;
-        }
-        
-        .price-banner {
-            background: #FF6B35;
-            padding: 15px;
-            text-align: center;
-            color: white;
-        }
-        
-        .price-banner .price {
-            font-size: 2em;
-            font-weight: bold;
-        }
-        
-        .content {
-            padding: 25px;
-        }
-        
-        .country-section {
-            background: #f0fdf4;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .country-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        
-        .country-btn {
-            background: #1B5E20;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .country-btn:hover {
-            background: #FF6B35;
-        }
-        
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-        
-        .card {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .card h3 {
-            color: #1B5E20;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4CAF50;
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .info-value {
-            color: #1B5E20;
-            font-weight: 600;
-        }
-        
-        .input-field {
-            margin-bottom: 15px;
-        }
-        
-        .input-field label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        
-        .input-field input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-        }
-        
-        .result {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .result-value {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #1B5E20;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            margin: 8px;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-download {
-            background: #1B5E20;
-            color: white;
-        }
-        
-        .btn-buy {
-            background: #FF6B35;
-            color: white;
-        }
-        
-        .button-group {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .footer {
-            background: #1a1a2e;
-            color: #aaa;
-            padding: 20px;
-            text-align: center;
-            font-size: 0.8em;
-        }
-        
-        @media (max-width: 768px) {
-            .two-column { grid-template-columns: 1fr; }
-            .btn { display: block; margin: 10px auto; width: 90%; }
-        }
+        *{box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a1a2f;margin:0;padding:20px}
+        .container{max-width:1200px;margin:auto;background:#0d2b3e;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);overflow:hidden}
+        .header{background:#071a2b;padding:30px;text-align:center;border-bottom:1px solid #1e4a6e}
+        .header h1{margin:0;color:#7abfef;font-size:28px}
+        .header p{margin:10px 0 0;color:#6a9ec0}
+        .content{padding:20px}
+        .country-grid{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:30px;justify-content:center}
+        .country-card{flex:1;min-width:200px;max-width:250px;background:#0a2a3a;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
+        .country-card:hover{background:#1a4a6a;transform:translateY(-3px)}
+        .country-card h2{margin:0 0 10px;font-size:32px}
+        .country-card h3{margin:0;color:#7abfef}
+        .country-card p{margin:10px 0 0;color:#b8e0ff;font-size:12px}
+        .install-banner{background:#0a2a3a;margin:20px;padding:15px;border-radius:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+        .install-banner button{background:#2a6f94;width:auto;margin:0;padding:10px 20px}
+        button{background:#1e5a7a;color:white;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px}
+        button:hover{background:#2a6f94}
+        .price-section{background:#0a2a3a;margin:20px;padding:20px;border-radius:12px;text-align:center}
+        .price-badge{display:inline-block;background:#1e5a7a;padding:5px 15px;border-radius:20px;margin:5px}
+        .footer{padding:15px;background:#071a2b;text-align:center;color:#6a9ec0;font-size:12px}
+        .license-box{background:#0a2a3a;padding:20px;border-radius:12px;margin:20px;font-family:monospace;font-size:12px;color:#9fd3ff}
+        .contact{text-align:center;margin-top:20px;color:#6a9ec0}
+        .contact a{color:#7abfef;text-decoration:none}
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
-        <div class="badge">🇧🇩 🇨🇦 🇮🇳 🇹🇭 · Click Country to Load Tax Structure</div>
+        <p>Installable App | No Excel | No Google | Country-Specific Tax & Land Editions</p>
     </div>
-    
-    <div class="price-banner">
-        <span>🔥 EARLY BIRD OFFER 🔥</span>
-        <div class="price">$199 USD</div>
-        <span class="original">Regular: $369</span>
-        <div>💎 36 of 50 copies remaining</div>
+
+    <div class="install-banner" id="installBanner" style="display:none">
+        <span style="color:#b8e0ff">📲 Install JStL as an app on your device</span>
+        <button id="installBtn">Install App</button>
     </div>
-    
+
     <div class="content">
-        
-        <div class="button-group">
-            <button class="btn btn-download" onclick="downloadPage()">📥 Download JStL Spreadsheet (HTML)</button>
-            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy License - $199</button>
-        </div>
-        
-        <div class="country-section">
-            <h3 style="color: #1B5E20;">🌍 Select Country Scenario</h3>
-            <div class="country-buttons">
-                <button class="country-btn" onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
-                <button class="country-btn" onclick="selectCountry('canada')">🇨🇦 Canada</button>
-                <button class="country-btn" onclick="selectCountry('india')">🇮🇳 India</button>
-                <button class="country-btn" onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
+        <div class="country-grid">
+            <div class="country-card" onclick="location.href='jstl_bangladesh.html'">
+                <h2>🇧🇩</h2>
+                <h3>Bangladesh</h3>
+                <p>VAT 15% | Tax 0-30% | Bigha/Katha | NBR Database</p>
             </div>
-            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Default: Bangladesh | Click country to load tax data</p>
-            <button class="country-btn" style="background: #FF6B35; margin-top: 10px;" onclick="loadDefaults()">Load Default Values</button>
-        </div>
-        
-        <div class="two-column">
-            <div class="card">
-                <h3>📊 Tax Structure</h3>
-                <div id="taxStructure">
-                    <div class="info-row"><span class="info-label">Tax Free Threshold:</span><span class="info-value">350,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 1 (0%):</span><span class="info-value">0 - 350,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 2 (5%):</span><span class="info-value">350,001 - 450,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 3 (10%):</span><span class="info-value">450,001 - 850,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 4 (15%):</span><span class="info-value">850,001 - 1,350,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 5 (20%):</span><span class="info-value">1,350,001 - 1,850,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 6 (25%):</span><span class="info-value">1,850,001 - 3,850,000 BDT</span></div>
-                    <div class="info-row"><span class="info-label">Slab 7 (30%):</span><span class="info-value">Above 3,850,000 BDT</span></div>
-                </div>
+            <div class="country-card" onclick="location.href='jstl_canada.html'">
+                <h2>🇨🇦</h2>
+                <h3>Canada</h3>
+                <p>GST/PST/HST | Federal+Provincial | RRSP | CRA Data</p>
             </div>
-            
-            <div class="card">
-                <h3>💰 Tax Calculator</h3>
-                <div class="input-field">
-                    <label>Annual Income (<span id="currencySymbol">BDT</span>)</label>
-                    <input type="number" id="income" value="1000000" oninput="calculateTax()">
-                </div>
-                <div class="result">
-                    📊 Taxable Income: <span class="result-value" id="taxableIncome">650,000</span> <span id="currency1">BDT</span><br>
-                    🧾 Tax Payable: <span class="result-value" id="taxAmount">25,000</span> <span id="currency2">BDT</span><br>
-                    📈 Effective Rate: <span class="result-value" id="effectiveRate">2.5</span>%
-                </div>
+            <div class="country-card" onclick="location.href='jstl_india.html'">
+                <h2>🇮🇳</h2>
+                <h3>India</h3>
+                <p>GST 5-40% | Old/New Regime | Bigha/Gaj | Income Tax Dept</p>
+            </div>
+            <div class="country-card" onclick="location.href='jstl_thailand.html'">
+                <h2>🇹🇭</h2>
+                <h3>Thailand</h3>
+                <p>VAT 7% | Tax 0-35% | Rai/Ngan/Wah | Revenue Dept</p>
             </div>
         </div>
-        
-        <div class="card">
-            <h3>💡 Investment Tax Rebate (Section 44A)</h3>
-            <div class="info-row"><span class="info-label">Rebate = Lowest of:</span><span class="info-value">3% of Taxable Income, 15% of Eligible Investment, or 1,000,000 BDT</span></div>
-            <div class="info-row"><span class="info-label">Eligible Investments:</span><span class="info-value">Sanchayapatra, Life Insurance, Provident Fund, DSE/CSE Shares, DPS</span></div>
+
+        <div class="price-section">
+            <h3 style="color:#7abfef">💰 Pricing</h3>
+            <span class="price-badge">🔥 Early Bird: $36 (36 copies)</span>
+            <span class="price-badge">📆 Year 1: $96</span>
+            <span class="price-badge">💎 Year 2+: $199</span>
+            <p style="color:#b8e0ff;margin-top:15px">One license = All countries + Lifetime updates</p>
         </div>
-        
-        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
-            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
+
+        <div class="license-box">
+            <strong>🎓 JStL Spreadsheet™ License</strong><br>
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
+            Perpetual license | Full functionality guarantee | 12-month support | Lifetime updates<br>
+            Your data stays yours | No third-party sharing | Bulletproof protection<br>
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        </div>
+
+        <div class="contact">
+            📧 <a href="mailto:amit.khanna.1082@gmail.com">amit.khanna.1082@gmail.com</a> | 
+            📧 <a href="mailto:seliim.ahmed@gmail.com">seliim.ahmed@gmail.com</a>
         </div>
     </div>
-    
     <div class="footer">
-        <p>JStL Spreadsheet™ | Installable App | No Excel | No Google</p>
-        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
+        JStL Spreadsheet™ | Bangladesh | Canada | India | Thailand | More coming soon
     </div>
 </div>
 
 <script>
-    const taxData = {
-        bangladesh: {
-            name: "Bangladesh", currency: "BDT", taxFree: 350000,
-            slabs: [
-                { limit: 350000, rate: 0 },
-                { limit: 450000, rate: 5 },
-                { limit: 850000, rate: 10 },
-                { limit: 1350000, rate: 15 },
-                { limit: 1850000, rate: 20 },
-                { limit: 3850000, rate: 25 },
-                { limit: Infinity, rate: 30 }
-            ],
-            structure: [
-                "Tax Free Threshold: 350,000 BDT",
-                "Slab 1 (0%): 0 - 350,000 BDT",
-                "Slab 2 (5%): 350,001 - 450,000 BDT",
-                "Slab 3 (10%): 450,001 - 850,000 BDT",
-                "Slab 4 (15%): 850,001 - 1,350,000 BDT",
-                "Slab 5 (20%): 1,350,001 - 1,850,000 BDT",
-                "Slab 6 (25%): 1,850,001 - 3,850,000 BDT",
-                "Slab 7 (30%): Above 3,850,000 BDT"
-            ]
-        },
-        canada: {
-            name: "Canada", currency: "CAD", taxFree: 15000,
-            slabs: [
-                { limit: 15000, rate: 0 },
-                { limit: 53359, rate: 15 },
-                { limit: 106717, rate: 20.5 },
-                { limit: 165430, rate: 26 },
-                { limit: 235675, rate: 29 },
-                { limit: Infinity, rate: 33 }
-            ],
-            structure: [
-                "Tax Free Threshold: 15,000 CAD",
-                "Slab 1 (0%): 0 - 15,000 CAD",
-                "Slab 2 (15%): 15,001 - 53,359 CAD",
-                "Slab 3 (20.5%): 53,360 - 106,717 CAD",
-                "Slab 4 (26%): 106,718 - 165,430 CAD",
-                "Slab 5 (29%): 165,431 - 235,675 CAD",
-                "Slab 6 (33%): Above 235,675 CAD"
-            ]
-        },
-        india: {
-            name: "India", currency: "INR", taxFree: 250000,
-            slabs: [
-                { limit: 250000, rate: 0 },
-                { limit: 500000, rate: 5 },
-                { limit: 1000000, rate: 20 },
-                { limit: Infinity, rate: 30 }
-            ],
-            structure: [
-                "Tax Free Threshold: 250,000 INR",
-                "Slab 1 (0%): 0 - 250,000 INR",
-                "Slab 2 (5%): 250,001 - 500,000 INR",
-                "Slab 3 (20%): 500,001 - 1,000,000 INR",
-                "Slab 4 (30%): Above 1,000,000 INR"
-            ]
-        },
-        thailand: {
-            name: "Thailand", currency: "THB", taxFree: 150000,
-            slabs: [
-                { limit: 150000, rate: 0 },
-                { limit: 300000, rate: 5 },
-                { limit: 500000, rate: 10 },
-                { limit: 750000, rate: 15 },
-                { limit: 1000000, rate: 20 },
-                { limit: 2000000, rate: 25 },
-                { limit: Infinity, rate: 35 }
-            ],
-            structure: [
-                "Tax Free Threshold: 150,000 THB",
-                "Slab 1 (0%): 0 - 150,000 THB",
-                "Slab 2 (5%): 150,001 - 300,000 THB",
-                "Slab 3 (10%): 300,001 - 500,000 THB",
-                "Slab 4 (15%): 500,001 - 750,000 THB",
-                "Slab 5 (20%): 750,001 - 1,000,000 THB",
-                "Slab 6 (25%): 1,000,001 - 2,000,000 THB",
-                "Slab 7 (35%): Above 2,000,000 THB"
-            ]
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'flex';
+    });
+    document.getElementById('installBtn').onclick = () => {
+        if(deferredPrompt) { 
+            deferredPrompt.prompt(); 
+            deferredPrompt.userChoice.then(() => { 
+                document.getElementById('installBanner').style.display = 'none'; 
+            }); 
         }
     };
-    
-    let currentCountry = 'bangladesh';
-    
-    function selectCountry(country) {
-        currentCountry = country;
-        let data = taxData[country];
-        
-        let html = '';
-        for(let i = 0; i < data.structure.length; i++) {
-            let parts = data.structure[i].split(':');
-            html += '<div class="info-row"><span class="info-label">' + parts[0] + ':</span><span class="info-value">' + parts[1] + '</span></div>';
-        }
-        document.getElementById('taxStructure').innerHTML = html;
-        
-        let currencyElements = document.querySelectorAll('#currencySymbol, #currency1, #currency2');
-        currencyElements.forEach(el => { if(el) el.innerHTML = data.currency; });
-        
-        document.getElementById('income').value = '';
-        document.getElementById('taxableIncome').innerHTML = '0';
-        document.getElementById('taxAmount').innerHTML = '0';
-        document.getElementById('effectiveRate').innerHTML = '0';
-    }
-    
-    function loadDefaults() {
-        let data = taxData[currentCountry];
-        let defaultIncome = currentCountry === 'bangladesh' ? 1000000 : 
-                           currentCountry === 'canada' ? 80000 : 
-                           currentCountry === 'india' ? 1000000 : 1000000;
-        document.getElementById('income').value = defaultIncome;
-        calculateTax();
-    }
-    
-    function calculateTax() {
-        let income = parseFloat(document.getElementById('income').value) || 0;
-        let data = taxData[currentCountry];
-        
-        let taxable = Math.max(0, income - data.taxFree);
-        let tax = 0;
-        let remaining = taxable;
-        
-        for(let i = 0; i < data.slabs.length; i++) {
-            let slab = data.slabs[i];
-            let limit = slab.limit;
-            if(i === 0) limit = slab.limit - data.taxFree;
-            if(i > 0) limit = slab.limit - data.slabs[i-1].limit;
-            if(slab.limit === Infinity) {
-                tax += remaining * slab.rate / 100;
-                break;
-            }
-            let taxableInSlab = Math.min(remaining, limit);
-            tax += taxableInSlab * slab.rate / 100;
-            remaining -= taxableInSlab;
-            if(remaining <= 0) break;
-        }
-        
-        let effectiveRate = income > 0 ? (tax / income * 100).toFixed(2) : 0;
-        
-        document.getElementById('taxableIncome').innerHTML = Math.round(taxable).toLocaleString();
-        document.getElementById('taxAmount').innerHTML = Math.round(tax).toLocaleString();
-        document.getElementById('effectiveRate').innerHTML = effectiveRate;
-    }
-    
-    function downloadPage() {
-        let htmlContent = document.documentElement.outerHTML;
-        let blob = new Blob([htmlContent], {type: 'text/html'});
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'jstl_spreadsheet.html';
-        link.click();
-        URL.revokeObjectURL(link.href);
-    }
-    
-    function contactForPayment() {
-        alert("📞 TO PURCHASE JStL LICENSE:\n\nEmail: seliim.ahmed@gmail.com\n\nPrice: $199 USD\n\nYou will receive:\n✅ Digital Certificate\n✅ Perpetual License Key\n✅ Software Download Link");
-    }
-    
-    window.onload = function() {
-        selectCountry('bangladesh');
-        loadDefaults();
-    }
 </script>
-
 </body>
 </html>
