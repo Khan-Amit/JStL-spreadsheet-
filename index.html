@@ -1,68 +1,502 @@
-            document.getElementById('taxFree').innerHTML = '350,000 BDT';
-            document.getElementById('slab1').innerHTML = 'Up to 350,000 BDT';
-            document.getElementById('slab2').innerHTML = '100,000 BDT (5,000 tax)';
-            document.getElementById('slab3').innerHTML = '400,000 BDT (40,000 tax)';
-            document.getElementById('slab4').innerHTML = '500,000 BDT (75,000 tax)';
-            document.getElementById('slab5').innerHTML = '500,000 BDT (100,000 tax)';
-            document.getElementById('slab6').innerHTML = '2,000,000 BDT (500,000 tax)';
-            document.getElementById('slab7').innerHTML = 'Above 3,850,000 BDT';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL Spreadsheet™ | Tax Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1B5E20, #0D3B0F);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #1B5E20;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        
+        .price-banner {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+        
+        .price-banner .price {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .country-section {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .country-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .country-btn {
+            background: #1B5E20;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .country-btn:hover, .country-btn.active {
+            background: #FF6B35;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+        
+        .input-field {
+            margin-bottom: 15px;
+        }
+        
+        .input-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1B5E20;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #1B5E20, #2E7D32);
+            color: white;
+        }
+        
+        .btn-buy {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        
+        .footer a {
+            color: #FFD700;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; }
+            .btn { display: block; margin: 10px auto; width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📊 JStL Spreadsheet™</h1>
+        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
+        <div class="badge">🇧🇩 🇨🇦 🇮🇳 🇹🇭 · Click Country to Load Tax Structure</div>
+    </div>
+    
+    <div class="price-banner">
+        <span>🔥 EARLY BIRD OFFER 🔥</span>
+        <div class="price">$199 USD</div>
+        <span class="original">Regular: $369</span>
+        <div>💎 36 of 50 copies remaining</div>
+    </div>
+    
+    <div class="content">
+        
+        <div class="button-group">
+            <button class="btn btn-download" onclick="downloadPage()">📥 Download JStL Spreadsheet</button>
+            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy License - $199</button>
+        </div>
+        
+        <div class="country-section">
+            <h3 style="color: #1B5E20;">🌍 Select Country Scenario</h3>
+            <div class="country-buttons">
+                <button class="country-btn" onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
+                <button class="country-btn" onclick="selectCountry('canada')">🇨🇦 Canada</button>
+                <button class="country-btn" onclick="selectCountry('india')">🇮🇳 India</button>
+                <button class="country-btn" onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Default: Bangladesh | Click country to load tax data</p>
+        </div>
+        
+        <div class="two-column">
+            <!-- Demography Card -->
+            <div class="card">
+                <h3>👥 Demography (2024 Data)</h3>
+                <div class="info-row"><span class="info-label">Population:</span><span class="info-value" id="population">171,186,000</span></div>
+                <div class="info-row"><span class="info-label">Birth Rate:</span><span class="info-value" id="birthRate">17.8 /1k</span></div>
+                <div class="info-row"><span class="info-label">Death Rate:</span><span class="info-value" id="deathRate">5.5 /1k</span></div>
+                <div class="info-row"><span class="info-label">Growth Rate:</span><span class="info-value" id="growthRate">1.23%</span></div>
+                <div class="info-row"><span class="info-label">Male %:</span><span class="info-value" id="malePercent">49.8%</span></div>
+                <div class="info-row"><span class="info-label">Female %:</span><span class="info-value" id="femalePercent">50.2%</span></div>
+                <div class="info-row"><span class="info-label">Urban %:</span><span class="info-value" id="urbanPercent">39.0%</span></div>
+            </div>
+            
+            <!-- Tax Structure Card -->
+            <div class="card">
+                <h3>📊 Tax Structure</h3>
+                <div class="info-row"><span class="info-label">Currency:</span><span class="info-value" id="currency">BDT</span></div>
+                <div class="info-row"><span class="info-label">Tax Free Threshold:</span><span class="info-value" id="taxFree">350,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 1 (%):</span><span class="info-value" id="slab1">0% up to 350,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 2 (%):</span><span class="info-value" id="slab2">5% on next 100,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 3 (%):</span><span class="info-value" id="slab3">10% on next 400,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 4 (%):</span><span class="info-value" id="slab4">15% on next 500,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 5 (%):</span><span class="info-value" id="slab5">20% on next 500,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 6 (%):</span><span class="info-value" id="slab6">25% on next 2,000,000</span></div>
+                <div class="info-row"><span class="info-label">Slab 7 (%):</span><span class="info-value" id="slab7">30% above 3,850,000</span></div>
+            </div>
+        </div>
+        
+        <!-- Tax Calculator -->
+        <div class="card">
+            <h3>💰 Income Tax Calculator</h3>
+            <div class="input-field">
+                <label>Annual Income (<span id="currencyLabel">BDT</span>)</label>
+                <input type="number" id="income" value="1000000" oninput="calculateTax()">
+            </div>
+            <div class="result">
+                <div class="info-row"><span class="info-label">Taxable Income:</span><span class="info-value" id="taxableIncome">650,000</span> <span id="taxableCurrency">BDT</span></div>
+                <div class="info-row"><span class="info-label">Total Tax Payable:</span><span class="info-value" id="totalTax">25,000</span> <span id="taxCurrency">BDT</span></div>
+                <div class="info-row"><span class="info-label">Effective Tax Rate:</span><span class="info-value" id="effectiveRate">2.5%</span></div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
+            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>JStL Spreadsheet™ | Installable App | No Excel | No Google</p>
+        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
+    </div>
+</div>
+
+<script>
+    const countryTaxData = {
+        bangladesh: {
+            currency: "BDT",
+            taxFree: 350000,
+            slabs: [
+                { limit: 350000, rate: 0, cumulative: 0 },
+                { limit: 100000, rate: 5, cumulative: 0 },
+                { limit: 400000, rate: 10, cumulative: 5000 },
+                { limit: 500000, rate: 15, cumulative: 45000 },
+                { limit: 500000, rate: 20, cumulative: 120000 },
+                { limit: 2000000, rate: 25, cumulative: 220000 },
+                { limit: Infinity, rate: 30, cumulative: 720000 }
+            ],
+            population: "171,186,000",
+            birthRate: "17.8 /1k",
+            deathRate: "5.5 /1k",
+            growthRate: "1.23%",
+            malePercent: "49.8%",
+            femalePercent: "50.2%",
+            urbanPercent: "39.0%",
+            slabText: [
+                "0% up to 350,000 BDT",
+                "5% on next 100,000 BDT",
+                "10% on next 400,000 BDT",
+                "15% on next 500,000 BDT",
+                "20% on next 500,000 BDT",
+                "25% on next 2,000,000 BDT",
+                "30% above 3,850,000 BDT"
+            ]
+        },
+        canada: {
+            currency: "CAD",
+            taxFree: 15000,
+            slabs: [
+                { limit: 53359, rate: 15, cumulative: 0 },
+                { limit: 53359, rate: 20.5, cumulative: 8003.85 },
+                { limit: 53404, rate: 26, cumulative: 18942.55 },
+                { limit: 66193, rate: 29, cumulative: 32828.87 },
+                { limit: Infinity, rate: 33, cumulative: 52037.50 }
+            ],
+            population: "38,929,000",
+            birthRate: "9.8 /1k",
+            deathRate: "8.3 /1k",
+            growthRate: "0.15%",
+            malePercent: "49.6%",
+            femalePercent: "50.4%",
+            urbanPercent: "81.5%",
+            slabText: [
+                "15% up to 53,359 CAD",
+                "20.5% on 53,359 - 106,717 CAD",
+                "26% on 106,717 - 165,430 CAD",
+                "29% on 165,430 - 235,675 CAD",
+                "33% above 235,675 CAD"
+            ]
+        },
+        india: {
+            currency: "INR",
+            taxFree: 300000,
+            slabs: [
+                { limit: 300000, rate: 0, cumulative: 0 },
+                { limit: 300000, rate: 5, cumulative: 0 },
+                { limit: 300000, rate: 10, cumulative: 15000 },
+                { limit: 400000, rate: 15, cumulative: 45000 },
+                { limit: 400000, rate: 20, cumulative: 105000 },
+                { limit: Infinity, rate: 30, cumulative: 185000 }
+            ],
+            population: "1,441,710,000",
+            birthRate: "16.1 /1k",
+            deathRate: "6.6 /1k",
+            growthRate: "0.95%",
+            malePercent: "51.5%",
+            femalePercent: "48.5%",
+            urbanPercent: "36.4%",
+            slabText: [
+                "0% up to 300,000 INR",
+                "5% on 300,000 - 600,000 INR",
+                "10% on 600,000 - 900,000 INR",
+                "15% on 900,000 - 1,200,000 INR",
+                "20% on 1,200,000 - 1,500,000 INR",
+                "30% above 1,500,000 INR"
+            ]
+        },
+        thailand: {
+            currency: "THB",
+            taxFree: 150000,
+            slabs: [
+                { limit: 150000, rate: 0, cumulative: 0 },
+                { limit: 150000, rate: 5, cumulative: 0 },
+                { limit: 200000, rate: 10, cumulative: 7500 },
+                { limit: 250000, rate: 15, cumulative: 27500 },
+                { limit: 250000, rate: 20, cumulative: 65000 },
+                { limit: Infinity, rate: 25, cumulative: 115000 }
+            ],
+            population: "71,801,000",
+            birthRate: "10.0 /1k",
+            deathRate: "8.0 /1k",
+            growthRate: "0.20%",
+            malePercent: "48.6%",
+            femalePercent: "51.4%",
+            urbanPercent: "52.0%",
+            slabText: [
+                "0% up to 150,000 THB",
+                "5% on 150,001 - 300,000 THB",
+                "10% on 300,001 - 500,000 THB",
+                "15% on 500,001 - 750,000 THB",
+                "20% on 750,001 - 1,000,000 THB",
+                "25% above 1,000,000 THB"
+            ]
+        }
+    };
+    
+    let currentCountry = 'bangladesh';
+    
+    function selectCountry(country) {
+        currentCountry = country;
+        let data = countryTaxData[country];
+        
+        // Update Demography
+        document.getElementById('population').innerHTML = data.population;
+        document.getElementById('birthRate').innerHTML = data.birthRate;
+        document.getElementById('deathRate').innerHTML = data.deathRate;
+        document.getElementById('growthRate').innerHTML = data.growthRate;
+        document.getElementById('malePercent').innerHTML = data.malePercent;
+        document.getElementById('femalePercent').innerHTML = data.femalePercent;
+        document.getElementById('urbanPercent').innerHTML = data.urbanPercent;
+        
+        // Update Tax Structure
+        document.getElementById('currency').innerHTML = data.currency;
+        document.getElementById('currencyLabel').innerHTML = data.currency;
+        document.getElementById('taxFree').innerHTML = data.taxFree.toLocaleString();
+        document.getElementById('slab1').innerHTML = data.slabText[0];
+        document.getElementById('slab2').innerHTML = data.slabText[1];
+        document.getElementById('slab3').innerHTML = data.slabText[2];
+        document.getElementById('slab4').innerHTML = data.slabText[3];
+        document.getElementById('slab5').innerHTML = data.slabText[4];
+        document.getElementById('slab6').innerHTML = data.slabText[5];
+        if(data.slabText[6]) document.getElementById('slab7').innerHTML = data.slabText[6];
+        
+        // Update currency in results
+        document.getElementById('taxableCurrency').innerHTML = data.currency;
+        document.getElementById('taxCurrency').innerHTML = data.currency;
+        
+        // Recalculate tax
         calculateTax();
+        
+        // Highlight active button
+        let btns = document.querySelectorAll('.country-btn');
+        btns.forEach(btn => {
+            btn.classList.remove('active');
+            if(btn.innerText.toLowerCase().includes(country)) {
+                btn.classList.add('active');
+            }
+        });
     }
     
     function calculateTax() {
         let income = parseFloat(document.getElementById('income').value) || 0;
-        let taxFree = 350000;
-        let taxable = Math.max(0, income - taxFree);
-        let tax = 0;
+        let data = countryTaxData[currentCountry];
         
-        if(taxable > 0) {
-            let remaining = taxable;
-            let slab2 = Math.min(remaining, 100000);
-            tax += slab2 * 0.05;
-            remaining -= slab2;
+        let taxableIncome = Math.max(0, income - data.taxFree);
+        let tax = 0;
+        let remaining = taxableIncome;
+        
+        for(let i = 0; i < data.slabs.length; i++) {
+            let slab = data.slabs[i];
+            let limit = slab.limit;
+            let rate = slab.rate;
             
-            let slab3 = Math.min(remaining, 400000);
-            tax += slab3 * 0.10;
-            remaining -= slab3;
+            if(remaining <= 0) break;
             
-            let slab4 = Math.min(remaining, 500000);
-            tax += slab4 * 0.15;
-            remaining -= slab4;
-            
-            let slab5 = Math.min(remaining, 500000);
-            tax += slab5 * 0.20;
-            remaining -= slab5;
-            
-            let slab6 = Math.min(remaining, 2000000);
-            tax += slab6 * 0.25;
-            remaining -= slab6;
-            
-            if(remaining > 0) {
-                tax += remaining * 0.30;
-            }
+            let taxableInSlab = Math.min(remaining, limit);
+            tax += taxableInSlab * rate / 100;
+            remaining -= taxableInSlab;
         }
         
-        let rebate = Math.min(tax * 0.15, 3000);
-        let netTax = Math.max(tax - rebate, 5000);
-        let effectiveRate = (netTax / income * 100).toFixed(2);
+        let effectiveRate = income > 0 ? (tax / income * 100).toFixed(2) : 0;
         
-        document.getElementById('taxableIncome').innerHTML = taxable.toLocaleString() + ' BDT';
-        document.getElementById('grossTax').innerHTML = Math.round(tax).toLocaleString() + ' BDT';
-        document.getElementById('rebate').innerHTML = Math.round(rebate).toLocaleString() + ' BDT';
-        document.getElementById('netTax').innerHTML = Math.round(netTax).toLocaleString() + ' BDT';
+        document.getElementById('taxableIncome').innerHTML = taxableIncome.toLocaleString();
+        document.getElementById('totalTax').innerHTML = Math.round(tax).toLocaleString();
         document.getElementById('effectiveRate').innerHTML = effectiveRate + '%';
     }
     
-    function downloadSoftware() {
-        // Create HTML content for download
+    function downloadPage() {
         let htmlContent = document.documentElement.outerHTML;
         let blob = new Blob([htmlContent], {type: 'text/html'});
         let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
+        let url = URL.createObjectURL(blob);
+        link.href = url;
         link.download = 'jstl_spreadsheet.html';
+        document.body.appendChild(link);
         link.click();
-        URL.revokeObjectURL(link.href);
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
     
     function contactForPayment() {
