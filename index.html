@@ -2,641 +2,281 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Global Tax Calculator | Enki Final</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculator · Simple</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* subtle, but keeps clean look */
         }
-
         body {
-            background: linear-gradient(145deg, #0a2f1f 0%, #051a0e 100%);
-            min-height: 100vh;
+            background: #1a3b2f;
+            font-family: system-ui, -apple-system, 'Segoe UI', monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Roboto', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
-            padding: 1.5rem;
+            min-height: 100vh;
+            padding: 1rem;
         }
-
-        /* MAIN CARD – BOTTLE GREEN ELEGANCE */
-        .tax-card {
-            max-width: 620px;
+        .app {
+            max-width: 500px;
             width: 100%;
-            background: #0e3a24;
-            background-image: radial-gradient(circle at 10% 20%, rgba(60, 100, 70, 0.15) 2%, transparent 2.5%),
-                              radial-gradient(circle at 85% 75%, rgba(50, 90, 55, 0.12) 1.8%, transparent 2%);
-            background-size: 38px 38px, 44px 44px;
-            border-radius: 3rem;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(210, 230, 180, 0.2) inset;
-            backdrop-filter: blur(0px);
-            padding: 1.8rem 2rem 2.2rem;
-            transition: all 0.2s ease;
+            background: #0f2d1f;
+            border-radius: 1rem;
+            padding: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border: 1px solid #2d6a4a;
         }
-
-        /* header */
-        .tax-header {
-            text-align: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 2px dashed #7c9c6e;
-            padding-bottom: 0.8rem;
+        h1 {
+            font-size: 1.5rem;
+            color: #d8f3dc;
+            margin-bottom: 0.25rem;
         }
-        .tax-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #e7f5cf, #b9e0a6);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        .sub {
+            color: #95d5b2;
+            font-size: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #2d6a4a;
+            padding-bottom: 0.5rem;
         }
-        .tax-header p {
-            color: #cde5b4;
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-top: 6px;
-            opacity: 0.9;
-        }
-
-        /* country selector grid */
-        .country-grid {
+        .country-buttons {
             display: flex;
+            gap: 0.6rem;
             flex-wrap: wrap;
-            gap: 0.8rem;
-            justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .country-btn {
-            background: #1e4d33;
+            background: #2d4a3a;
             border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: 3rem;
-            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #f0f7e6;
             font-weight: 600;
-            color: #f3ffe0;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            flex: 1 0 auto;
-            text-align: center;
-            backdrop-filter: blur(4px);
-            letter-spacing: 0.3px;
-        }
-        .country-btn i {
-            font-style: normal;
-            margin-right: 6px;
+            transition: 0.1s linear;
+            font-size: 0.9rem;
         }
         .country-btn.active {
-            background: #e4b363;
+            background: #e9b35f;
             color: #0a2f1a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 2px #fee3a0;
-            transform: scale(0.98);
+            box-shadow: 0 0 0 1px #f9d88c;
         }
-        .country-btn:hover:not(.active) {
-            background: #2c6b48;
-            transform: translateY(-2px);
-        }
-
-        /* income input area */
         .input-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
         }
-        .input-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            color: #daf4c4;
-            font-size: 0.9rem;
-            letter-spacing: 0.3px;
+        label {
+            display: block;
+            color: #cfe8cf;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
         }
-        .income-input {
+        input {
             width: 100%;
-            background: #071f13;
-            border: 1.5px solid #568b62;
-            border-radius: 2.5rem;
-            padding: 1rem 1.5rem;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #faffed;
-            outline: none;
-            transition: all 0.2s;
-            font-family: monospace;
-        }
-        .income-input:focus {
-            border-color: #f7cd7c;
-            box-shadow: 0 0 0 3px rgba(228, 179, 99, 0.4);
+            padding: 0.75rem;
             background: #08261a;
+            border: 1px solid #3c7858;
+            border-radius: 0.75rem;
+            color: #f2ffea;
+            font-size: 1.1rem;
+            font-weight: 500;
+            outline: none;
         }
-
-        /* tax results panel */
-        .results-panel {
-            background: #082618c9;
-            backdrop-filter: blur(4px);
-            border-radius: 2rem;
-            padding: 1.2rem 1.4rem;
-            margin: 1rem 0 1.6rem;
-            border: 1px solid #699e6e;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.2);
+        input:focus {
+            border-color: #e9b35f;
+        }
+        .result-card {
+            background: #092818;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1rem 0;
         }
         .result-line {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            padding: 0.6rem 0;
-            border-bottom: 1px dashed #446d48;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #2f6b4a;
         }
         .result-line:last-child {
             border-bottom: none;
         }
         .result-label {
-            font-weight: 600;
-            color: #bddba8;
-            font-size: 1rem;
+            color: #b8e0b0;
         }
         .result-value {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #f9eec1;
-            letter-spacing: 0.5px;
-            word-break: break-word;
-            text-align: right;
-        }
-        .net-value {
-            font-size: 1.6rem;
-            color: #ffeaab;
-            text-shadow: 0 1px 1px black;
-        }
-        .tax-breakdown {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            background: #0722166e;
-            border-radius: 1.5rem;
-            padding: 0.6rem 1rem;
-            color: #c7e2b0;
-        }
-
-        /* button group */
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-        }
-        .btn-download {
-            flex: 1;
-            background: #1c442f;
-            border: none;
-            padding: 0.9rem 0;
-            border-radius: 3rem;
+            color: #ffe6a7;
             font-weight: bold;
-            font-size: 1rem;
-            color: #f2f7e6;
+            font-size: 1.1rem;
+        }
+        .net {
+            font-size: 1.3rem;
+            color: #ffd966;
+        }
+        button.download {
+            width: 100%;
+            background: #2a6244;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 2px 6px black;
-            border: 1px solid #598f61;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
         }
-        .btn-download:hover {
-            background: #e4b363;
-            color: #102c1b;
-            border-color: #e4b363;
-            transform: scale(0.98);
+        button.download:hover {
+            background: #e9b35f;
+            color: #0f2d1f;
         }
-        .small-note {
+        .note {
+            font-size: 0.65rem;
+            color: #79a886;
+            margin-top: 1rem;
             text-align: center;
-            margin-top: 1.4rem;
-            font-size: 0.7rem;
-            color: #85ac79;
-            font-weight: 500;
-        }
-
-        @media (max-width: 480px) {
-            .tax-card {
-                padding: 1.2rem;
-            }
-            .result-value {
-                font-size: 1.1rem;
-            }
-            .net-value {
-                font-size: 1.3rem;
-            }
         }
     </style>
 </head>
 <body>
-<div class="tax-card" id="taxAppContainer">
-    <div class="tax-header">
-        <h1>🌿 ENKI · TAX BRIDGE</h1>
-        <p>embedded tax regimes · real-time calculation</p>
+<div class="app">
+    <h1>📊 Income Tax Calculator</h1>
+    <div class="sub">Select country · auto calculates</div>
+
+    <div class="country-buttons">
+        <button class="country-btn" data-country="Bangladesh">🇧🇩 Bangladesh</button>
+        <button class="country-btn" data-country="Canada">🇨🇦 Canada</button>
+        <button class="country-btn" data-country="India">🇮🇳 India</button>
+        <button class="country-btn" data-country="Thailand">🇹🇭 Thailand</button>
     </div>
 
-    <!-- Country selector: 4 fixed nations -->
-    <div class="country-grid" id="countrySelector">
-        <button data-country="Bangladesh" class="country-btn">🇧🇩 Bangladesh</button>
-        <button data-country="Canada" class="country-btn">🇨🇦 Canada</button>
-        <button data-country="India" class="country-btn">🇮🇳 India</button>
-        <button data-country="Thailand" class="country-btn">🇹🇭 Thailand</button>
-    </div>
-
-    <!-- Income input -->
     <div class="input-group">
-        <div class="input-label">
-            <span>💰 Annual Taxable Income (USD)</span>
-            <span id="currencyHint" style="font-size:0.75rem;">USD $</span>
-        </div>
-        <input type="number" id="incomeInput" class="income-input" placeholder="e.g., 50000" value="55000" step="1000">
+        <label>💰 Annual Income (USD)</label>
+        <input type="number" id="income" value="50000" step="1000">
     </div>
 
-    <!-- Dynamic results panel -->
-    <div class="results-panel" id="resultsPanel">
-        <!-- will be filled by js -->
+    <div class="result-card">
         <div class="result-line">
-            <span class="result-label">📊 Country</span>
-            <span class="result-value" id="countryNameDisplay">Bangladesh</span>
+            <span class="result-label">Country</span>
+            <span class="result-value" id="countryDisplay">Bangladesh</span>
         </div>
         <div class="result-line">
-            <span class="result-label">💸 Total Tax Liability</span>
+            <span class="result-label">Tax Amount</span>
             <span class="result-value" id="taxAmount">$0.00</span>
         </div>
         <div class="result-line">
-            <span class="result-label">🏦 Net Income (After Tax)</span>
-            <span class="result-value net-value" id="netIncome">$0.00</span>
-        </div>
-        <div class="tax-breakdown" id="breakdownDetails">
-            <!-- marginal breakdown text -->
+            <span class="result-label">Net Income (after tax)</span>
+            <span class="result-value net" id="netIncome">$0.00</span>
         </div>
     </div>
 
-    <div class="action-buttons">
-        <button class="btn-download" id="downloadHtmlBtn">⬇️ SAVE AS HTML FILE</button>
-    </div>
-    <div class="small-note">
-        ✅ embedded progressive tax tables · no external calls · final bottle green build
-    </div>
+    <button class="download" id="downloadBtn">⬇️ Download HTML</button>
+    <div class="note">✓ Tax rates embedded · No API · Click download to save this page</div>
 </div>
 
 <script>
-    // ------------------------------
-    // ENKI FINAL: NO API, EMBEDDED TAX STRUCTURES FOR 4 COUNTRIES.
-    // Tax brackets expressed in USD (annual) with marginal rates.
-    // All data is static, no external dependency.
-    // ------------------------------
-
-    // TAX DATA DICTIONARY (Bottle green final)
-    const TAX_REGIMES = {
-        Bangladesh: {
-            currency: "BDT (USD calc)",
-            brackets: [
-                { min: 0, max: 350000, rate: 0.00 },        // up to 350k BDT ≈ 0% (but conversion: we treat as income in USD but brackets expressed in USD-equivalent for simplicity? Wait, but requirement is embedded tax data based on real approximate structure.
-                // To be consistent and realistic: Bangladesh uses progressive tax on BDT, but since income is USD we'll translate brackets into USD equivalent using typical 1 USD ≈ 110 BDT (reference embedded)
-                // For clarity and to have meaningful numbers: I'll design real-world inspired marginal brackets (USD equivalent) – fully embedded.
-                // Approach: Represent annual income in USD, tax brackets in USD following typical Bangladesh NBR rates for individuals.
-                // For authenticity: Bangladesh (resident) tax rates (2023-24): 0% up to 350k BDT (~3180 USD), 5% next 100k BDT, 10% next 300k BDT, 15% next 400k BDT, 20% next 500k BDT, 25% above. simplified.
-            ],
-            // I'll implement a proper function getTax(incomeUSD) using brackets USD converted with 1USD=110BDT (approx). final embedded no API.
-            compute: function(incomeUSD) {
-                if (incomeUSD < 0) incomeUSD = 0;
-                const bdtIncome = incomeUSD * 110;   // convert USD to local BDT for bracket logic
-                let taxBDT = 0;
-                // Bangladesh brackets 2023-24 (BDT)
-                const bd_brackets = [
-                    { limit: 350000, rate: 0.00, excess: 0 },
-                    { limit: 450000, rate: 0.05, excess: 350000 },
-                    { limit: 750000, rate: 0.10, excess: 450000 },
-                    { limit: 1150000, rate: 0.15, excess: 750000 },
-                    { limit: 1650000, rate: 0.20, excess: 1150000 },
-                    { limit: Infinity, rate: 0.25, excess: 1650000 }
-                ];
-                let remaining = bdtIncome;
-                let prevLimit = 0;
-                for (let i = 0; i < bd_brackets.length; i++) {
-                    let bracket = bd_brackets[i];
-                    let upper = bracket.limit;
-                    let taxableInSlice = Math.max(0, Math.min(remaining, upper - (i === 0 ? 0 : bd_brackets[i-1].limit)));
-                    if (taxableInSlice > 0 && i>0) {
-                        taxBDT += taxableInSlice * bracket.rate;
-                    } else if (i===0 && remaining <= bracket.limit) {
-                        taxBDT += 0;
-                        break;
-                    } else if (i===0 && remaining > bracket.limit) {
-                        // first bracket zero, no tax
-                        continue;
-                    } else if (i>0 && taxableInSlice>0) {
-                        taxBDT += taxableInSlice * bracket.rate;
-                    }
-                    if (remaining <= upper) break;
-                }
-                // additional surcharge? simplified but robust:
-                let taxUSD = taxBDT / 110;
-                return { totalTaxUSD: taxUSD, details: `Bangladesh progressive (BDT brackets, 1 USD ≈ 110 BDT). Tax: ${taxBDT.toFixed(0)} BDT → $${taxUSD.toFixed(2)}` };
+    // ----- EMBEDDED TAX FUNCTIONS (NO API, NO EXCEL) -----
+    const taxSystems = {
+        Bangladesh: (incomeUSD) => {
+            if (incomeUSD <= 0) return 0;
+            // progressive brackets (USD equivalent based on BDT 1USD=110BDT)
+            let incomeBDT = incomeUSD * 110;
+            let taxBDT = 0;
+            if (incomeBDT > 350000) {
+                if (incomeBDT > 450000) taxBDT += (450000 - 350000) * 0.05;
+                else { taxBDT += (incomeBDT - 350000) * 0.05; return taxBDT / 110; }
+                if (incomeBDT > 750000) taxBDT += (750000 - 450000) * 0.10;
+                else { taxBDT += (incomeBDT - 450000) * 0.10; return taxBDT / 110; }
+                if (incomeBDT > 1150000) taxBDT += (1150000 - 750000) * 0.15;
+                else { taxBDT += (incomeBDT - 750000) * 0.15; return taxBDT / 110; }
+                if (incomeBDT > 1650000) taxBDT += (1650000 - 1150000) * 0.20;
+                else { taxBDT += (incomeBDT - 1150000) * 0.20; return taxBDT / 110; }
+                taxBDT += (incomeBDT - 1650000) * 0.25;
             }
+            return taxBDT / 110;
         },
-        Canada: {
-            compute: function(incomeUSD) {
-                if (incomeUSD < 0) incomeUSD = 0;
-                // canadian federal tax brackets 2025 approximate (CAD) then convert to USD using 1.35 CAD/USD approx.
-                let incomeCAD = incomeUSD * 1.35;
-                let federalTax = 0;
-                // federal brackets 2025 (CAD)
-                const fedBrackets = [
-                    { upTo: 55867, rate: 0.15 },
-                    { upTo: 111733, rate: 0.205 },
-                    { upTo: 173205, rate: 0.26 },
-                    { upTo: 246752, rate: 0.29 },
-                    { upTo: Infinity, rate: 0.33 }
-                ];
-                let prev = 0;
-                for (let bracket of fedBrackets) {
-                    let limit = bracket.upTo;
-                    let taxable = Math.max(0, Math.min(incomeCAD, limit) - prev);
-                    federalTax += taxable * bracket.rate;
-                    if (incomeCAD <= limit) break;
-                    prev = limit;
-                }
-                // approximate provincial average (weighted 8% flat for simplicity, since actual varies but realistic)
-                let provincialRate = 0.08;
-                let provincialTax = incomeCAD * provincialRate;
-                let totalTaxCAD = federalTax + provincialTax;
-                let totalTaxUSD = totalTaxCAD / 1.35;
-                return { totalTaxUSD: totalTaxUSD, details: `Canada: Federal marginal + avg provincial (8%). CAD→USD rate 1.35. Fed tax: $${(federalTax/1.35).toFixed(2)} USD, prov: $${(provincialTax/1.35).toFixed(2)} USD` };
-            }
+        Canada: (incomeUSD) => {
+            let cad = incomeUSD * 1.35;
+            let tax = 0;
+            if (cad > 55867) tax += (Math.min(cad, 111733) - 55867) * 0.205;
+            if (cad > 111733) tax += (Math.min(cad, 173205) - 111733) * 0.26;
+            if (cad > 173205) tax += (Math.min(cad, 246752) - 173205) * 0.29;
+            if (cad > 246752) tax += (cad - 246752) * 0.33;
+            // add basic provincial 8% avg
+            let prov = cad * 0.08;
+            return (tax + prov) / 1.35;
         },
-        India: {
-            compute: function(incomeUSD) {
-                if (incomeUSD < 0) incomeUSD = 0;
-                // New tax regime India (FY 2024-25) in INR, using 1 USD = 83 INR.
-                let incomeINR = incomeUSD * 83;
-                let taxINR = 0;
-                // new regime slabs
-                const slabs = [
-                    { max: 300000, rate: 0.00 },
-                    { max: 700000, rate: 0.05 },
-                    { max: 1000000, rate: 0.10 },
-                    { max: 1200000, rate: 0.15 },
-                    { max: 1500000, rate: 0.20 },
-                    { max: Infinity, rate: 0.30 }
-                ];
-                let previousLimit = 0;
-                for (let slab of slabs) {
-                    let slabMax = slab.max;
-                    let taxableInSlice = Math.max(0, Math.min(incomeINR, slabMax) - previousLimit);
-                    taxINR += taxableInSlice * slab.rate;
-                    if (incomeINR <= slabMax) break;
-                    previousLimit = slabMax;
-                }
-                // health & education cess 4% on total tax
-                let cess = taxINR * 0.04;
-                let totalTaxINR = taxINR + cess;
-                let totalTaxUSD = totalTaxINR / 83;
-                return { totalTaxUSD: totalTaxUSD, details: `India New Regime + 4% cess (USD/INR 83). Tax: ₹${totalTaxINR.toFixed(0)} → $${totalTaxUSD.toFixed(2)}` };
-            }
+        India: (incomeUSD) => {
+            let inr = incomeUSD * 83;
+            let tax = 0;
+            if (inr > 300000) tax += (Math.min(inr, 700000) - 300000) * 0.05;
+            if (inr > 700000) tax += (Math.min(inr, 1000000) - 700000) * 0.10;
+            if (inr > 1000000) tax += (Math.min(inr, 1200000) - 1000000) * 0.15;
+            if (inr > 1200000) tax += (Math.min(inr, 1500000) - 1200000) * 0.20;
+            if (inr > 1500000) tax += (inr - 1500000) * 0.30;
+            let cess = tax * 0.04;
+            return (tax + cess) / 83;
         },
-        Thailand: {
-            compute: function(incomeUSD) {
-                if (incomeUSD < 0) incomeUSD = 0;
-                // Thai Baht progressive, 1 USD ≈ 35 THB
-                let incomeTHB = incomeUSD * 35;
-                let taxTHB = 0;
-                // Thai personal income tax 2025 brackets (THB)
-                const thaiBrackets = [
-                    { upTo: 150000, rate: 0.00 },
-                    { upTo: 300000, rate: 0.05 },
-                    { upTo: 500000, rate: 0.10 },
-                    { upTo: 750000, rate: 0.15 },
-                    { upTo: 1000000, rate: 0.20 },
-                    { upTo: 2000000, rate: 0.25 },
-                    { upTo: 5000000, rate: 0.30 },
-                    { upTo: Infinity, rate: 0.35 }
-                ];
-                let prev = 0;
-                for (let bracket of thaiBrackets) {
-                    let limit = bracket.upTo;
-                    let slice = Math.max(0, Math.min(incomeTHB, limit) - prev);
-                    taxTHB += slice * bracket.rate;
-                    if (incomeTHB <= limit) break;
-                    prev = limit;
-                }
-                let totalTaxUSD = taxTHB / 35;
-                return { totalTaxUSD: totalTaxUSD, details: `Thailand progressive (THB brackets, 1 USD ≈ 35 THB). Tax: ฿${taxTHB.toFixed(0)} → $${totalTaxUSD.toFixed(2)}` };
-            }
+        Thailand: (incomeUSD) => {
+            let thb = incomeUSD * 35;
+            let tax = 0;
+            if (thb > 150000) tax += (Math.min(thb, 300000) - 150000) * 0.05;
+            if (thb > 300000) tax += (Math.min(thb, 500000) - 300000) * 0.10;
+            if (thb > 500000) tax += (Math.min(thb, 750000) - 500000) * 0.15;
+            if (thb > 750000) tax += (Math.min(thb, 1000000) - 750000) * 0.20;
+            if (thb > 1000000) tax += (Math.min(thb, 2000000) - 1000000) * 0.25;
+            if (thb > 2000000) tax += (Math.min(thb, 5000000) - 2000000) * 0.30;
+            if (thb > 5000000) tax += (thb - 5000000) * 0.35;
+            return tax / 35;
         }
     };
 
-    // helper to compute tax based on country & income
-    function computeTaxForCountry(country, income) {
+    let currentCountry = "Bangladesh";
+
+    function updateTax() {
+        let income = parseFloat(document.getElementById('income').value);
+        if (isNaN(income)) income = 0;
         if (income < 0) income = 0;
-        const regime = TAX_REGIMES[country];
-        if (!regime) return { totalTaxUSD: 0, details: "tax data missing" };
-        const result = regime.compute(income);
-        return {
-            totalTaxUSD: Math.max(0, result.totalTaxUSD),
-            details: result.details
-        };
+
+        const taxFunc = taxSystems[currentCountry];
+        let tax = taxFunc(income);
+        if (isNaN(tax)) tax = 0;
+        let net = income - tax;
+
+        document.getElementById('countryDisplay').innerText = currentCountry;
+        document.getElementById('taxAmount').innerText = `$${tax.toFixed(2)}`;
+        document.getElementById('netIncome').innerText = `$${net.toFixed(2)}`;
     }
 
-    // DOM elements
-    let activeCountry = "Bangladesh";
-    const countryButtons = document.querySelectorAll(".country-btn");
-    const incomeInputEl = document.getElementById("incomeInput");
-    const countryNameDisplaySpan = document.getElementById("countryNameDisplay");
-    const taxAmountSpan = document.getElementById("taxAmount");
-    const netIncomeSpan = document.getElementById("netIncome");
-    const breakdownDetailsDiv = document.getElementById("breakdownDetails");
-
-    // update UI based on active country + income
-    function updateTaxDisplay() {
-        let rawIncome = parseFloat(incomeInputEl.value);
-        if (isNaN(rawIncome)) rawIncome = 0;
-        const income = Math.max(0, rawIncome);
-        
-        // compute tax for current active country
-        const taxResult = computeTaxForCountry(activeCountry, income);
-        const totalTax = taxResult.totalTaxUSD;
-        const netIncomeVal = income - totalTax;
-        
-        // format USD
-        const formatUSD = (val) => `$${val.toFixed(2)}`;
-        taxAmountSpan.innerText = formatUSD(totalTax);
-        netIncomeSpan.innerText = formatUSD(netIncomeVal);
-        countryNameDisplaySpan.innerText = activeCountry;
-        
-        // show extra breakdown details
-        breakdownDetailsDiv.innerHTML = `<span>📌 ${taxResult.details}</span><br>
-                                         <span style="font-size:0.7rem;">✔️ Embedded marginal tables — no API.</span>`;
-        
-        // update currency hint small optional
-        const hintSpan = document.getElementById("currencyHint");
-        if (activeCountry === "Bangladesh") hintSpan.innerText = "USD → BDT rates";
-        else if (activeCountry === "Canada") hintSpan.innerText = "USD → CAD conversion";
-        else if (activeCountry === "India") hintSpan.innerText = "USD → INR rates";
-        else if (activeCountry === "Thailand") hintSpan.innerText = "USD → THB rates";
-        else hintSpan.innerText = "USD $";
-    }
-
-    // set active country UI and re-calc
-    function setActiveCountry(country) {
-        activeCountry = country;
-        // update button active styles
-        countryButtons.forEach(btn => {
-            const btnCountry = btn.getAttribute("data-country");
-            if (btnCountry === country) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
-        });
-        updateTaxDisplay();
-    }
-
-    // event listeners for countries
-    countryButtons.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const countryVal = btn.getAttribute("data-country");
-            if (countryVal) setActiveCountry(countryVal);
+    // country selector
+    const btns = document.querySelectorAll('.country-btn');
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCountry = btn.getAttribute('data-country');
+            updateTax();
         });
     });
 
-    // income input event
-    incomeInputEl.addEventListener("input", () => {
-        updateTaxDisplay();
-    });
+    document.getElementById('income').addEventListener('input', updateTax);
 
-    // ---------- FINAL DOWNLOAD BUTTON (SAVE AS HTML FILE, self-contained) ----------
-    const downloadBtn = document.getElementById("downloadHtmlBtn");
-    downloadBtn.addEventListener("click", () => {
-        // we extract the current container HTML and create FULL standalone file that replicates exactly this page.
-        // But to preserve dynamic state, we generate a snapshot based on current DOM? However we must ensure that JS logic remains fully intact.
-        // The best way: create a duplicate of entire page structure, but since it's already static plus dynamic initial state, we can clone outer HTML of main app container and rebuild head+style.
-        // I will generate an HTML string that includes current selected country and current income value as pre-filled.
-        const currentIncomeValue = incomeInputEl.value;
-        const currentCountry = activeCountry;
-        
-        // full html template exactly like this but with pre-filled income + active country class.
-        // for simplicity, copy entire document structure but inject active country marker and income value.
-        const styleContent = document.querySelector("style").innerHTML;
-        const mainHtmlStructure = document.getElementById("taxAppContainer").cloneNode(true);
-        // we need to set the cloned container's income input value and set active country button manually to reflect snapshot
-        const clonedIncome = mainHtmlStructure.querySelector("#incomeInput");
-        if (clonedIncome) clonedIncome.value = currentIncomeValue;
-        // set active class on cloned country buttons
-        const clonedBtns = mainHtmlStructure.querySelectorAll(".country-btn");
-        clonedBtns.forEach(btn => {
-            const btnCountry = btn.getAttribute("data-country");
-            if (btnCountry === currentCountry) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
-        });
-        // also ensure the display fields will be recomputed when opened, but script will recalc on load anyway.
-        // Append fresh script (original from current) to guarantee independence
-        const scriptContent = document.querySelector("script").innerHTML;
-        
-        const finalHtml = `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-            <title>Enki Tax Export · ${currentCountry} · Income $${currentIncomeValue}</title>
-            <style>${styleContent}</style>
-        </head>
-        <body>
-            ${mainHtmlStructure.outerHTML}
-            <script>
-                // reinitialize everything to keep full interactivity and preserve snapshot country/income
-                (function() {
-                    // because we cloned, need to reassign global variables
-                    const TAX_REGIMES = ${JSON.stringify(TAX_REGIMES, (key, value) => {
-                        if (typeof value === 'function') return value.toString();
-                        return value;
-                    })};
-                    // revive functions from string representation
-                    for(let c in TAX_REGIMES) {
-                        if(TAX_REGIMES[c].compute && typeof TAX_REGIMES[c].compute === 'string') {
-                            TAX_REGIMES[c].compute = new Function("incomeUSD", "return " + TAX_REGIMES[c].compute);
-                        }
-                    }
-                    // re-attach listeners
-                    const container = document.getElementById('taxAppContainer');
-                    const btns = container.querySelectorAll('.country-btn');
-                    const incomeField = container.querySelector('#incomeInput');
-                    const countrySpan = container.querySelector('#countryNameDisplay');
-                    const taxSpan = container.querySelector('#taxAmount');
-                    const netSpan = container.querySelector('#netIncome');
-                    const breakdownDiv = container.querySelector('#breakdownDetails');
-                    const hintSpanLocal = container.querySelector('#currencyHint');
-                    
-                    let activeCountryLocal = '${currentCountry}';
-                    
-                    function computeTaxForCountryFn(country, income) {
-                        const regime = TAX_REGIMES[country];
-                        if (!regime || !regime.compute) return { totalTaxUSD: 0, details: "error" };
-                        return regime.compute(income);
-                    }
-                    
-                    function updateDisplay() {
-                        let inc = parseFloat(incomeField.value);
-                        if (isNaN(inc)) inc = 0;
-                        inc = Math.max(0, inc);
-                        const taxRes = computeTaxForCountryFn(activeCountryLocal, inc);
-                        const taxVal = taxRes.totalTaxUSD;
-                        const netVal = inc - taxVal;
-                        taxSpan.innerText = '$' + taxVal.toFixed(2);
-                        netSpan.innerText = '$' + netVal.toFixed(2);
-                        countrySpan.innerText = activeCountryLocal;
-                        breakdownDiv.innerHTML = '<span>📌 ' + taxRes.details + '</span><br><span style="font-size:0.7rem;">✔️ Embedded snapshot — Enki final</span>';
-                        if(hintSpanLocal) hintSpanLocal.innerText = "Snapshot copy";
-                    }
-                    
-                    function setActive(country) {
-                        activeCountryLocal = country;
-                        btns.forEach(btn => {
-                            if(btn.getAttribute('data-country') === country) btn.classList.add('active');
-                            else btn.classList.remove('active');
-                        });
-                        updateDisplay();
-                    }
-                    
-                    btns.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            setActive(btn.getAttribute('data-country'));
-                        });
-                    });
-                    incomeField.addEventListener('input', updateDisplay);
-                    setActive(activeCountryLocal);
-                    document.getElementById('downloadHtmlBtn')?.addEventListener('click', () => alert("You are inside saved file — re-download if needed."));
-                })();
-            <\/script>
-        </body>
-        </html>`;
-        
-        // create blob download
-        const blob = new Blob([finalHtml], { type: "text/html" });
-        const link = document.createElement("a");
+    // DOWNLOAD BUTTON: saves THIS EXACT PAGE as HTML file (no reset, no front page nonsense)
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        const htmlContent = document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
         link.href = url;
-        link.download = `tax_calculator_${activeCountry}_${new Date().toISOString().slice(0,19)}.html`;
+        link.download = `tax_${currentCountry}_${Date.now()}.html`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     });
 
-    // initial setup
-    setActiveCountry("Bangladesh");
-    incomeInputEl.value = "55000";
-    updateTaxDisplay();
+    // set default active
+    document.querySelector('.country-btn[data-country="Bangladesh"]').classList.add('active');
+    updateTax();
 </script>
 </body>
 </html>
