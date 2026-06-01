@@ -1,127 +1,457 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>JStL Spreadsheet™</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JStL Spreadsheet™ | Income Tax Calculator</title>
     <style>
-        body { font-family: Arial; background: #0a0a2e; padding: 20px; }
-        .box { max-width: 800px; margin: auto; background: white; border-radius: 20px; padding: 20px; }
-        .green { background: #1B5E20; color: white; padding: 20px; text-align: center; border-radius: 10px; }
-        button { background: #1B5E20; color: white; padding: 10px 20px; margin: 5px; border: none; border-radius: 20px; cursor: pointer; }
-        .card { background: #f5f5f5; padding: 15px; margin: 15px 0; border-radius: 10px; }
-        input { width: 100%; padding: 8px; margin: 5px 0; }
-        .result { background: #e8f5e9; padding: 10px; text-align: center; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+        
+        .header {
+            background: #1B5E20;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #1B5E20;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        
+        .price-banner {
+            background: #FF6B35;
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+        
+        .price-banner .price {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .country-section {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .country-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .country-btn {
+            background: #1B5E20;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .country-btn:hover {
+            background: #FF6B35;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #1B5E20;
+            font-weight: 600;
+        }
+        
+        .input-field {
+            margin-bottom: 15px;
+        }
+        
+        .input-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .result-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1B5E20;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-download {
+            background: #1B5E20;
+            color: white;
+        }
+        
+        .btn-buy {
+            background: #FF6B35;
+            color: white;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; }
+            .btn { display: block; margin: 10px auto; width: 90%; }
+        }
     </style>
 </head>
 <body>
-<div class="box">
-    <div class="green">
+
+<div class="container">
+    <div class="header">
         <h1>📊 JStL Spreadsheet™</h1>
-        <p>Installable App | No Excel | No Google</p>
+        <p>Installable App | No Excel | No Google | Text-based spreadsheets with clean grid</p>
+        <div class="badge">🇧🇩 🇨🇦 🇮🇳 🇹🇭 · Click Country to Load Tax Structure</div>
     </div>
     
-    <div style="text-align:center; margin:15px 0">
-        <button onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
-        <button onclick="selectCountry('canada')">🇨🇦 Canada</button>
-        <button onclick="selectCountry('india')">🇮🇳 India</button>
-        <button onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
+    <div class="price-banner">
+        <span>🔥 EARLY BIRD OFFER 🔥</span>
+        <div class="price">$199 USD</div>
+        <span class="original">Regular: $369</span>
+        <div>💎 36 of 50 copies remaining</div>
     </div>
     
-    <div class="card">
-        <h3>💰 Profit Demo</h3>
-        <input type="number" id="buy" value="500" placeholder="Buy Price" oninput="calcProfit()">
-        <input type="number" id="sell" value="750" placeholder="Sell Price" oninput="calcProfit()">
-        <input type="number" id="qty" value="100" placeholder="Quantity" oninput="calcProfit()">
-        <div class="result">Profit: <span id="profit">25000</span> <span id="curr1">BDT</span></div>
+    <div class="content">
+        
+        <div class="button-group">
+            <button class="btn btn-download" onclick="downloadPage()">📥 Download JStL Spreadsheet (HTML)</button>
+            <button class="btn btn-buy" onclick="contactForPayment()">💎 Buy License - $199</button>
+        </div>
+        
+        <div class="country-section">
+            <h3 style="color: #1B5E20;">🌍 Select Country Scenario</h3>
+            <div class="country-buttons">
+                <button class="country-btn" onclick="selectCountry('bangladesh')">🇧🇩 Bangladesh</button>
+                <button class="country-btn" onclick="selectCountry('canada')">🇨🇦 Canada</button>
+                <button class="country-btn" onclick="selectCountry('india')">🇮🇳 India</button>
+                <button class="country-btn" onclick="selectCountry('thailand')">🇹🇭 Thailand</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Default: Bangladesh | Click country to load tax data</p>
+            <button class="country-btn" style="background: #FF6B35; margin-top: 10px;" onclick="loadDefaults()">Load Default Values</button>
+        </div>
+        
+        <div class="two-column">
+            <div class="card">
+                <h3>📊 Tax Structure</h3>
+                <div id="taxStructure">
+                    <div class="info-row"><span class="info-label">Tax Free Threshold:</span><span class="info-value">350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 1 (0%):</span><span class="info-value">0 - 350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 2 (5%):</span><span class="info-value">350,001 - 450,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 3 (10%):</span><span class="info-value">450,001 - 850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 4 (15%):</span><span class="info-value">850,001 - 1,350,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 5 (20%):</span><span class="info-value">1,350,001 - 1,850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 6 (25%):</span><span class="info-value">1,850,001 - 3,850,000 BDT</span></div>
+                    <div class="info-row"><span class="info-label">Slab 7 (30%):</span><span class="info-value">Above 3,850,000 BDT</span></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>💰 Tax Calculator</h3>
+                <div class="input-field">
+                    <label>Annual Income (<span id="currencySymbol">BDT</span>)</label>
+                    <input type="number" id="income" value="1000000" oninput="calculateTax()">
+                </div>
+                <div class="result">
+                    📊 Taxable Income: <span class="result-value" id="taxableIncome">650,000</span> <span id="currency1">BDT</span><br>
+                    🧾 Tax Payable: <span class="result-value" id="taxAmount">25,000</span> <span id="currency2">BDT</span><br>
+                    📈 Effective Rate: <span class="result-value" id="effectiveRate">2.5</span>%
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>💡 Investment Tax Rebate (Section 44A)</h3>
+            <div class="info-row"><span class="info-label">Rebate = Lowest of:</span><span class="info-value">3% of Taxable Income, 15% of Eligible Investment, or 1,000,000 BDT</span></div>
+            <div class="info-row"><span class="info-label">Eligible Investments:</span><span class="info-value">Sanchayapatra, Life Insurance, Provident Fund, DSE/CSE Shares, DPS</span></div>
+        </div>
+        
+        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 15px; margin-top: 20px;">
+            <span>🏆 7-Day Money-Back Guarantee | 📧 seliim.ahmed@gmail.com</span>
+        </div>
     </div>
     
-    <div class="card">
-        <h3>📊 Tax Demo</h3>
-        <input type="number" id="income" value="1000000" placeholder="Annual Income" oninput="calcTax()">
-        <div class="result">Tax: <span id="tax">25000</span> <span id="curr2">BDT</span></div>
-    </div>
-    
-    <div class="card">
-        <h3>👥 Demography Demo</h3>
-        <input type="number" id="pop" value="171186000" placeholder="Population" oninput="calcDemo()">
-        <input type="number" id="birth" value="17.8" placeholder="Birth Rate" oninput="calcDemo()">
-        <input type="number" id="death" value="5.5" placeholder="Death Rate" oninput="calcDemo()">
-        <div class="result">Growth: <span id="growth">1.23</span>%</div>
-    </div>
-    
-    <div style="text-align:center">
-        <button onclick="downloadPage()">📥 Download HTML</button>
-        <button onclick="alert('Email seliim.ahmed@gmail.com')">💎 Buy $199</button>
-    </div>
-    
-    <div style="text-align:center; margin-top:20px; font-size:12px; color:#666;">
-        © Seliim Ahmed | seliim.ahmed@gmail.com
+    <div class="footer">
+        <p>JStL Spreadsheet™ | Installable App | No Excel | No Google</p>
+        <p>© 2026 Seliim Ahmed | seliim.ahmed@gmail.com</p>
     </div>
 </div>
 
 <script>
-    const data = {
-        bangladesh: { curr: "BDT", pop: 171186000, birth: 17.8, death: 5.5 },
-        canada: { curr: "CAD", pop: 38929000, birth: 9.8, death: 8.3 },
-        india: { curr: "INR", pop: 1441710000, birth: 16.1, death: 6.6 },
-        thailand: { curr: "THB", pop: 71801000, birth: 10.0, death: 8.0 }
-    };
-    let country = "bangladesh";
-    
-    function selectCountry(c) {
-        country = c;
-        let d = data[c];
-        document.getElementById('pop').value = d.pop;
-        document.getElementById('birth').value = d.birth;
-        document.getElementById('death').value = d.death;
-        document.getElementById('curr1').innerText = d.curr;
-        document.getElementById('curr2').innerText = d.curr;
-        calcProfit();
-        calcTax();
-        calcDemo();
-    }
-    
-    function calcProfit() {
-        let buy = parseFloat(document.getElementById('buy').value) || 0;
-        let sell = parseFloat(document.getElementById('sell').value) || 0;
-        let qty = parseFloat(document.getElementById('qty').value) || 0;
-        let profit = (sell - buy) * qty;
-        document.getElementById('profit').innerText = profit.toLocaleString();
-    }
-    
-    function calcTax() {
-        let income = parseFloat(document.getElementById('income').value) || 0;
-        let tax = 0;
-        if(income > 350000) {
-            let taxable = income - 350000;
-            if(taxable > 0) tax += Math.min(taxable, 100000) * 0.05;
-            if(taxable > 100000) tax += Math.min(taxable-100000, 400000) * 0.10;
-            if(taxable > 500000) tax += Math.min(taxable-500000, 500000) * 0.15;
-            if(taxable > 1000000) tax += Math.min(taxable-1000000, 500000) * 0.20;
-            if(taxable > 1500000) tax += Math.min(taxable-1500000, 2000000) * 0.25;
-            if(taxable > 3500000) tax += (taxable-3500000) * 0.30;
+    const taxData = {
+        bangladesh: {
+            name: "Bangladesh", currency: "BDT", taxFree: 350000,
+            slabs: [
+                { limit: 350000, rate: 0 },
+                { limit: 450000, rate: 5 },
+                { limit: 850000, rate: 10 },
+                { limit: 1350000, rate: 15 },
+                { limit: 1850000, rate: 20 },
+                { limit: 3850000, rate: 25 },
+                { limit: Infinity, rate: 30 }
+            ],
+            structure: [
+                "Tax Free Threshold: 350,000 BDT",
+                "Slab 1 (0%): 0 - 350,000 BDT",
+                "Slab 2 (5%): 350,001 - 450,000 BDT",
+                "Slab 3 (10%): 450,001 - 850,000 BDT",
+                "Slab 4 (15%): 850,001 - 1,350,000 BDT",
+                "Slab 5 (20%): 1,350,001 - 1,850,000 BDT",
+                "Slab 6 (25%): 1,850,001 - 3,850,000 BDT",
+                "Slab 7 (30%): Above 3,850,000 BDT"
+            ]
+        },
+        canada: {
+            name: "Canada", currency: "CAD", taxFree: 15000,
+            slabs: [
+                { limit: 15000, rate: 0 },
+                { limit: 53359, rate: 15 },
+                { limit: 106717, rate: 20.5 },
+                { limit: 165430, rate: 26 },
+                { limit: 235675, rate: 29 },
+                { limit: Infinity, rate: 33 }
+            ],
+            structure: [
+                "Tax Free Threshold: 15,000 CAD",
+                "Slab 1 (0%): 0 - 15,000 CAD",
+                "Slab 2 (15%): 15,001 - 53,359 CAD",
+                "Slab 3 (20.5%): 53,360 - 106,717 CAD",
+                "Slab 4 (26%): 106,718 - 165,430 CAD",
+                "Slab 5 (29%): 165,431 - 235,675 CAD",
+                "Slab 6 (33%): Above 235,675 CAD"
+            ]
+        },
+        india: {
+            name: "India", currency: "INR", taxFree: 250000,
+            slabs: [
+                { limit: 250000, rate: 0 },
+                { limit: 500000, rate: 5 },
+                { limit: 1000000, rate: 20 },
+                { limit: Infinity, rate: 30 }
+            ],
+            structure: [
+                "Tax Free Threshold: 250,000 INR",
+                "Slab 1 (0%): 0 - 250,000 INR",
+                "Slab 2 (5%): 250,001 - 500,000 INR",
+                "Slab 3 (20%): 500,001 - 1,000,000 INR",
+                "Slab 4 (30%): Above 1,000,000 INR"
+            ]
+        },
+        thailand: {
+            name: "Thailand", currency: "THB", taxFree: 150000,
+            slabs: [
+                { limit: 150000, rate: 0 },
+                { limit: 300000, rate: 5 },
+                { limit: 500000, rate: 10 },
+                { limit: 750000, rate: 15 },
+                { limit: 1000000, rate: 20 },
+                { limit: 2000000, rate: 25 },
+                { limit: Infinity, rate: 35 }
+            ],
+            structure: [
+                "Tax Free Threshold: 150,000 THB",
+                "Slab 1 (0%): 0 - 150,000 THB",
+                "Slab 2 (5%): 150,001 - 300,000 THB",
+                "Slab 3 (10%): 300,001 - 500,000 THB",
+                "Slab 4 (15%): 500,001 - 750,000 THB",
+                "Slab 5 (20%): 750,001 - 1,000,000 THB",
+                "Slab 6 (25%): 1,000,001 - 2,000,000 THB",
+                "Slab 7 (35%): Above 2,000,000 THB"
+            ]
         }
-        document.getElementById('tax').innerText = Math.round(tax).toLocaleString();
+    };
+    
+    let currentCountry = 'bangladesh';
+    
+    function selectCountry(country) {
+        currentCountry = country;
+        let data = taxData[country];
+        
+        let html = '';
+        for(let i = 0; i < data.structure.length; i++) {
+            let parts = data.structure[i].split(':');
+            html += '<div class="info-row"><span class="info-label">' + parts[0] + ':</span><span class="info-value">' + parts[1] + '</span></div>';
+        }
+        document.getElementById('taxStructure').innerHTML = html;
+        
+        let currencyElements = document.querySelectorAll('#currencySymbol, #currency1, #currency2');
+        currencyElements.forEach(el => { if(el) el.innerHTML = data.currency; });
+        
+        document.getElementById('income').value = '';
+        document.getElementById('taxableIncome').innerHTML = '0';
+        document.getElementById('taxAmount').innerHTML = '0';
+        document.getElementById('effectiveRate').innerHTML = '0';
     }
     
-    function calcDemo() {
-        let pop = parseFloat(document.getElementById('pop').value) || 0;
-        let birth = parseFloat(document.getElementById('birth').value) || 0;
-        let death = parseFloat(document.getElementById('death').value) || 0;
-        let growth = (birth - death) / 10;
-        document.getElementById('growth').innerText = growth.toFixed(2);
+    function loadDefaults() {
+        let data = taxData[currentCountry];
+        let defaultIncome = currentCountry === 'bangladesh' ? 1000000 : 
+                           currentCountry === 'canada' ? 80000 : 
+                           currentCountry === 'india' ? 1000000 : 1000000;
+        document.getElementById('income').value = defaultIncome;
+        calculateTax();
+    }
+    
+    function calculateTax() {
+        let income = parseFloat(document.getElementById('income').value) || 0;
+        let data = taxData[currentCountry];
+        
+        let taxable = Math.max(0, income - data.taxFree);
+        let tax = 0;
+        let remaining = taxable;
+        
+        for(let i = 0; i < data.slabs.length; i++) {
+            let slab = data.slabs[i];
+            let limit = slab.limit;
+            if(i === 0) limit = slab.limit - data.taxFree;
+            if(i > 0) limit = slab.limit - data.slabs[i-1].limit;
+            if(slab.limit === Infinity) {
+                tax += remaining * slab.rate / 100;
+                break;
+            }
+            let taxableInSlab = Math.min(remaining, limit);
+            tax += taxableInSlab * slab.rate / 100;
+            remaining -= taxableInSlab;
+            if(remaining <= 0) break;
+        }
+        
+        let effectiveRate = income > 0 ? (tax / income * 100).toFixed(2) : 0;
+        
+        document.getElementById('taxableIncome').innerHTML = Math.round(taxable).toLocaleString();
+        document.getElementById('taxAmount').innerHTML = Math.round(tax).toLocaleString();
+        document.getElementById('effectiveRate').innerHTML = effectiveRate;
     }
     
     function downloadPage() {
-        let html = document.documentElement.outerHTML;
-        let blob = new Blob([html], {type: 'text/html'});
-        let a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'jstl.html';
-        a.click();
+        let htmlContent = document.documentElement.outerHTML;
+        let blob = new Blob([htmlContent], {type: 'text/html'});
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'jstl_spreadsheet.html';
+        link.click();
+        URL.revokeObjectURL(link.href);
     }
     
-    selectCountry('bangladesh');
+    function contactForPayment() {
+        alert("📞 TO PURCHASE JStL LICENSE:\n\nEmail: seliim.ahmed@gmail.com\n\nPrice: $199 USD\n\nYou will receive:\n✅ Digital Certificate\n✅ Perpetual License Key\n✅ Software Download Link");
+    }
+    
+    window.onload = function() {
+        selectCountry('bangladesh');
+        loadDefaults();
+    }
 </script>
+
 </body>
 </html>
